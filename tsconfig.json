@@ -25,6 +25,7 @@
     }
   },
   "include": [
+    "settings/**/*.d.ts",
     "settings/**/*.ts",
     "vite.config.ts",
     "src/**/*.ts", 

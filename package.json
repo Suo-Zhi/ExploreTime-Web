@@ -11,11 +11,13 @@
         "commitlint": "commitlint --config commitlint.config.cjs -e -V"
     },
     "dependencies": {
+        "lodash": "^4.17.21",
         "vue": "^3.2.47"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.6.1",
         "@commitlint/config-conventional": "^17.6.1",
+        "@types/lodash": "^4.14.194",
         "@types/node": "^18.15.12",
         "@vitejs/plugin-vue": "^4.1.0",
         "husky": "^8.0.0",
