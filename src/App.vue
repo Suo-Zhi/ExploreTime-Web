@@ -1,7 +1,7 @@
-<script setup lang="ts">
-console.log(tool.formateTime(new Date(), 'MM-DD'));
-</script>
+<script setup lang="ts"></script>
 
-<template>app</template>
+<template>
+    <router-view />
+</template>
 
 <style lang="scss" scoped></style>
