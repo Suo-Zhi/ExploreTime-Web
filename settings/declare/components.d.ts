@@ -11,5 +11,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
     Base: typeof import('./../../src/components/Base.vue')['default']
+    IconFullScreen: typeof import('@icon-park/vue-next')['FullScreen']
   }
 }

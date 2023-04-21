@@ -8,6 +8,11 @@ export const setupComponent = () => {
             ArcoResolver({
                 sideEffect: true,
             }),
+            (componentName) => {
+                if (componentName.startsWith('Icon')) {
+                    return { name: componentName.slice(4), from: '@icon-park/vue-next' };
+                }
+            },
         ],
         // 需要自动注册的组件目录
         dirs: ['src/components'],

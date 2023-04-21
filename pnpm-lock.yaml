@@ -4,6 +4,7 @@ specifiers:
   '@arco-design/web-vue': ^2.45.2
   '@commitlint/cli': ^17.6.1
   '@commitlint/config-conventional': ^17.6.1
+  '@icon-park/vue-next': ^1.4.2
   '@types/lodash': ^4.14.194
   '@types/node': ^18.15.12
   '@vitejs/plugin-vue': ^4.1.0
@@ -21,6 +22,7 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
+  '@icon-park/vue-next': 1.4.2_vue@3.2.47
   lodash: 4.17.21
   vue: 3.2.47
 
@@ -481,6 +483,15 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@icon-park/vue-next/1.4.2_vue@3.2.47:
+    resolution: {integrity: sha512-+QklF255wkfBOabY+xw6FAI0Bwln/RhdwCunNy/9sKdKuChtaU67QZqU67KGAvZUTeeBgsL+yaHHxqfQeGZXEQ==}
+    engines: {node: '>= 8.0.0', npm: '>= 5.0.0'}
+    peerDependencies:
+      vue: 3.x
+    dependencies:
+      vue: 3.2.47
+    dev: false
 
   /@jridgewell/gen-mapping/0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
