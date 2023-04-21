@@ -1,6 +1,8 @@
 <script setup lang="ts">
-console.log(env.VITE_PORT);
-console.log(typeof env.VITE_PORT);
+localCache.set(CacheKey.IsFoldMenu, true);
+console.log(localCache.get(CacheKey.IsFoldMenu));
+console.log(localCache.get('demo'));
+console.log(localCache.get('demo', '123'));
 </script>
 
 <template>app</template>

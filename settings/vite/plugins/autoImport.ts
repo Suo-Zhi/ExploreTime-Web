@@ -10,6 +10,8 @@ export const autoImport = () => {
             // 自定义api
             {
                 '@/common/utils/env': ['env'],
+                '@/common/utils/cache': ['localCache'],
+                '@/types/cache': ['CacheKey'],
             },
         ],
         // 声明文件位置
