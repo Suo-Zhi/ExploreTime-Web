@@ -1,7 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { isFoldMenu } = store.setting();
+console.log(isFoldMenu);
+</script>
 
-<template>
-    <icon-full-screen theme="outline" size="24" fill="#333" />
-</template>
+<template>app</template>
 
 <style lang="scss" scoped></style>

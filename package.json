@@ -13,6 +13,7 @@
     "dependencies": {
         "@icon-park/vue-next": "^1.4.2",
         "lodash": "^4.17.21",
+        "pinia": "^2.0.35",
         "vue": "^3.2.47"
     },
     "devDependencies": {
