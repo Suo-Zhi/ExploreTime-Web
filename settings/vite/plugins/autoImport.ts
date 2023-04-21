@@ -8,7 +8,9 @@ export const autoImport = () => {
             'vue-router',
             'pinia',
             // 自定义api
-            {},
+            {
+                '@/common/utils/env': ['env'],
+            },
         ],
         // 声明文件位置
         dts: 'settings/declare/auto-imports.d.ts',
