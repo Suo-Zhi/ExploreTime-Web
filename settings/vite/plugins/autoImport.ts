@@ -17,6 +17,7 @@ export const autoImport = () => {
                 '@/common/plugins/axios': ['http'],
                 '@/api': ['api'],
                 '@/common/plugins/validate': ['yup', 'useForms'],
+                '@/common/utils/tools': ['tool'],
             },
         ],
         resolvers: [ArcoResolver()],
