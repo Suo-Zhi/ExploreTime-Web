@@ -3,6 +3,7 @@
 // 声明环境变量类型
 declare interface MetaEnv {
     VITE_PORT: number;
+    VITE_ENV: 'development' | 'production';
 }
 
 declare module '*.vue' {

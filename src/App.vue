@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { isFoldMenu } = store.setting();
-console.log(isFoldMenu);
+api.auth.getCurrentUserInfo().then((res) => {
+    console.log(res);
+});
 </script>
 
 <template>app</template>

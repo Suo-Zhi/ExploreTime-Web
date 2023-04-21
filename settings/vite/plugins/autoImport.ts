@@ -14,6 +14,8 @@ export const autoImport = () => {
                 '@/common/utils/cache': ['localCache'],
                 '@/types/cache': ['CacheKey'],
                 '@/store': ['store'],
+                '@/common/plugins/axios': ['http'],
+                '@/api': ['api'],
             },
         ],
         resolvers: [ArcoResolver()],
