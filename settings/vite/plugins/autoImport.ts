@@ -1,4 +1,5 @@
 import AutoImport from 'unplugin-auto-import/vite';
+import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 
 export const autoImport = () => {
     return AutoImport({
@@ -14,6 +15,7 @@ export const autoImport = () => {
                 '@/types/cache': ['CacheKey'],
             },
         ],
+        resolvers: [ArcoResolver()],
         // 声明文件位置
         dts: 'settings/declare/auto-imports.d.ts',
     });
