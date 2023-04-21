@@ -34,18 +34,20 @@ http.interceptors.response.use(
             },
         } = error;
 
+        const { prompt } = store.global();
+
         switch (status) {
             // 请求失败
             case HttpStatus.Bad_Request:
-                alert(message);
+                prompt(message, 'error');
                 break;
             // 请求地址错误
             case HttpStatus.Err_Bad_Request:
-                alert(message);
+                prompt('请求地址不存在', 'error');
                 break;
             // 其它错误
             default:
-                alert(message ?? '服务器出现问题，程序员正在努力抢救，请您稍后再试');
+                prompt(message ?? '服务器出现问题，程序员正在努力抢救，请您稍后再试', 'error');
         }
         return Promise.reject(error);
     }

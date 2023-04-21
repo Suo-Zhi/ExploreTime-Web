@@ -1,7 +1,5 @@
 <script setup lang="ts">
-api.auth.getCurrentUserInfo().then((res) => {
-    console.log(res);
-});
+store.global().prompt('msg', 'error', 1000);
 </script>
 
 <template>app</template>
