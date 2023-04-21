@@ -37,6 +37,14 @@ http.interceptors.response.use(
         const { prompt } = store.global();
 
         switch (status) {
+            // 表单验证失败
+            case HttpStatus.Unprocessable_Entity:
+                Object.keys(message).forEach((key) => {
+                    for (let i = 0; i < message[key].length; i++) {
+                        prompt(message[key][i], 'error');
+                    }
+                });
+                break;
             // 请求失败
             case HttpStatus.Bad_Request:
                 prompt(message, 'error');
