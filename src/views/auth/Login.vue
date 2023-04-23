@@ -1,5 +1,11 @@
 <script setup lang="ts"></script>
 
-<template>login</template>
+<template>
+    <div><router-link to="register">login</router-link></div>
+</template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+div {
+    background: $color-primary;
+}
+</style>

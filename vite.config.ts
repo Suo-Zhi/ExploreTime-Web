@@ -2,6 +2,7 @@ import { alias } from './settings/vite/alias';
 import { ConfigEnv, loadEnv } from 'vite';
 import { parseEnv } from './settings/vite/utils';
 import { setupPlugins } from './settings/vite/plugins';
+import { css } from './settings/vite/css';
 
 export default ({ mode }: ConfigEnv) => {
     const root = process.cwd();
@@ -13,5 +14,6 @@ export default ({ mode }: ConfigEnv) => {
         server: {
             port: env.VITE_PORT, // 设置端口号
         },
+        css,
     };
 };
