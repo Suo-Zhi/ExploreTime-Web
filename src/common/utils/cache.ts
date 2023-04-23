@@ -31,7 +31,7 @@ export const localCache = {
         // 无值时返回设定的默认值
         return defaultValue;
     },
-    remove(key: string) {
+    remove(key: CacheKey) {
         localStorage.removeItem(key);
     },
 };

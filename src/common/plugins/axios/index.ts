@@ -40,6 +40,12 @@ http.interceptors.response.use(
         const { prompt } = store.global();
 
         switch (status) {
+            // 身份认证失败
+            case HttpStatus.Unauthorized:
+                prompt('身份认证过期,请重新登录哦', 'error');
+                localCache.remove('token');
+                useRouter().push({ name: 'login' });
+                break;
             // 表单验证失败
             case HttpStatus.Unprocessable_Entity:
                 Object.keys(message).forEach((key) => {

@@ -1,7 +1,7 @@
-import { UserInfo, UserState } from './types';
+import { UserState } from './types';
 
 export default defineStore('user', {
     state: (): UserState => ({
-        userinfo: {} as UserInfo,
+        userinfo: null,
     }),
 });

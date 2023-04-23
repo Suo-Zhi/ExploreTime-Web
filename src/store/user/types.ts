@@ -1,5 +1,5 @@
 export interface UserState {
-    userinfo: UserInfo;
+    userinfo: UserInfo | null;
 }
 
 export interface UserInfo {

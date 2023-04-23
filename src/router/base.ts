@@ -5,6 +5,9 @@ export const baseRoutes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'index',
+        meta: {
+            auth: true,
+        },
         component: () => import('@/views/camp/Index.vue'),
     },
     // 404页面
