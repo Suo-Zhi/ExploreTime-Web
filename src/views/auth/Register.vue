@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { RegisterDTO } from '@/api/auth/types';
+
 const schema = {
     id: yup
         .string()
@@ -27,6 +29,7 @@ const router = useRouter();
 const onSubmit = handleSubmit(async () => {
     isLoading.value = true;
     try {
+        await api.auth.register(values as RegisterDTO);
         store.global().prompt('注册成功', 'success');
         router.push({ name: 'login', query: { userId: values.id } });
     } finally {

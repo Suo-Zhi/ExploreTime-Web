@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { LoginDTO } from '@/api/auth/types';
+
 // 表单验证
 const schema = {
     id: yup.string().required().label('账号'),
@@ -18,6 +20,8 @@ const router = useRouter();
 const onSubmit = handleSubmit(async () => {
     isLoading.value = true;
     try {
+        const res = await api.auth.login(values as LoginDTO);
+        localCache.set('token', res.data.token, 60 * 60 * 24 * 7);
         store.global().prompt('登录成功', 'success');
         router.push({ name: 'index' });
     } finally {

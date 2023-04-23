@@ -1,3 +1,3 @@
 export enum CacheKey {
-    IsFoldMenu = 'isFoldMenu',
+    Token = 'token',
 }

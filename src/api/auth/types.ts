@@ -1,4 +1,14 @@
+export interface LoginDTO {
+    id: string;
+    password: string;
+}
+
+export interface RegisterDTO extends LoginDTO {
+    nickname: string;
+    password_confirm: string;
+}
+
 export interface UserInfo {
     id: string;
-    username: string;
+    nickname: string;
 }
