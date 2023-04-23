@@ -7,8 +7,3 @@ export interface RegisterDTO extends LoginDTO {
     nickname: string;
     password_confirm: string;
 }
-
-export interface UserInfo {
-    id: string;
-    nickname: string;
-}

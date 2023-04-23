@@ -1,4 +1,5 @@
-import { LoginDTO, RegisterDTO, UserInfo } from './types';
+import { UserInfo } from '@/store/user/types';
+import { LoginDTO, RegisterDTO } from './types';
 
 export default {
     // 注册

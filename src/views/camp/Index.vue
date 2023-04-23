@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const getUserInfo = async () => {
+    const res = await api.auth.getCurrentUserInfo();
+    store.user().userinfo = res.data;
+    console.log(store.user().userinfo);
+};
+getUserInfo();
+</script>
 
 <template>index</template>
 

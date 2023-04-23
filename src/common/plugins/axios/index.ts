@@ -16,6 +16,9 @@ export const http = axios.create({
 /* 请求拦截 */
 http.interceptors.request.use(
     (config) => {
+        // 每次请求携带token
+        config.headers.Accept = 'application/json';
+        config.headers.Authorization = 'Bearer ' + localCache.get('token');
         return config;
     },
     (error) => Promise.reject(error)
