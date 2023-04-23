@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AButton: typeof import('@arco-design/web-vue')['Button']
     Base: typeof import('./../../src/components/Base.vue')['default']
     IconFullScreen: typeof import('@icon-park/vue-next')['FullScreen']
+    RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
