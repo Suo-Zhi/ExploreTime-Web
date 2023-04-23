@@ -1,15 +1,17 @@
+import { CacheKey } from '@/types/cache';
+
 interface CacheData {
     value: any;
     expire?: number;
 }
 
 export const localCache = {
-    set(key: string, value: any, liveSeconds?: number): void {
+    set(key: CacheKey, value: any, liveSeconds?: number): void {
         let data: CacheData = { value };
         if (liveSeconds) data.expire = new Date().getTime() + liveSeconds * 1000;
         localStorage.setItem(key, JSON.stringify(data));
     },
-    get(key: string, defaultValue: any = null): any | null {
+    get(key: CacheKey, defaultValue: any = null): any | null {
         const item = localStorage.getItem(key);
         if (item) {
             try {

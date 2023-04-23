@@ -12,7 +12,6 @@ export const autoImport = () => {
             {
                 '@/common/utils/env': ['env'],
                 '@/common/utils/cache': ['localCache'],
-                '@/types/cache': ['CacheKey'],
                 '@/store': ['store'],
                 '@/common/plugins/axios': ['http'],
                 '@/api': ['api'],
