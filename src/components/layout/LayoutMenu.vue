@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import * as icons from '@icon-park/vue-next';
-import { IconType } from '@icon-park/vue-next/lib/all';
+import { Menu, SkipTarget } from './types';
 
 interface Props {
-    switchTarget: 'camp' | 'square'; // 要切换的目标
+    skipTarget: SkipTarget; // 要切换的目标
     menuList: Menu[];
 }
-
-interface Menu {
-    title: string;
-    icon: IconType;
-    isActive: boolean;
-    routeName: string;
-}
-
 const props = withDefaults(defineProps<Props>(), {});
 
 // 实时获取激活菜单项
@@ -65,12 +57,12 @@ const logout = () => {
                 class="module-switch shadow-sm hover:shadow-md bg-blue-50 duration-200 rounded-md p-1"
             >
                 <component
-                    :is="icons[props.switchTarget === 'camp' ? 'Camp' : 'TentBanner']"
+                    :is="icons[props.skipTarget === 'camp' ? 'Camp' : 'TentBanner']"
                     size="24"
                     :strokeWidth="3"
-                    :title="props.switchTarget === 'camp' ? '营地' : '广场'"
+                    :title="props.skipTarget === 'camp' ? '营地' : '广场'"
                     class="cursor-pointer text-primary"
-                    @click="$router.push({ name: props.switchTarget })"
+                    @click="$router.push({ name: props.skipTarget })"
                 />
             </div>
             <!-- 具体菜单列表 -->

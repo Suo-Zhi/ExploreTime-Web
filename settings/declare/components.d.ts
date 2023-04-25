@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     IconFullScreen: typeof import('@icon-park/vue-next')['FullScreen']
     IconMe: typeof import('@icon-park/vue-next')['Me']
     InputItem: typeof import('./../../src/components/input/InputItem.vue')['default']
+    LayoutIndex: typeof import('./../../src/components/layout/LayoutIndex.vue')['default']
     LayoutMenu: typeof import('./../../src/components/layout/LayoutMenu.vue')['default']
     LeftMenu: typeof import('./../../src/components/layout/LeftMenu.vue')['default']
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']

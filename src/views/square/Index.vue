@@ -23,13 +23,8 @@ const menuList = ref([
 
 <template>
     <!-- 分享广场 -->
-    <div class="square min-h-screen flex">
-        <!-- 左侧导航 -->
-        <layout-menu switchTarget="camp" :menuList="menuList"></layout-menu>
-        <!-- 主体内容 -->
-        <div class="main flex-1 items-stretch relative overflow-hidden">
-            <router-view></router-view>
-        </div>
+    <div class="square">
+        <layout-index skipTarget="camp" :menuList="menuList"></layout-index>
     </div>
 </template>
 
