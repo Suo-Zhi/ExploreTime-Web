@@ -12,7 +12,7 @@ export default {
             meta: {
                 auth: true,
             },
-            component: () => import('@/views/camp/Dashboard.vue'),
+            component: () => import('@/views/camp/dashboard/Index.vue'),
         },
         {
             path: 'workbench',

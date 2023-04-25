@@ -15,8 +15,12 @@ declare module '@vue/runtime-core' {
     AInput: typeof import('@arco-design/web-vue')['Input']
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword']
     APopover: typeof import('@arco-design/web-vue')['Popover']
+    ARadio: typeof import('@arco-design/web-vue')['Radio']
+    ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     Base: typeof import('./../../src/components/Base.vue')['default']
     copy: typeof import('./../../src/components/input/FormItem copy.vue')['default']
+    DataCard: typeof import('./../../src/views/camp/dashboard/components/DataCard.vue')['default']
     FormItem: typeof import('./../../src/components/input/FormItem.vue')['default']
     IconFullScreen: typeof import('@icon-park/vue-next')['FullScreen']
     IconMe: typeof import('@icon-park/vue-next')['Me']
@@ -27,5 +31,8 @@ declare module '@vue/runtime-core' {
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TodayCard: typeof import('./../../src/views/camp/dashboard/components/TodayCard.vue')['default']
+    TodayDataCard: typeof import('./../../src/views/camp/dashboard/components/TodayDataCard.vue')['default']
+    TrendArrow: typeof import('./../../src/components/data/TrendArrow.vue')['default']
   }
 }
