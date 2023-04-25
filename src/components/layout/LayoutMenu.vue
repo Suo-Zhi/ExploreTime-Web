@@ -28,6 +28,7 @@ const switchMenu = (menu: Menu) => {
 // 切换折叠状态
 const isFold = ref(store.setting().isFoldMenu);
 watch(isFold, () => {
+    store.setting().isFoldMenu = isFold.value;
     localCache.set('isFoldMenu', isFold.value);
 });
 
