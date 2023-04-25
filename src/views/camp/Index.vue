@@ -24,7 +24,6 @@ const menuList = ref([
 <template>
     <!-- 作者空间 -->
     <div class="camp min-h-screen flex">
-        <!-- 左侧导航 -->
         <layout-menu switchTarget="square" :menuList="menuList"></layout-menu>
         <!-- 主体内容 -->
         <div class="main flex-1 items-stretch relative overflow-hidden">
