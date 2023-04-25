@@ -2,6 +2,7 @@
 
 <template>
     <div class="dashboard h-full flex flex-col">
+        <!-- 顶部面板 -->
         <div class="top-panel my-2 flex">
             <!-- 知识输出统计面板 -->
             <section
@@ -33,9 +34,20 @@
                 ></data-card>
             </section>
         </div>
-        <div class="bottom-panel flex-1 grid grid-cols-2 gap-3">
-            <section class="bg-slate-100 rounded-md p-3 mb-2"></section>
-            <section class="bg-slate-100 rounded-md p-3 mb-2"></section>
+        <!-- 底部面板 -->
+        <div class="bottom-panel flex-1 grid grid-cols-4">
+            <!-- 左侧面板 -->
+            <div class="col-span-3 rounded-md pr-3 mb-2 flex flex-col justify-between">
+                <div class="h-[150px]"></div>
+                <!-- 曲线图 -->
+                <section class="line-chart flex-1"><line-chart></line-chart></section>
+            </div>
+            <!-- 右侧面板 -->
+            <div class="col-span-1 mb-2 flex flex-col justify-between">
+                <section class="flex-1 bg-slate-100 rounded-md p-3"></section>
+                <!-- 环形图 -->
+                <section class="doughnut-chart h-72"><doughnut-chart></doughnut-chart></section>
+            </div>
         </div>
     </div>
 </template>
