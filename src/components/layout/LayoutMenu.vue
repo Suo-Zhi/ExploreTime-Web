@@ -16,10 +16,20 @@ interface Menu {
 
 const props = withDefaults(defineProps<Props>(), {});
 
+// 实时获取激活菜单项
+const route = useRoute();
+const activeRouteName = ref(''); // 当前激活项
+watch(
+    () => route.name,
+    (newRouteName) => {
+        activeRouteName.value = newRouteName as string;
+    },
+    { immediate: true }
+);
+
 // 切换菜单
-const activeItem = ref(''); // 当前激活项
 const switchMenu = (menu: Menu) => {
-    activeItem.value = menu.title;
+    activeRouteName.value = menu.routeName;
     router.push({ name: menu.routeName });
 };
 
@@ -61,7 +71,7 @@ const logout = () => {
                 :strokeWidth="3"
                 :title="menu.title"
                 class="cursor-pointer hover:text-primary mb-2"
-                :class="activeItem === menu.title ? 'text-primary' : 'text-icon-gray'"
+                :class="activeRouteName === menu.routeName ? 'text-primary' : 'text-icon-gray'"
                 @click="switchMenu(menu)"
             />
         </div>

@@ -1,31 +1,31 @@
 <script setup lang="ts">
 const menuList = ref([
     {
-        title: '统计',
-        icon: 'ChartPie',
+        title: '知识',
+        icon: 'MindmapMap',
         isActive: false,
-        routeName: 'dashboard',
+        routeName: 'knowledge',
     },
     {
-        title: '工作台',
-        icon: 'Workbench',
+        title: '文章',
+        icon: 'Notes',
         isActive: false,
-        routeName: 'workbench',
+        routeName: 'article',
     },
     {
-        title: '标记',
-        icon: 'BookmarkOne',
+        title: '习题',
+        icon: 'DocumentFolder',
         isActive: false,
-        routeName: 'mark',
+        routeName: 'exercise',
     },
 ]);
 </script>
 
 <template>
-    <!-- 作者空间 -->
-    <div class="camp min-h-screen flex">
+    <!-- 分享广场 -->
+    <div class="square min-h-screen flex">
         <!-- 左侧导航 -->
-        <layout-menu switchTarget="square" :menuList="menuList"></layout-menu>
+        <layout-menu switchTarget="camp" :menuList="menuList"></layout-menu>
         <!-- 主体内容 -->
         <div class="main flex-1 items-stretch relative overflow-hidden">
             <router-view></router-view>
