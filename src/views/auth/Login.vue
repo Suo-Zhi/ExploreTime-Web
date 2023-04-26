@@ -23,7 +23,7 @@ const onSubmit = handleSubmit(async () => {
         const res = await api.auth.login(values as LoginDTO);
         localCache.set('token', res.data.token, 60 * 60 * 24 * 7);
         store.global().prompt('登录成功', 'success');
-        router.push({ name: 'index' });
+        router.push({ name: 'workbench' });
     } finally {
         isLoading.value = false;
     }
