@@ -11,7 +11,7 @@ export const autoImport = () => {
             // 自定义api
             {
                 '@/common/utils/env': ['env'],
-                '@/common/utils/cache': ['localCache'],
+                '@/common/utils/localCache': ['localCache'],
                 '@/store': ['store'],
                 '@/common/plugins/axios': ['http'],
                 '@/api': ['api'],

@@ -10,11 +10,12 @@ module.exports = {
                 "fix", // 修改bug
                 "docs", // 更新文档
                 "style", // 页码样式
+                "wrap", // 封装代码
                 "config", // 配置
                 "refactor", // 重构
                 "perf", // 性能提升
                 "test", // 测试
-                "chore", // 不影响功能的琐碎操作
+                "chore", // 不影响功能的琐碎操作(如调整文件名或目录)
                 "revert", // 版本回退
                 "build", // 打包
             ],

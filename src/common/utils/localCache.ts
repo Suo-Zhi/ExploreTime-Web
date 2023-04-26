@@ -1,4 +1,4 @@
-import { CacheKey } from '@/types/cache';
+import { CacheKey } from '@/types/cacheKey';
 
 interface CacheData {
     value: any;
