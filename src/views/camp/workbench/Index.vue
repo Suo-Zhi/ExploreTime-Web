@@ -18,6 +18,19 @@ const switchSection = (section: Section) => {
     localCache.set(`${nextScreen}Screen`, section);
     store.setting().screen[nextScreen] = section;
 };
+
+// 需显示的真实组件
+const realCompoent = reactive<any>({
+    info: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    point: markRaw(defineAsyncComponent(() => import('@/components/main/point/PointProcess.vue'))),
+    chunk: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    tree: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    explain: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    exercise: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    exerciseSet: markRaw(
+        defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))
+    ),
+});
 </script>
 
 <template>
@@ -132,10 +145,10 @@ const switchSection = (section: Section) => {
         <main class="main flex-1 relative overflow-hidden">
             <split-screen>
                 <template #left>
-                    {{ screen.left }}
+                    <component :is="realCompoent[screen.left]"></component>
                 </template>
                 <template #right>
-                    {{ screen.right }}
+                    <component :is="realCompoent[screen.right]"></component>
                 </template>
             </split-screen>
         </main>
