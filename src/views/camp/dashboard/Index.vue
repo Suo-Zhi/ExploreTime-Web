@@ -92,8 +92,4 @@
     </div>
 </template>
 
-<style lang="scss">
-.arco-radio-button::before {
-    background-color: transparent !important;
-}
-</style>
+<style lang="scss"></style>

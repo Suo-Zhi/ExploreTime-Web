@@ -1,9 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { setupPlugins } from './common/plugins';
-import '@arco-design/web-vue/dist/arco.css';
 import { setupRouter } from './router';
-import 'animate.css';
+import '@arco-design/web-vue/dist/arco.css';
+import '@/common/assets/css/index.scss';
 
 const bootstrap = () => {
     const app = createApp(App);
