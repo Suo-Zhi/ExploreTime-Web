@@ -20,7 +20,7 @@ export default {
             meta: {
                 auth: true,
             },
-            component: () => import('@/views/camp/Workbench.vue'),
+            component: () => import('@/views/camp/workbench/Index.vue'),
         },
         {
             path: 'mark',
