@@ -32,6 +32,9 @@ watch(isFold, () => {
     localCache.set('isFoldMenu', isFold.value);
 });
 
+// 用户信息(用于头像)
+const { userinfo } = store.user();
+
 // 退出登录
 const router = useRouter();
 const logout = () => {
@@ -86,7 +89,7 @@ const logout = () => {
                     position="rb"
                     :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
                 >
-                    <icon-me size="26" :strokeWidth="3" class="cursor-pointer text-icon-gray" />
+                    <avatar :img="userinfo?.avatar" :text="userinfo?.nickname" size="30px"></avatar>
                     <template #content>
                         <div
                             class="border-b border-gray-300 pb-1 cursor-pointer hover:text-primary duration-300"

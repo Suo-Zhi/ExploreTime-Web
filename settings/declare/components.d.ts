@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     AForm: typeof import('@arco-design/web-vue')['Form']
@@ -20,6 +21,7 @@ declare module '@vue/runtime-core' {
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     ATag: typeof import('@arco-design/web-vue')['Tag']
+    Avatar: typeof import('./../../src/components/base/Avatar.vue')['default']
     Base: typeof import('./../../src/components/Base.vue')['default']
     ChartBase: typeof import('./../../src/components/chart/ChartBase.vue')['default']
     copy: typeof import('./../../src/components/input/FormItem copy.vue')['default']

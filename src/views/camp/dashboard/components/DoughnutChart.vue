@@ -35,8 +35,8 @@ const options = {
         {
             name: 'Access From',
             type: 'pie',
-            radius: ['56%', '86%'],
-            center: ['50%', '58%'],
+            radius: ['56%', '84%'],
+            center: ['50%', '56%'],
             avoidLabelOverlap: false,
             itemStyle: {
                 borderRadius: 10,
