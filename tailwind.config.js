@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
 module.exports = {
     content: [
         "./index.html",
@@ -10,7 +12,7 @@ module.exports = {
                 primary: '#058CF4',
                 secondary: '#9fd4fd',
                 warning: '#FDE047',
-                'icon-gray': '#384152'
+                'icon-gray': colors.gray['700']
             },
         },
     },

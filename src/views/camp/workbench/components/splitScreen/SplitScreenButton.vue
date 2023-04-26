@@ -6,6 +6,17 @@ const nextScreen = ref<'left' | 'right'>(store.setting().nextScreen); // 下一�
 watch(
     isSplitScreen,
     () => {
+        // 双屏时激活右屏
+        if (isSplitScreen.value) {
+            store.setting().nextScreen = 'right';
+        }
+        // 单屏时清空右屏
+        else {
+            localCache.set('rightScreen', '');
+            store.setting().screen.right = '';
+        }
+
+        // 持久化存储
         localCache.set('isSplitScreen', isSplitScreen.value);
         store.setting().isSplitScreen = isSplitScreen.value;
     },
@@ -32,14 +43,14 @@ watch(
             class="absolute bg-primary w-[7px] h-[11px] top-[6px]"
             :class="[
                 isSplitScreen ? '' : 'hidden',
-                nextScreen === 'right' ? 'left-[3px]' : 'left-[9px]',
+                nextScreen === 'left' ? 'left-[3px]' : 'left-[9px]',
             ]"
         ></span>
         <!-- 是否分屏按钮 -->
         <icon-top-bar
             size="19"
             :strokeWidth="3"
-            class="group-hover:text-primary"
+            class="group-hover:text-primary text-icon-gray"
             :title="!isSplitScreen ? '分屏' : '合并'"
         />
     </section>
