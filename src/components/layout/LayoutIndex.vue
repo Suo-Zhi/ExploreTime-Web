@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {});
     <div class="layout-index min-h-screen flex">
         <layout-menu :skipTarget="props.skipTarget" :menuList="props.menuList"></layout-menu>
         <!-- 主体内容 -->
-        <main class="main flex-1 items-stretch relative overflow-hidden px-2">
+        <main class="main flex-1 items-stretch relative overflow-hidden">
             <router-view></router-view>
         </main>
     </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="dashboard w-full h-full flex flex-col">
+    <div class="dashboard w-full h-full flex flex-col px-2">
         <!-- 顶部面板 -->
         <div class="top-panel my-2 flex">
             <!-- 知识输出统计面板 -->
