@@ -6,12 +6,13 @@ interface Props {
     icon: IconType;
     iconColor: string;
     title: string;
+    theme?: 'filled' | 'outline';
     data: {
         firstData: number;
         secondData: number;
     };
 }
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), { theme: 'filled' });
 </script>
 
 <template>
@@ -20,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {});
     >
         <div class="icon-box h-full flex flex-col justify-center">
             <component
-                theme="filled"
+                :theme="props.theme"
                 :is="icons[props.icon]"
                 size="50"
                 :strokeWidth="2"
