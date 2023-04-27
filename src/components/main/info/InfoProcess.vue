@@ -1,10 +1,7 @@
-<script setup lang="ts">
-const text = ref('infoBox');
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    {{ text }}
-    <cus-editor v-model="text"></cus-editor>
+    <section-nav class="bg-pink-300">123</section-nav>
 </template>
 
 <style lang="scss" scoped></style>

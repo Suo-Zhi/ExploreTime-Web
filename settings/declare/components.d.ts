@@ -54,6 +54,8 @@ declare module '@vue/runtime-core' {
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SectionNav: typeof import('./../../src/components/base/SectionNav.vue')['default']
+    SectionTopNav: typeof import('./../../src/components/base/SectionTopNav.vue')['default']
     SplitScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/SplitScreen.vue')['default']
     SplitScreenButton: typeof import('./../../src/views/camp/workbench/components/splitScreen/SplitScreenButton.vue')['default']
     TodayCard: typeof import('./../../src/views/camp/dashboard/components/TodayCard.vue')['default']
