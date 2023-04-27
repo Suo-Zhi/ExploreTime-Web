@@ -9,5 +9,6 @@ export default defineStore('setting', {
             left: localCache.get('leftScreen', 'info'), // 工作台左屏需显示组件
             right: localCache.get('rightScreen', 'point'), // 工作台右屏需显示组件
         },
+        test: '123',
     }),
 });

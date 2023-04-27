@@ -3,6 +3,7 @@ export interface SettingState {
     isSplitScreen: boolean;
     nextScreen: 'left' | 'right';
     screen: LRScreen;
+    test: string;
 }
 
 interface LRScreen {
