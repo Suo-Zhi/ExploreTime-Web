@@ -3,10 +3,7 @@ import { HttpStatus } from '@/types/httpStatus';
 import axios from 'axios';
 
 // 接口根路径
-const apiURL =
-    env.VITE_ENV === 'production'
-        ? '/api' // 生产环境请求路径
-        : 'http://localhost:3000/api'; // 开发环境请求路径
+const apiURL = env.VITE_URL; // 开发环境请求路径
 
 export const http = axios.create({
     baseURL: apiURL,

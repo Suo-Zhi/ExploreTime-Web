@@ -63,7 +63,7 @@ type InsertFnType = (url: string, alt: string, href: string) => void;
 if (editorConfig.MENU_CONF)
     editorConfig.MENU_CONF['uploadImage'] = {
         // 图片上传地址
-        server: 'http://localhost:3000/api/upload/img',
+        server: env.VITE_URL + '/upload/img',
         // 参数名
         fieldName: 'file',
         // 单文件大小5M
