@@ -12,7 +12,7 @@
     height: 100%;
 }
 .arco-scrollbar-container {
-    height: calc(100% - 1px);
+    height: calc(100% - 32px);
 }
 .arco-scrollbar-track-direction-vertical {
     width: 9px !important;

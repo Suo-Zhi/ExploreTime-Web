@@ -1,5 +1,9 @@
 <script setup="{ context }" lang="ts">
 import * as icons from '@icon-park/vue-next';
+interface Props {
+    modelValue: boolean;
+}
+withDefaults(defineProps<Props>(), {});
 
 const isFold = ref(false);
 </script>
@@ -23,7 +27,10 @@ const isFold = ref(false);
         <!-- 折叠按钮 -->
         <component
             :is="icons['UpOne']"
-            @click="isFold = !isFold"
+            @click="
+                isFold = !isFold;
+                $emit('update:modelValue', isFold);
+            "
             :class="[isFold ? '-rotate-180 -bottom-[12px]' : '']"
             size="18"
             :strokeWidth="3"
