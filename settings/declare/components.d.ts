@@ -57,6 +57,7 @@ declare module '@vue/runtime-core' {
     LayoutMenu: typeof import('./../../src/components/layout/LayoutMenu.vue')['default']
     LeftMenu: typeof import('./../../src/components/layout/LeftMenu.vue')['default']
     LineChart: typeof import('./../../src/views/camp/dashboard/components/LineChart.vue')['default']
+    LoadBox: typeof import('./../../src/components/base/LoadBox.vue')['default']
     PointBox: typeof import('./../../src/components/main/point/PointBox.vue')['default']
     PointProcess: typeof import('./../../src/components/main/point/PointProcess.vue')['default']
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']

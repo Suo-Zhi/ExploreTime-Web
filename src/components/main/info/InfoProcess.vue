@@ -1,11 +1,15 @@
 <script setup lang="ts">
-const search = (keywords: string) => {
-    console.log(keywords);
-};
+const isLoad = ref(false);
+onMounted(() => {
+    isLoad.value = true;
+    setTimeout(() => {
+        isLoad.value = false;
+    }, 3000);
+});
 </script>
 
 <template>
-    <search-bar @search="search"></search-bar>
+    <load-box class="w-[200px] h-[200px] bg-pink-200" :isLoad="isLoad"></load-box>
 </template>
 
 <style lang="scss" scoped></style>
