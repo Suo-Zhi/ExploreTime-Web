@@ -1,10 +1,6 @@
 <script setup lang="ts">
-interface Props {
-    modelValue: string;
-}
-const props = withDefaults(defineProps<Props>(), {});
-
-let isFold = ref(true); // 是否展开
+const isFold = ref(true); // 是否展开搜索栏
+const keywords = ref(''); // 搜索关键字
 </script>
 
 <template>
@@ -14,14 +10,14 @@ let isFold = ref(true); // 是否展开
         placeholder="按 Enter 搜索"
         class="h-[24px] !bg-white !px-0 !border-0 !border-b !rounded-none"
         :class="isFold ? '!w-[16px]' : '!w-[150px]'"
-        :model-value="props.modelValue"
+        v-model="keywords"
         @input="$emit('update:modelValue', $event)"
-        @keyup.enter="$emit('search')"
+        @keyup.enter="$emit('search', keywords)"
         @clear="
             $emit('update:modelValue', '');
-            $emit('search');
+            $emit('search', '');
         "
-        @blur="$event.target?.value ? '' : (isFold = true)"
+        @blur="keywords ? '' : (isFold = true)"
         @focus="isFold = false"
     >
         <template #prefix>

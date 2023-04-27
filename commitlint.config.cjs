@@ -10,6 +10,7 @@ module.exports = {
                 "fix", // 修改bug
                 "docs", // 更新文档
                 "style", // 页码样式
+                "alter", // 调整
                 "wrap", // 封装代码
                 "config", // 配置
                 "refactor", // 重构
