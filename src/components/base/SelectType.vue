@@ -31,7 +31,7 @@ const changeHandle = (e: any) => {
         :model-value="props.modelValue"
         @change="changeHandle"
         size="small"
-        class="type-selector !w-[100px]"
+        class="type-selector !w-[100px] !p-0"
         :bordered="false"
     >
         <a-option v-for="(option, index) of props.options" :key="index" :value="option.value">

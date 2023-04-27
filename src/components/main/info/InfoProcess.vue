@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const isLoad = ref(false);
-const isFoldNav = ref(false);
 
 // 排序
 const sort = ref({
@@ -46,43 +45,36 @@ const addHandle = (info: string) => {
 </script>
 
 <template>
-    <section class="info-process absolute w-full h-full">
-        <load-box class="h-full" :isLoad="isLoad">
-            <!-- 局部导航 -->
-            <section-nav v-model="isFoldNav">
-                <!-- 左侧 -->
-                <div class="flex items-center">
-                    <select-sort
-                        v-model="sort.key"
-                        v-model:order="sort.order"
-                        :options="sortOptions"
-                    ></select-sort>
-                    <select-type v-model="filter" :options="filterOptions"></select-type>
-                </div>
+    <common-box class="info-process" :isLoad="isLoad">
+        <!-- 信息列表 -->
+        <section
+            class="info-item w-full h-[100px] bg-pink-200 mb-2"
+            v-for="i in 10"
+            :key="i"
+        ></section>
 
-                <!-- 右侧 -->
-                <div class="items-center flex">
-                    <!-- 搜索 -->
-                    <search-bar @search="findList"></search-bar>
-                </div>
-            </section-nav>
+        <template #navLeft>
+            <select-sort
+                v-model="sort.key"
+                v-model:order="sort.order"
+                :options="sortOptions"
+            ></select-sort>
+            <select-type
+                v-model="filter"
+                :options="filterOptions"
+                class="!w-[65px] ml-4"
+            ></select-type>
+        </template>
 
-            <!-- 主体列表 -->
-            <div class="h-full duration-300" :class="isFoldNav ? 'pt-[1px]' : 'pt-[30px]'">
-                <scroll-bar>
-                    <!-- 信息项 -->
-                    <section
-                        class="info-item w-full h-[100px] bg-pink-200 mb-2"
-                        v-for="i in 10"
-                        :key="i"
-                    ></section>
-                </scroll-bar>
-            </div>
+        <template #navRight>
+            <search-bar @search="findList"></search-bar>
+        </template>
 
+        <template #extra>
             <!-- 新增信息栏 -->
             <input-info-bar @addInfo="addHandle"></input-info-bar>
-        </load-box>
-    </section>
+        </template>
+    </common-box>
 </template>
 
 <style lang="scss" scoped></style>
