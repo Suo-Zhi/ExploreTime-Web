@@ -16,22 +16,22 @@ interface SelectOption {
 
 const props = withDefaults(defineProps<Props>(), {});
 
+// 切换选项 & 持久化存储
 const emit = defineEmits(['update:modelValue']);
 const changeHandle = (e: any) => {
-    // 同步值
     emit('update:modelValue', e);
-    // 持久化存储
-    if (props.storeKey) store.setting()[props.storeKey] = e;
+    if (props.storeKey) store.setting()[props.storeKey] = e as never;
     if (props.cacheKey) localCache.set(props.cacheKey, e);
 };
 </script>
 
 <template>
+    <!-- 类型选择器 -->
     <a-select
         :model-value="props.modelValue"
         @change="changeHandle"
         size="small"
-        class="!w-[100px]"
+        class="type-selector !w-[100px]"
         :bordered="false"
     >
         <a-option v-for="(option, index) of props.options" :key="index" :value="option.value">

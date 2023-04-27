@@ -1,3 +1,8 @@
-.arco-radio-button::before {
-    background-color: transparent !important;
+// 下拉选择器
+.arco-select-view-suffix{
+    padding-left: 0px !important;
+}
+
+.arco-trigger-popup{
+    width: auto !important;
 }

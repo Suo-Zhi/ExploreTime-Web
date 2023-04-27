@@ -1,0 +1,78 @@
+<script setup lang="ts">
+import { SettingState } from '@/store/setting/types';
+import { CacheKey } from '@/types/cacheKey';
+import * as icons from '@icon-park/vue-next';
+
+interface Props {
+    modelValue: string; // 排序项
+    order: 'asc' | 'desc'; // 排序顺序
+    options: SelectOption[]; // 可选排序项
+    storeKey?: {
+        value: keyof SettingState;
+        order: keyof SettingState;
+    };
+    cacheKey?: {
+        value: CacheKey;
+        order: CacheKey;
+    };
+}
+
+interface SelectOption {
+    label: string;
+    value: any;
+}
+
+const props = withDefaults(defineProps<Props>(), {});
+
+// 动态获取显示标签
+const label = computed(() => {
+    const index = props.options.findIndex((option) => {
+        return option.value === props.modelValue;
+    });
+    return props.options[index].label;
+});
+
+const emit = defineEmits(['update:modelValue', 'update:order']);
+// 切换选项 & 持久化存储
+const changeValueHandle = (e: any) => {
+    emit('update:modelValue', e);
+    if (props.storeKey?.value) store.setting()[props.storeKey.value] = e as never;
+    if (props.cacheKey?.value) localCache.set(props.cacheKey.value, e);
+};
+const changeOrderHandle = () => {
+    const newOrder = props.order === 'asc' ? 'desc' : 'asc';
+    emit('update:order', props.order === 'asc' ? 'desc' : 'asc');
+    if (props.storeKey?.order) store.setting()[props.storeKey.order] = newOrder as never;
+    if (props.cacheKey?.order) localCache.set(props.cacheKey.order, newOrder);
+};
+</script>
+
+<template>
+    <!-- 排序选择器 -->
+    <section class="sort-selector flex items-center">
+        <div
+            class="flex cursor-pointer select-none relative h-[30px] items-center"
+            @click="changeOrderHandle"
+        >
+            <component
+                :is="props.order === 'asc' ? icons['SortAmountUp'] : icons['SortAmountDown']"
+                size="17"
+                :strokeWidth="3"
+                :title="props.order === 'asc' ? '升序' : '降序'"
+                class="text-gray-900"
+            ></component>
+
+            <!-- 盖住原label -->
+            <div class="absolute bg-white top-[7px] left-[21px] z-10">{{ label }}</div>
+
+            <select-type
+                class="!w-[75px] !p-0 !relative !z-0 ml-[4px]"
+                :model-value="props.modelValue"
+                :options="props.options"
+                @change="changeValueHandle"
+            ></select-type>
+        </div>
+    </section>
+</template>
+
+<style lang="scss" scoped></style>
