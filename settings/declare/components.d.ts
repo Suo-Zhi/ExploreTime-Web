@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     Base: typeof import('./../../src/components/Base.vue')['default']
     ChartBase: typeof import('./../../src/components/chart/ChartBase.vue')['default']
     copy: typeof import('./../../src/components/input/FormItem copy.vue')['default']
+    CusEditor: typeof import('./../../src/components/input/CusEditor.vue')['default']
     DataCard: typeof import('./../../src/views/camp/dashboard/components/DataCard.vue')['default']
     DoughnutChart: typeof import('./../../src/views/camp/dashboard/components/DoughnutChart.vue')['default']
     FormItem: typeof import('./../../src/components/input/FormItem.vue')['default']
