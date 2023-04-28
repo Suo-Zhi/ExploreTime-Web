@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { Info, SortInfo } from '@/api/info/types';
+
 const isLoad = ref(false);
 
 // 排序
-const sort = ref({
-    key: 'createTime',
+const sort = ref<SortInfo>({
+    field: 'createTime',
     order: 'desc',
 });
 const sortOptions = [
@@ -29,12 +31,14 @@ const filterOptions = [
 ];
 
 // 查
-const findList = (keywords: string) => {
+const list = ref<Info[]>([]);
+const findList = async (keywords: string) => {
     isLoad.value = true;
-    setTimeout(() => {
-        console.log(keywords);
-        isLoad.value = false;
-    }, 1000);
+    const res = await api.info.findMy({ keywords, sort: sort.value });
+    list.value = res.data;
+    console.log(list.value);
+
+    isLoad.value = false;
 };
 findList('');
 
@@ -55,9 +59,10 @@ const addHandle = (info: string) => {
 
         <template #navLeft>
             <select-sort
-                v-model="sort.key"
+                v-model="sort.field"
                 v-model:order="sort.order"
                 :options="sortOptions"
+                @change="findList"
             ></select-sort>
             <select-type
                 v-model="filter"
