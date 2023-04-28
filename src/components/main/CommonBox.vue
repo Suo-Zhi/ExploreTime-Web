@@ -24,7 +24,10 @@ const isFoldNav = ref(false);
             </section-nav>
 
             <!-- 主体列表 -->
-            <div class="h-full duration-300" :class="isFoldNav ? 'pt-[1px]' : 'pt-[30px]'">
+            <div
+                class="main-list h-full duration-300"
+                :class="isFoldNav ? 'pt-[1px]' : 'pt-[30px]'"
+            >
                 <scroll-bar>
                     <slot></slot>
                 </scroll-bar>

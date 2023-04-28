@@ -133,4 +133,10 @@ const updateHandle = async (value: any) => {
     </common-box>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.info-process {
+    ::v-deep .main-list {
+        padding-bottom: 60px;
+    }
+}
+</style>
