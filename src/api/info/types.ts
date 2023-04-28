@@ -12,6 +12,10 @@ export interface FindInfoDTO {
     sort: SortInfo;
 }
 
+export interface CreateInfoDTO {
+    content: string;
+}
+
 export interface SortInfo {
     field: SortFieldInfo;
     order: SortOrder;

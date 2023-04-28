@@ -1,4 +1,4 @@
-import { FindInfoDTO, Info } from './types';
+import { CreateInfoDTO, FindInfoDTO, Info } from './types';
 
 export default {
     // 获取个人有效信息列表(包含搜索 & 排序)
@@ -8,5 +8,10 @@ export default {
                 ...dto,
             },
         });
+    },
+
+    // 新增
+    create: (dto: CreateInfoDTO) => {
+        return http.post('info', { ...dto });
     },
 };

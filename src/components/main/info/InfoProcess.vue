@@ -24,13 +24,15 @@ const filterOptions = [
 
 // 查
 const list = ref<Info[]>([]);
-const findList = async (keywords: string) => {
+const findList = async (keywords: string = '') => {
     isLoad.value = true;
     const res = await api.info.findMy({ keywords, sort: sort.value });
     list.value = res.data;
     isLoad.value = false;
 };
-findList('');
+onMounted(() => {
+    findList();
+});
 </script>
 
 <template>
@@ -95,7 +97,7 @@ findList('');
 
         <template #extra>
             <!-- 新增信息栏 -->
-            <input-info-bar @addInfo=""></input-info-bar>
+            <input-info-bar @refreshList="findList"></input-info-bar>
         </template>
     </common-box>
 </template>

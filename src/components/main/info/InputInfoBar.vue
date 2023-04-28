@@ -1,5 +1,20 @@
 <script setup lang="ts">
 const info = ref('');
+
+const editorRef = ref<any>(null);
+const emit = defineEmits(['refreshList']);
+const confirmHandle = async () => {
+    // 判空
+    if (tool.isEmpty(info.value)) return store.global().prompt('请输入有效信息', 'warning');
+
+    // 新增信息
+    await api.info.create({ content: info.value });
+
+    // 清空输入框
+    editorRef.value?.clear();
+    // 刷新信息列表
+    emit('refreshList');
+};
 </script>
 
 <template>
@@ -9,7 +24,7 @@ const info = ref('');
             placeholder="按 Ctrl+Enter 新增信息"
             toolbarType="none"
             v-model="info"
-            @keyup.ctrl.enter="$emit('addInfo', info)"
+            @keyup.ctrl.enter="confirmHandle"
             ref="editorRef"
         ></cus-editor>
     </section>
