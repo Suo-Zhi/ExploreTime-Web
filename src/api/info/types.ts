@@ -1,3 +1,5 @@
+import { SortField, SortOrder } from '@/store/setting/types';
+
 export interface Info {
     id: number; // 有效信息Id
     content: string; // 有效信息内容
@@ -18,9 +20,6 @@ export interface CreateInfoDTO {
 }
 
 export interface SortInfo {
-    field: SortFieldInfo;
+    field: SortField;
     order: SortOrder;
 }
-
-export type SortFieldInfo = 'createTime' | 'updateTime'; // 排序字段名
-export type SortOrder = 'asc' | 'desc'; // 排序规则

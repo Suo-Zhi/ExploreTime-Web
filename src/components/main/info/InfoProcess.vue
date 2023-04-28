@@ -6,8 +6,8 @@ const isLoad = ref(false);
 
 // 排序
 const sort = ref<SortInfo>({
-    field: 'createTime',
-    order: 'desc',
+    field: store.setting().sort.field.info,
+    order: store.setting().sort.order.info,
 });
 const sortOptions = [
     { label: '创建时间', value: 'createTime' },
@@ -79,7 +79,7 @@ const toggleRefineHandle = async (index: number) => {
                         :is="item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
                         size="17"
                         :strokeWidth="3"
-                        :title="item.isRefine ? '出档' : '归档'"
+                        :title="item.isRefine ? '还需处理' : '处理完成'"
                         class="action-btn hover:text-primary"
                         @click="toggleRefineHandle(index)"
                     ></component>
@@ -99,6 +99,8 @@ const toggleRefineHandle = async (index: number) => {
                 v-model="sort.field"
                 v-model:order="sort.order"
                 :options="sortOptions"
+                storeKey="info"
+                cacheKey="info"
                 @change="findList"
             ></select-sort>
             <select-type

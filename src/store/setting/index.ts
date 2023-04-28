@@ -9,6 +9,26 @@ export default defineStore('setting', {
             left: localCache.get('leftScreen', 'info'), // 工作台左屏需显示组件
             right: localCache.get('rightScreen', 'point'), // 工作台右屏需显示组件
         },
-        test: '123',
+        // 排序设置
+        sort: {
+            field: {
+                info: localCache.get('sort')?.field?.info || 'updateTime',
+                point: localCache.get('sort')?.field?.point || 'updateTime',
+                chunk: localCache.get('sort')?.field?.chunk || 'updateTime',
+                tree: localCache.get('sort')?.field?.tree || 'updateTime',
+                explain: localCache.get('sort')?.field?.explain || 'updateTime',
+                exercise: localCache.get('sort')?.field?.exercise || 'updateTime',
+                exerciseSet: localCache.get('sort')?.field?.exerciseSet || 'updateTime',
+            },
+            order: {
+                info: localCache.get('sort')?.order?.info || 'desc',
+                point: localCache.get('sort')?.order?.point || 'desc',
+                chunk: localCache.get('sort')?.order?.chunk || 'desc',
+                tree: localCache.get('sort')?.order?.tree || 'desc',
+                explain: localCache.get('sort')?.order?.explain || 'desc',
+                exercise: localCache.get('sort')?.order?.exercise || 'desc',
+                exerciseSet: localCache.get('sort')?.order?.exerciseSet || 'desc',
+            },
+        },
     }),
 });

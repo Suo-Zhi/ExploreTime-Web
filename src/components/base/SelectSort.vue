@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import { SettingState } from '@/store/setting/types';
-import { CacheKey } from '@/types/cacheKey';
+import { Section } from '@/store/setting/types';
 import * as icons from '@icon-park/vue-next';
 
 interface Props {
     modelValue: string; // 排序项
     order: 'asc' | 'desc'; // 排序顺序
     options: SelectOption[]; // 可选排序项
-    storeKey?: {
-        value: keyof SettingState;
-        order: keyof SettingState;
-    };
-    cacheKey?: {
-        value: CacheKey;
-        order: CacheKey;
-    };
+    storeKey?: Section;
+    cacheKey?: Section;
 }
 
 interface SelectOption {
@@ -33,16 +26,23 @@ const label = computed(() => {
 });
 
 const emit = defineEmits(['update:modelValue', 'update:order', 'change']);
-// 切换选项 & 持久化存储
+
+// 切换排序项
 const changeValueHandle = (e: any) => {
     // 同步值
     emit('update:modelValue', e);
     // 触发变动事件
     emit('change');
     // 持久化存储
-    if (props.storeKey?.value) store.setting()[props.storeKey.value] = e as never;
-    if (props.cacheKey?.value) localCache.set(props.cacheKey.value, e);
+    if (props.storeKey) store.setting().sort.field[props.storeKey] = e;
+    if (props.cacheKey) {
+        let sort = store.setting().sort;
+        sort.field[props.cacheKey] = e;
+        localCache.set('sort', sort);
+    }
 };
+
+// 切换排序规则
 const changeOrderHandle = () => {
     // 同步值
     const newOrder = props.order === 'asc' ? 'desc' : 'asc';
@@ -50,8 +50,12 @@ const changeOrderHandle = () => {
     // 触发变动事件
     emit('change');
     // 持久化存储
-    if (props.storeKey?.order) store.setting()[props.storeKey.order] = newOrder as never;
-    if (props.cacheKey?.order) localCache.set(props.cacheKey.order, newOrder);
+    if (props.storeKey) store.setting().sort.order[props.storeKey] = newOrder;
+    if (props.cacheKey) {
+        let sort = store.setting().sort;
+        sort.order[props.cacheKey] = newOrder;
+        localCache.set('sort', sort);
+    }
 };
 </script>
 
