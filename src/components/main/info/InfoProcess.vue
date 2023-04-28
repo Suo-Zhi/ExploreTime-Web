@@ -15,10 +15,10 @@ const sortOptions = [
 ];
 
 // 筛选
-const filter = ref('false');
+const filter = ref('');
 const filterOptions = [
     { label: '全部', value: 'all' },
-    { label: '待整理', value: 'false' },
+    { label: '待整理', value: '' },
     { label: '已整理', value: 'true' },
 ];
 
@@ -40,6 +40,13 @@ const removeHandle = async (index: number) => {
     await api.info.remove(target.id);
     target.isDel = true;
 };
+
+// 归档
+const toggleRefineHandle = async (index: number) => {
+    const target = list.value[index];
+    await api.info.toggleRefine(target.id, !target.isRefine);
+    target.isRefine = !target.isRefine;
+};
 </script>
 
 <template>
@@ -49,7 +56,7 @@ const removeHandle = async (index: number) => {
             v-for="(item, index) of list"
             :key="index"
             class="border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
-            v-show="!item.isDel"
+            v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         >
             <!-- 信息内容 -->
             <section
@@ -74,6 +81,7 @@ const removeHandle = async (index: number) => {
                         :strokeWidth="3"
                         :title="item.isRefine ? '出档' : '归档'"
                         class="action-btn hover:text-primary"
+                        @click="toggleRefineHandle(index)"
                     ></component>
                     <icon-delete
                         size="17"

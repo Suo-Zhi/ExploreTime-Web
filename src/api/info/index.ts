@@ -24,4 +24,9 @@ export default {
     delete: (id: number) => {
         return http.delete('info/' + id);
     },
+
+    // 归档
+    toggleRefine: (id: number, value: boolean) => {
+        return http.patch('info/refine' + id, { value });
+    },
 };
