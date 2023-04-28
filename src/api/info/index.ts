@@ -1,4 +1,5 @@
-import { CreateInfoDTO, FindInfoDTO, Info } from './types';
+import { CreateInfoDTO, UpdateInfoDTO } from './dto';
+import { FindInfoDTO, Info } from './types';
 
 export default {
     // 获取个人有效信息列表(包含搜索 & 排序)
@@ -28,5 +29,10 @@ export default {
     // 归档
     toggleRefine: (id: number, value: boolean) => {
         return http.patch('info/refine' + id, { value });
+    },
+
+    // 更新内容
+    updateContent: (id: number, dto: UpdateInfoDTO) => {
+        return http.patch('info/content' + id, { ...dto });
     },
 };

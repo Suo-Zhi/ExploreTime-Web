@@ -47,6 +47,15 @@ const toggleRefineHandle = async (index: number) => {
     await api.info.toggleRefine(target.id, !target.isRefine);
     target.isRefine = !target.isRefine;
 };
+
+// 更新内容
+const activeIndex = ref(-1); // 更新目标索引
+const updateHandle = async (value: any) => {
+    const target = list.value[activeIndex.value];
+    await api.info.updateContent(target.id, { content: value });
+    target.content = value;
+    activeIndex.value = -1;
+};
 </script>
 
 <template>
@@ -59,10 +68,13 @@ const toggleRefineHandle = async (index: number) => {
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         >
             <!-- 信息内容 -->
-            <section
-                v-html="item.content"
-                class="view-box w-full min-h-[8px] flex items-center leading-[24px]"
-            ></section>
+            <edit-item
+                :value="item.content"
+                :isEdit="activeIndex === index"
+                placeholder="输入有效信息..."
+                @editOpen="activeIndex = index"
+                @editClose="updateHandle"
+            ></edit-item>
 
             <!-- 卡片底部 -->
             <div class="card-footer flex justify-between items-center mt-[4px]">
