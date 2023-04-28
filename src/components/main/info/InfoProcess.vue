@@ -33,6 +33,13 @@ const findList = async (keywords: string = '') => {
 onMounted(() => {
     findList();
 });
+
+// 移除
+const removeHandle = async (index: number) => {
+    const target = list.value[index];
+    await api.info.remove(target.id);
+    target.isDel = true;
+};
 </script>
 
 <template>
@@ -42,6 +49,7 @@ onMounted(() => {
             v-for="(item, index) of list"
             :key="index"
             class="border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
+            v-show="!item.isDel"
         >
             <!-- 信息内容 -->
             <section
@@ -72,6 +80,7 @@ onMounted(() => {
                         :strokeWidth="3"
                         class="action-btn hover:text-red-600"
                         title="删除"
+                        @click="removeHandle(index)"
                     />
                 </section>
             </div>

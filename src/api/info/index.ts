@@ -10,8 +10,18 @@ export default {
         });
     },
 
-    // 新增
+    // 增
     create: (dto: CreateInfoDTO) => {
         return http.post('info', { ...dto });
+    },
+
+    // 移除
+    remove: (id: number) => {
+        return http.patch('info/remove' + id);
+    },
+
+    // 删除
+    delete: (id: number) => {
+        return http.delete('info/' + id);
     },
 };

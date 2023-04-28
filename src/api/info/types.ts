@@ -2,6 +2,7 @@ export interface Info {
     id: number; // 有效信息Id
     content: string; // 有效信息内容
     isRefine: boolean; // 是否提炼为知识点
+    isDel: boolean; // 是否删除
     authorId: string; // 作者Id
     createTime: Date; // 创建时间
     updateTime: Date; // 更新时间
