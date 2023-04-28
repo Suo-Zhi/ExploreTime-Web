@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import * as icons from '@icon-park/vue-next';
 import { Info, SortInfo } from '@/api/info/types';
 
 const isLoad = ref(false);
@@ -16,18 +17,9 @@ const sortOptions = [
 // 筛选
 const filter = ref('false');
 const filterOptions = [
-    {
-        label: '全部',
-        value: 'all',
-    },
-    {
-        label: '待整理',
-        value: 'false',
-    },
-    {
-        label: '已整理',
-        value: 'true',
-    },
+    { label: '全部', value: 'all' },
+    { label: '待整理', value: 'false' },
+    { label: '已整理', value: 'true' },
 ];
 
 // 查
@@ -36,26 +28,52 @@ const findList = async (keywords: string) => {
     isLoad.value = true;
     const res = await api.info.findMy({ keywords, sort: sort.value });
     list.value = res.data;
-    console.log(list.value);
-
     isLoad.value = false;
 };
 findList('');
-
-// 增
-const addHandle = (info: string) => {
-    console.log(info);
-};
 </script>
 
 <template>
     <common-box class="info-process" :isLoad="isLoad">
         <!-- 信息列表 -->
         <section
-            class="info-item w-full h-[100px] bg-pink-200 mb-2"
-            v-for="i in 10"
-            :key="i"
-        ></section>
+            v-for="(item, index) of list"
+            :key="index"
+            class="border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
+        >
+            <!-- 信息内容 -->
+            <section
+                v-html="item.content"
+                class="view-box w-full min-h-[8px] flex items-center leading-[24px]"
+            ></section>
+
+            <!-- 卡片底部 -->
+            <div class="card-footer flex justify-between items-center mt-[4px]">
+                <time-bar :createTime="item.createTime" :updateTime="item.updateTime"></time-bar>
+                <!-- 操作项 -->
+                <section class="action-bar">
+                    <icon-hammer-and-anvil
+                        size="17"
+                        :strokeWidth="3"
+                        class="action-btn hover:text-primary"
+                        title="提炼"
+                    />
+                    <component
+                        :is="item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
+                        size="17"
+                        :strokeWidth="3"
+                        :title="item.isRefine ? '出档' : '归档'"
+                        class="action-btn hover:text-primary"
+                    ></component>
+                    <icon-delete
+                        size="17"
+                        :strokeWidth="3"
+                        class="action-btn hover:text-red-600"
+                        title="删除"
+                    />
+                </section>
+            </div>
+        </section>
 
         <template #navLeft>
             <select-sort
@@ -77,7 +95,7 @@ const addHandle = (info: string) => {
 
         <template #extra>
             <!-- 新增信息栏 -->
-            <input-info-bar @addInfo="addHandle"></input-info-bar>
+            <input-info-bar @addInfo=""></input-info-bar>
         </template>
     </common-box>
 </template>

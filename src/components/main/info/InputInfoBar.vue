@@ -20,7 +20,7 @@ const info = ref('');
     margin: 0 8px 4px;
     width: calc(100% - 16px);
     ::v-deep .w-e-text-container {
-        border: 3px solid $color-primary;
+        border: 2px solid $color-primary;
         border-radius: 10px;
     }
 }
