@@ -8,14 +8,18 @@ const props = withDefaults(defineProps<Props>(), {
     isEdit: false,
 });
 
-const newValue = ref(props.value);
+const newValue = ref('');
 </script>
 
 <template>
     <section class="edit-item w-full">
         <!-- 编辑模式 -->
         <div v-if="props.isEdit" class="relative z-50">
-            <cus-editor :placeholder="props.placeholder" v-model="newValue"></cus-editor>
+            <cus-editor
+                :placeholder="props.placeholder"
+                :model-value="props.value"
+                @change="newValue = $event"
+            ></cus-editor>
         </div>
 
         <!-- 浏览模式 -->

@@ -118,7 +118,10 @@ defineExpose({
             mode="simple"
             :model-value="props.modelValue"
             @onCreated="editorRef = $event"
-            @onChange="$emit('update:modelValue', $event.getHtml())"
+            @onChange="
+                $emit('update:modelValue', $event.getHtml());
+                $emit('change', $event.getHtml());
+            "
         />
     </section>
 </template>
