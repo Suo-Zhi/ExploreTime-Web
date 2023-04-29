@@ -1,5 +1,5 @@
-import { CreateInfoDTO, UpdateInfoDTO } from './dto';
-import { FindInfoDTO, Info } from './types';
+import { CreateInfoDTO, FindInfoDTO, UpdateInfoDTO } from './dto';
+import { Info } from './types';
 
 export default {
     // 获取个人有效信息列表(包含搜索 & 排序)

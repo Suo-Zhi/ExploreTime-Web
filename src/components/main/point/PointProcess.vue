@@ -21,19 +21,18 @@ const filterOptions = [
     { label: '已整理', value: 'true' },
 ];
 
-const list = ref<Point[]>([
-    {
-        id: 1,
-        name: '6',
-        content: '666666666666',
-        isRefine: false,
-        isDel: false,
-        authorId: 'tom',
-        createTime: new Date(),
-        updateTime: new Date(),
-    },
-]);
+// 查
+const list = ref<Point[]>([]);
 const keywords = ref('');
+const findList = async () => {
+    isLoad.value = true;
+    const res = await api.point.findMy({ keywords: keywords.value, sort: sort.value });
+    list.value = res.data;
+    isLoad.value = false;
+};
+onMounted(() => {
+    findList();
+});
 </script>
 
 <template>
@@ -44,6 +43,7 @@ const keywords = ref('');
             :key="index"
             :item="item"
             :isEdit="{ name: false, content: false }"
+            v-show="item.isRefine === Boolean(filter) || filter === 'all'"
         ></point-item>
 
         <template #navLeft>
@@ -53,6 +53,7 @@ const keywords = ref('');
                 :options="sortOptions"
                 storeKey="point"
                 cacheKey="point"
+                @change="findList"
             ></select-sort>
             <select-type
                 v-model="filter"
@@ -62,7 +63,7 @@ const keywords = ref('');
         </template>
 
         <template #navRight>
-            <search-bar v-model="keywords"></search-bar>
+            <search-bar v-model="keywords" @search="findList"></search-bar>
             <add-button title="新增知识点"></add-button>
         </template>
     </common-box>
