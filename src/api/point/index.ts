@@ -1,4 +1,4 @@
-import { FindPointDTO, UpdatePointDTO } from './dto';
+import { CreatePointDTO, FindPointDTO, UpdatePointDTO } from './dto';
 import { Point } from './types';
 
 export default {
@@ -24,5 +24,10 @@ export default {
     // 更新
     updateBody: (id: number, dto: UpdatePointDTO) => {
         return http.patch('point/body' + id, { ...dto });
+    },
+
+    // 新增
+    create: (dto: CreatePointDTO) => {
+        return http.post('point', { ...dto });
     },
 };

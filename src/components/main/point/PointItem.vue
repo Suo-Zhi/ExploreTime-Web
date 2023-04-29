@@ -23,7 +23,7 @@ const toggleRefineHandle = async () => {
 };
 
 // 编辑目标
-const editTarget = ref<'all' | 'name' | 'content'>('name');
+const editTarget = ref<'all' | 'name' | 'content'>('all'); // 默认为all在新增时才能同时编辑名和内容
 
 // 新值
 const newValue = ref({
@@ -32,14 +32,31 @@ const newValue = ref({
     content: '',
 });
 
+const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
+
 // 编辑完成后需进行的处理
-const emit = defineEmits(['active', 'update']);
 const editCloseHandle = () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, 'text'))
+        return store.global().prompt('知识点名不能为空', 'warning');
     // 补全未修改的值
     if (editTarget.value === 'name') newValue.value.content = props.item.content;
     else if (editTarget.value === 'content') newValue.value.name = props.item.name;
-    // 调用更新事件
-    emit('update', newValue.value);
+    // 调用新增或更新事件
+    if (props.item.id === -1) create();
+    else emit('update', newValue.value);
+};
+
+// 新增知识点
+const create = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, 'text'))
+        return store.global().prompt('知识点名不能为空', 'warning');
+
+    await api.point.create(newValue.value).then(() => {
+        emit('refresh');
+    });
+    emit('blur');
 };
 </script>
 

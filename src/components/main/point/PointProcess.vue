@@ -55,6 +55,23 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
     });
     activeIndex.value = -1;
 };
+
+// 点击新增按钮
+const clickAddHandle = () => {
+    // 列表顶部插入空白项
+    list.value.unshift({
+        id: -1,
+        name: '',
+        content: '',
+        isRefine: false,
+        isDel: false,
+        authorId: store.user().userinfo?.id || '',
+        createTime: new Date(),
+        updateTime: new Date(),
+    });
+    // 激活新空白项
+    activeIndex.value = 0;
+};
 </script>
 
 <template>
@@ -66,7 +83,9 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
             :item="item"
             :isEdit="activeIndex === index"
             @active="activeIndex = index"
+            @blur="activeIndex = -1"
             @update="updateHandle"
+            @refresh="findList"
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         ></point-item>
 
@@ -88,7 +107,7 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
 
         <template #navRight>
             <search-bar v-model="keywords" @search="findList"></search-bar>
-            <add-button title="新增知识点"></add-button>
+            <add-button title="新增知识点" @click="clickAddHandle"></add-button>
         </template>
     </common-box>
 </template>
