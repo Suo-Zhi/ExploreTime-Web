@@ -10,11 +10,6 @@ export interface Info {
     updateTime: Date; // 更新时间
 }
 
-export interface FindInfoDTO {
-    keywords: string; // 搜索关键字
-    sort: SortInfo;
-}
-
 export interface SortInfo {
     field: SortField;
     order: SortOrder;
