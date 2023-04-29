@@ -35,7 +35,7 @@ const newValue = ref({
 const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
 // 编辑完成后需进行的处理
-const editCloseHandle = () => {
+const editEndHandle = () => {
     // 判空
     if (tool.isEmpty(newValue.value.name, 'text'))
         return store.global().prompt('知识点名不能为空', 'warning');
@@ -75,12 +75,12 @@ const create = async () => {
                     type="text"
                     :value="props.item.name"
                     :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
-                    @editOpen="
+                    @editStart="
                         $emit('active');
                         editTarget = 'name';
                     "
                     @changeValue="newValue.name = $event"
-                    @editClose="editCloseHandle"
+                    @editEnd="editEndHandle"
                     placeholder="请输入知识点名"
                 ></edit-item>
             </div>
@@ -107,12 +107,12 @@ const create = async () => {
             <edit-item
                 :value="props.item.content"
                 :isEdit="props.isEdit && (editTarget === 'content' || editTarget === 'all')"
-                @editOpen="
+                @editStart="
                     $emit('active');
                     editTarget = 'content';
                 "
                 @changeValue="newValue.content = $event"
-                @editClose="editCloseHandle"
+                @editEnd="editEndHandle"
                 placeholder="请输入知识点内容"
             ></edit-item>
         </div>

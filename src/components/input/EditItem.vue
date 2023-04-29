@@ -26,7 +26,7 @@ const newValue = ref('');
                     newValue = $event;
                     $emit('changeValue', newValue);
                 "
-                @keydown.ctrl.enter="$emit('editClose', newValue)"
+                @keydown.ctrl.enter="$emit('editEnd', newValue)"
             ></cus-editor>
             <!-- 普通文本编辑框: 注意:value那里 -->
             <input
@@ -39,7 +39,7 @@ const newValue = ref('');
                     newValue = ($event.target as HTMLInputElement).value;
                     $emit('changeValue', newValue);
                 "
-                @keydown.ctrl.enter="$emit('editClose', newValue)"
+                @keydown.ctrl.enter="$emit('editEnd', newValue)"
                 class="w-full h-[24px] bg-white border-b border-primary ring-0 outline-none text-[14px]"
             />
         </div>
@@ -49,14 +49,14 @@ const newValue = ref('');
             v-else
             v-html="props.value"
             class="view-box w-full h-full min-h-[8px]"
-            @dblclick.stop="$emit('editOpen')"
+            @dblclick.stop="$emit('editStart')"
         ></div>
 
         <!-- 编辑蒙版 -->
         <div
             class="fixed min-h-screen w-screen bg-transparent z-40 top-0 left-0"
             :class="isEdit ? 'block' : 'hidden'"
-            @dblclick.stop="$emit('editClose', newValue)"
+            @dblclick.stop="$emit('editEnd', newValue)"
         ></div>
     </section>
 </template>

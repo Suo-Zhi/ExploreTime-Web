@@ -33,8 +33,8 @@ const toggleRefineHandle = async () => {
             :value="item.content"
             :isEdit="props.isEdit"
             placeholder="输入有效信息..."
-            @editOpen="$emit('active')"
-            @editClose="$emit('updateContent', $event)"
+            @editStart="$emit('active')"
+            @editEnd="$emit('updateContent', $event)"
         ></edit-item>
 
         <!-- 卡片底部 -->
