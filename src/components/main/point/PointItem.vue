@@ -13,8 +13,16 @@ const props = withDefaults(defineProps<Props>(), {});
 
 // 移除
 const removeHandle = async () => {
-    await api.point.remove(props.item.id);
-    props.item.isDel = true;
+    await api.point.remove(props.item.id).then(() => {
+        props.item.isDel = true;
+    });
+};
+
+// 归档
+const toggleRefineHandle = async () => {
+    await api.point.toggleRefine(props.item.id, !props.item.isRefine).then(() => {
+        props.item.isRefine = !props.item.isRefine;
+    });
 };
 </script>
 
@@ -76,6 +84,7 @@ const removeHandle = async () => {
                     :strokeWidth="3"
                     :title="props.item.isRefine ? '还需处理' : '处理完成'"
                     class="action-btn hover:text-primary"
+                    @click="toggleRefineHandle"
                 ></component>
                 <icon-delete
                     size="17"

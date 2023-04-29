@@ -15,4 +15,9 @@ export default {
     remove: (id: number) => {
         return http.patch('point/remove' + id);
     },
+
+    // 归档
+    toggleRefine: (id: number, value: boolean) => {
+        return http.patch('point/refine' + id, { value });
+    },
 };
