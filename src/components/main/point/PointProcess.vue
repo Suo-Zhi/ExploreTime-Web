@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Point, SortPoint } from '@/api/point/types';
-import * as icons from '@icon-park/vue-next';
 
 const isLoad = ref(false);
 
@@ -40,51 +39,20 @@ const keywords = ref('');
 <template>
     <common-box class="point-process" :isLoad="isLoad">
         <!-- 知识点列表 -->
-        <section
-            v-for="(item, index) in list"
+        <point-item
+            v-for="(item, index) of list"
             :key="index"
-            class="border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
-        >
-            <!-- 知识点名 -->
-            <div class="point-name">{{ item.name }}</div>
-            <!-- 知识点内容 -->
-            <div v-html="item.content"></div>
-
-            <!-- 卡片底部 -->
-            <div class="card-footer flex justify-between items-center mt-[4px]">
-                <time-bar :createTime="item.createTime" :updateTime="item.updateTime"></time-bar>
-                <!-- 操作项 -->
-                <section class="action-bar">
-                    <icon-link
-                        size="17"
-                        :strokeWidth="3"
-                        class="action-btn hover:text-primary"
-                        title="查看关联项"
-                    />
-                    <component
-                        :is="item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
-                        size="17"
-                        :strokeWidth="3"
-                        :title="item.isRefine ? '还需处理' : '处理完成'"
-                        class="action-btn hover:text-primary"
-                    ></component>
-                    <icon-delete
-                        size="17"
-                        :strokeWidth="3"
-                        class="action-btn hover:text-red-600"
-                        title="删除"
-                    />
-                </section>
-            </div>
-        </section>
+            :item="item"
+            :isEdit="{ name: false, content: false }"
+        ></point-item>
 
         <template #navLeft>
             <select-sort
                 v-model="sort.field"
                 v-model:order="sort.order"
                 :options="sortOptions"
-                storeKey="info"
-                cacheKey="info"
+                storeKey="point"
+                cacheKey="point"
             ></select-sort>
             <select-type
                 v-model="filter"
