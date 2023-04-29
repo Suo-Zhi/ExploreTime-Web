@@ -43,7 +43,7 @@ onMounted(() => {
             :key="index"
             :item="item"
             :isEdit="{ name: false, content: false }"
-            v-show="item.isRefine === Boolean(filter) || filter === 'all'"
+            v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         ></point-item>
 
         <template #navLeft>

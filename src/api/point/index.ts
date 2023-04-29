@@ -10,4 +10,9 @@ export default {
             },
         });
     },
+
+    // 移除
+    remove: (id: number) => {
+        return http.patch('point/remove' + id);
+    },
 };

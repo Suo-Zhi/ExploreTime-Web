@@ -10,6 +10,12 @@ interface Props {
     };
 }
 const props = withDefaults(defineProps<Props>(), {});
+
+// 移除
+const removeHandle = async () => {
+    await api.point.remove(props.item.id);
+    props.item.isDel = true;
+};
 </script>
 
 <template>
@@ -76,6 +82,7 @@ const props = withDefaults(defineProps<Props>(), {});
                     :strokeWidth="3"
                     class="action-btn hover:text-red-600"
                     title="删除"
+                    @click="removeHandle"
                 />
             </section>
         </div>
