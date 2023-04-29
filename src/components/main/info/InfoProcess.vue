@@ -27,9 +27,14 @@ const list = ref<Info[]>([]);
 const keywords = ref('');
 const findList = async () => {
     isLoad.value = true;
-    const res = await api.info.findMy({ keywords: keywords.value, sort: sort.value });
-    list.value = res.data;
-    isLoad.value = false;
+    await api.info
+        .findMy({ keywords: keywords.value, sort: sort.value })
+        .then((res) => {
+            list.value = res.data;
+        })
+        .finally(() => {
+            isLoad.value = false;
+        });
 };
 onMounted(() => {
     findList();
@@ -38,25 +43,27 @@ onMounted(() => {
 // 移除
 const removeHandle = async (index: number) => {
     const target = list.value[index];
-    await api.info.remove(target.id);
-    target.isDel = true;
+    await api.info.remove(target.id).then(() => {
+        target.isDel = true;
+    });
 };
 
 // 归档
 const toggleRefineHandle = async (index: number) => {
     const target = list.value[index];
-    await api.info.toggleRefine(target.id, !target.isRefine);
-    target.isRefine = !target.isRefine;
+    await api.info.toggleRefine(target.id, !target.isRefine).then(() => {
+        target.isRefine = !target.isRefine;
+    });
 };
 
 // 更新内容
 const activeIndex = ref(-1); // 更新目标索引
 const updateHandle = async (value: any) => {
     const target = list.value[activeIndex.value];
-    await api.info.updateContent(target.id, { content: value });
-    // 刷新
-    if (keywords.value) findList();
-    else target.content = value;
+    await api.info.updateContent(target.id, { content: value }).then(() => {
+        if (keywords.value) findList();
+        else target.content = value;
+    });
     activeIndex.value = -1;
 };
 </script>

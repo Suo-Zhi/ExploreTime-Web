@@ -26,9 +26,15 @@ const list = ref<Point[]>([]);
 const keywords = ref('');
 const findList = async () => {
     isLoad.value = true;
-    const res = await api.point.findMy({ keywords: keywords.value, sort: sort.value });
-    list.value = res.data;
-    isLoad.value = false;
+
+    await api.point
+        .findMy({ keywords: keywords.value, sort: sort.value })
+        .then((res) => {
+            list.value = res.data;
+        })
+        .finally(() => {
+            isLoad.value = false;
+        });
 };
 onMounted(() => {
     findList();

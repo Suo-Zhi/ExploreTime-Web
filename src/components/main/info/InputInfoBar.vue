@@ -8,12 +8,10 @@ const confirmHandle = async () => {
     if (tool.isEmpty(info.value)) return store.global().prompt('请输入有效信息', 'warning');
 
     // 新增信息
-    await api.info.create({ content: info.value });
-
-    // 清空输入框
-    editorRef.value?.clear();
-    // 刷新信息列表
-    emit('refreshList');
+    await api.info.create({ content: info.value }).then(() => {
+        editorRef.value?.clear(); // 清空输入框
+        emit('refreshList'); // 刷新信息列表
+    });
 };
 </script>
 

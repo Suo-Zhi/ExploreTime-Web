@@ -15,8 +15,9 @@ const interceptRoute = async (to: RouteLocationNormalized, from: RouteLocationNo
         // 拦截游客
         if (!token) return { name: 'login' };
         // 获取最新用户信息
-        const res = await api.auth.getCurrentUserInfo();
-        store.user().userinfo = res.data;
+        await api.auth.getCurrentUserInfo().then((res) => {
+            store.user().userinfo = res.data;
+        });
     }
     // 路由不允许登录用户访问则跳转回原页面
     if (to.meta.guest && token) return from;
