@@ -24,9 +24,10 @@ const filterOptions = [
 
 // 查
 const list = ref<Info[]>([]);
-const findList = async (keywords: string = '') => {
+const keywords = ref('');
+const findList = async () => {
     isLoad.value = true;
-    const res = await api.info.findMy({ keywords, sort: sort.value });
+    const res = await api.info.findMy({ keywords: keywords.value, sort: sort.value });
     list.value = res.data;
     isLoad.value = false;
 };
@@ -53,7 +54,9 @@ const activeIndex = ref(-1); // 更新目标索引
 const updateHandle = async (value: any) => {
     const target = list.value[activeIndex.value];
     await api.info.updateContent(target.id, { content: value });
-    target.content = value;
+    // 刷新
+    if (keywords.value) findList();
+    else target.content = value;
     activeIndex.value = -1;
 };
 </script>
@@ -123,7 +126,7 @@ const updateHandle = async (value: any) => {
         </template>
 
         <template #navRight>
-            <search-bar @search="findList"></search-bar>
+            <search-bar v-model="keywords" @search="findList"></search-bar>
         </template>
 
         <template #extra>
