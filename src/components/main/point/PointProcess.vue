@@ -40,6 +40,9 @@ const findList = async () => {
 onMounted(() => {
     findList();
 });
+defineExpose({
+    findList,
+});
 
 // 更新
 const activeIndex = ref(-1);

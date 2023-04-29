@@ -47,6 +47,7 @@ const toggleRefineHandle = async () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="提炼"
+                    @click="$emit('refine')"
                 />
                 <component
                     :is="item.isRefine ? icons['InboxOut'] : icons['InboxIn']"

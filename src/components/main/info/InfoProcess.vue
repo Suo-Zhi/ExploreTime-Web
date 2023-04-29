@@ -3,6 +3,9 @@ import { Info, SortInfo } from '@/api/info/types';
 
 const isLoad = ref(false);
 
+const isShowRefineModel = ref(false); // 是否显示提炼框
+const refineItem = ref<Info>();
+
 // 排序
 const sort = ref<SortInfo>({
     field: store.setting().sort.field.info,
@@ -61,6 +64,10 @@ const updateHandle = async (value: any) => {
             :isEdit="activeIndex === index"
             @active="activeIndex = index"
             @updateContent="updateHandle"
+            @refine="
+                refineItem = item;
+                isShowRefineModel = true;
+            "
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         ></info-item>
 
@@ -87,6 +94,14 @@ const updateHandle = async (value: any) => {
         <template #extra>
             <!-- 新增信息栏 -->
             <input-info-bar @refreshList="findList"></input-info-bar>
+            <!-- 有效信息提炼框 -->
+            <refine-info-modal
+                v-if="refineItem"
+                v-model:isShow="isShowRefineModel"
+                :id="refineItem.id"
+                v-model:content="refineItem.content"
+                @refresh="findList"
+            ></refine-info-modal>
         </template>
     </common-box>
 </template>

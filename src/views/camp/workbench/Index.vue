@@ -29,6 +29,15 @@ const realCompoent = reactive<any>({
         defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))
     ),
 });
+
+/* 刷新数据 */
+// 获取刷新知识点列表的方法
+const pointBoxRef = ref<any>(null);
+const refreshPointBox = () => {
+    if (pointBoxRef.value) pointBoxRef.value.findList();
+};
+// 依赖注入
+provide('refreshPointBox', refreshPointBox);
 </script>
 
 <template>
@@ -143,11 +152,19 @@ const realCompoent = reactive<any>({
         <main class="main flex-1 relative overflow-hidden">
             <split-screen>
                 <template #left>
-                    <component v-if="screen.left" :is="realCompoent[screen.left]"></component>
+                    <component
+                        v-if="screen.left"
+                        :is="realCompoent[screen.left]"
+                        :ref="`${screen.left}BoxRef`"
+                    ></component>
                     <empty-screen v-else></empty-screen>
                 </template>
                 <template #right>
-                    <component v-if="screen.right" :is="realCompoent[screen.right]"></component>
+                    <component
+                        v-if="screen.right"
+                        :is="realCompoent[screen.right]"
+                        :ref="`${screen.right}BoxRef`"
+                    ></component>
                     <empty-screen v-else></empty-screen>
                 </template>
             </split-screen>
