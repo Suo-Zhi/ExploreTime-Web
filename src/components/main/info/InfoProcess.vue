@@ -93,7 +93,7 @@ const updateHandle = async (value: any) => {
 
         <template #extra>
             <!-- 新增信息栏 -->
-            <input-info-bar @refreshList="findList"></input-info-bar>
+            <add-info-bar @refreshList="findList"></add-info-bar>
             <!-- 有效信息提炼框 -->
             <refine-info-modal
                 v-if="refineItem"

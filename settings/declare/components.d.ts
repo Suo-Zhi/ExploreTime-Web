@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ACard: typeof import('@arco-design/web-vue')['Card']
     AddButton: typeof import('./../../src/components/main/common/AddButton.vue')['default']
     AddButtonNav: typeof import('./../../src/components/main/common/AddButtonNav.vue')['default']
+    AddInfoBar: typeof import('./../../src/components/main/info/AddInfoBar.vue')['default']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AInput: typeof import('@arco-design/web-vue')['Input']
