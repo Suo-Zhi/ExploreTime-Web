@@ -7,14 +7,15 @@ export const tool = {
     },
 
     // 判空
-    isEmpty: (content: string, type: 'text' | 'rich' = 'rich') => {
+    isEmpty: (content: string, prompt: string, type: 'text' | 'rich' = 'rich') => {
         if (type === 'rich') {
             content = content
-                .replace('<p>', '')
-                .replace('</p>', '')
-                .replace('&nbsp;', '')
-                .replace('<br>', '');
+                .replace(/<p>/g, '')
+                .replace(/<\/p>/g, '')
+                .replace(/&nbsp;/g, '')
+                .replace(/<br>/g, '');
         }
+        if (content.trim() === '') store.global().prompt(`${prompt}不能为空`, 'warning');
         return content.trim() === '';
     },
 };

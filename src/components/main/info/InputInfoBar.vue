@@ -5,7 +5,7 @@ const editorRef = ref<any>(null);
 const emit = defineEmits(['refreshList']);
 const confirmHandle = async () => {
     // 判空
-    if (tool.isEmpty(info.value)) return store.global().prompt('请输入有效信息', 'warning');
+    if (tool.isEmpty(info.value, '有效信息')) return;
 
     // 新增信息
     await api.info.create({ content: info.value }).then(() => {

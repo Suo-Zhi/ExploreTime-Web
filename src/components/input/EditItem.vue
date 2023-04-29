@@ -11,6 +11,18 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const newValue = ref('');
+
+// 初始化input值
+const emit = defineEmits(['changeValue', 'editStart', 'editEnd']);
+watch(
+    () => props.isEdit,
+    () => {
+        if (props.isEdit) {
+            newValue.value = props.value;
+            emit('changeValue', newValue.value);
+        }
+    }
+);
 </script>
 
 <template>
@@ -33,7 +45,7 @@ const newValue = ref('');
                 v-else
                 autofocus
                 type="text"
-                :value="newValue || props.value"
+                :value="newValue"
                 :placeholder="props.placeholder"
                 @input="
                     newValue = ($event.target as HTMLInputElement).value;

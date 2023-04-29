@@ -13,8 +13,7 @@ const emit = defineEmits(['update:isShow', 'update:content', 'refresh']);
 const refreshPointBox: any = inject('refreshPointBox');
 const refineToPointHandle = async () => {
     // 判空
-    if (tool.isEmpty(name.value, 'text'))
-        return store.global().prompt('知识点名不能为空', 'warning');
+    if (tool.isEmpty(name.value, '知识点名', 'text')) return;
     // 新增知识点
     await api.point.create({ name: name.value, content: props.content }).then(async () => {
         refreshPointBox(); // 刷新知识点列表

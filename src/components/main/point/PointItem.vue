@@ -36,12 +36,11 @@ const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
 // 编辑完成后需进行的处理
 const editEndHandle = () => {
-    // 判空
-    if (tool.isEmpty(newValue.value.name, 'text'))
-        return store.global().prompt('知识点名不能为空', 'warning');
     // 补全未修改的值
     if (editTarget.value === 'name') newValue.value.content = props.item.content;
     else if (editTarget.value === 'content') newValue.value.name = props.item.name;
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return (newValue.value.content = '');
     // 调用新增或更新事件
     if (props.item.id === -1) create();
     else emit('update', newValue.value);
@@ -50,8 +49,7 @@ const editEndHandle = () => {
 // 新增知识点
 const create = async () => {
     // 判空
-    if (tool.isEmpty(newValue.value.name, 'text'))
-        return store.global().prompt('知识点名不能为空', 'warning');
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
 
     await api.point.create(newValue.value).then(() => {
         emit('refresh');
@@ -70,7 +68,7 @@ const create = async () => {
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
             <!-- 知识点名 -->
-            <div class="point-title">
+            <div class="point-title min-w-[170px]">
                 <edit-item
                     type="text"
                     :value="props.item.name"
