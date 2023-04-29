@@ -19,6 +19,7 @@ const newValue = ref('');
                 :placeholder="props.placeholder"
                 :model-value="props.value"
                 @change="newValue = $event"
+                @keydown.ctrl.enter="$emit('editClose', newValue)"
             ></cus-editor>
         </div>
 
@@ -34,7 +35,7 @@ const newValue = ref('');
         <div
             class="fixed min-h-screen w-screen bg-transparent z-40 top-0 left-0"
             :class="isEdit ? 'block' : 'hidden'"
-            @dblclick="$emit('editClose', newValue)"
+            @dblclick.stop="$emit('editClose', newValue)"
         ></div>
     </section>
 </template>
