@@ -1,4 +1,4 @@
-import { FindPointDTO } from './dto';
+import { FindPointDTO, UpdatePointDTO } from './dto';
 import { Point } from './types';
 
 export default {
@@ -19,5 +19,10 @@ export default {
     // 归档
     toggleRefine: (id: number, value: boolean) => {
         return http.patch('point/refine' + id, { value });
+    },
+
+    // 更新
+    updateBody: (id: number, dto: UpdatePointDTO) => {
+        return http.patch('point/body' + id, { ...dto });
     },
 };

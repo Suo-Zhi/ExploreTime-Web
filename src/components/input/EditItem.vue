@@ -3,9 +3,11 @@ interface Props {
     value: string; // 显示值
     isEdit: boolean; // 是否切换为编辑状态
     placeholder: string;
+    type?: 'rich' | 'text'; // 编辑框类型（富文本 | 普通文本）
 }
 const props = withDefaults(defineProps<Props>(), {
     isEdit: false,
+    type: 'rich',
 });
 
 const newValue = ref('');
@@ -15,12 +17,31 @@ const newValue = ref('');
     <section class="edit-item w-full">
         <!-- 编辑模式 -->
         <div v-if="props.isEdit" class="relative z-50">
+            <!-- 富文本编辑框 -->
             <cus-editor
+                v-if="props.type === 'rich'"
                 :placeholder="props.placeholder"
                 :model-value="props.value"
-                @change="newValue = $event"
+                @change="
+                    newValue = $event;
+                    $emit('changeValue', newValue);
+                "
                 @keydown.ctrl.enter="$emit('editClose', newValue)"
             ></cus-editor>
+            <!-- 普通文本编辑框: 注意:value那里 -->
+            <input
+                v-else
+                autofocus
+                type="text"
+                :value="newValue || props.value"
+                :placeholder="props.placeholder"
+                @input="
+                    newValue = ($event.target as HTMLInputElement).value;
+                    $emit('changeValue', newValue);
+                "
+                @keydown.ctrl.enter="$emit('editClose', newValue)"
+                class="w-full h-[24px] bg-white border-b border-primary ring-0 outline-none text-[14px]"
+            />
         </div>
 
         <!-- 浏览模式 -->

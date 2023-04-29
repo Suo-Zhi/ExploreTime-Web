@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UpdatePointDTO } from '@/api/point/dto';
 import { Point, SortPoint } from '@/api/point/types';
 
 const isLoad = ref(false);
@@ -39,6 +40,21 @@ const findList = async () => {
 onMounted(() => {
     findList();
 });
+
+// 更新
+const activeIndex = ref(-1);
+const updateHandle = async (newValue: UpdatePointDTO) => {
+    const target = list.value[activeIndex.value];
+    await api.point.updateBody(target.id, newValue).then(() => {
+        // 处于搜索中则刷新列表，反之简易处理
+        if (keywords.value) findList();
+        else {
+            target.name = newValue.name;
+            target.content = newValue.content;
+        }
+    });
+    activeIndex.value = -1;
+};
 </script>
 
 <template>
@@ -48,7 +64,9 @@ onMounted(() => {
             v-for="(item, index) of list"
             :key="index"
             :item="item"
-            :isEdit="{ name: false, content: false }"
+            :isEdit="activeIndex === index"
+            @active="activeIndex = index"
+            @update="updateHandle"
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         ></point-item>
 

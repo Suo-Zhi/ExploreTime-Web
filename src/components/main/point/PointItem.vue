@@ -4,10 +4,7 @@ import * as icons from '@icon-park/vue-next';
 
 interface Props {
     item: Point;
-    isEdit: {
-        name: boolean;
-        content: boolean;
-    };
+    isEdit: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -24,6 +21,26 @@ const toggleRefineHandle = async () => {
         props.item.isRefine = !props.item.isRefine;
     });
 };
+
+// 编辑目标
+const editTarget = ref<'all' | 'name' | 'content'>('name');
+
+// 新值
+const newValue = ref({
+    // 别直接等于props
+    name: '',
+    content: '',
+});
+
+// 编辑完成后需进行的处理
+const emit = defineEmits(['active', 'update']);
+const editCloseHandle = () => {
+    // 补全未修改的值
+    if (editTarget.value === 'name') newValue.value.content = props.item.content;
+    else if (editTarget.value === 'content') newValue.value.name = props.item.name;
+    // 调用更新事件
+    emit('update', newValue.value);
+};
 </script>
 
 <template>
@@ -32,14 +49,21 @@ const toggleRefineHandle = async () => {
         class="point-item flex flex-col border border-gray-200 rounded-sm pt-2 pb-2 mb-2 hover:shadow-md duration-300"
     >
         <!-- 顶部 -->
-        <section
+        <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
             <!-- 知识点名 -->
             <div class="point-title">
                 <edit-item
+                    type="text"
                     :value="props.item.name"
-                    :isEdit="props.isEdit.name"
+                    :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
+                    @editOpen="
+                        $emit('active');
+                        editTarget = 'name';
+                    "
+                    @changeValue="newValue.name = $event"
+                    @editClose="editCloseHandle"
                     placeholder="请输入知识点名"
                 ></edit-item>
             </div>
@@ -58,14 +82,20 @@ const toggleRefineHandle = async () => {
                     title="查看反馈"
                 />
             </section>
-        </section>
+        </div>
 
         <!-- 中部主体 -->
         <div class="card-body point-content my-2 px-3">
             <!-- 知识点内容 -->
             <edit-item
                 :value="props.item.content"
-                :isEdit="props.isEdit.content"
+                :isEdit="props.isEdit && (editTarget === 'content' || editTarget === 'all')"
+                @editOpen="
+                    $emit('active');
+                    editTarget = 'content';
+                "
+                @changeValue="newValue.content = $event"
+                @editClose="editCloseHandle"
                 placeholder="请输入知识点内容"
             ></edit-item>
         </div>
