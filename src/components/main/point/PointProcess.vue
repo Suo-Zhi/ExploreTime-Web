@@ -95,11 +95,7 @@ const keywords = ref('');
 
         <template #navRight>
             <search-bar v-model="keywords"></search-bar>
-            <a-button type="primary" size="mini" title="新增知识点" class="ml-2">
-                <template #icon>
-                    <icon-plus />
-                </template>
-            </a-button>
+            <add-button title="新增知识点"></add-button>
         </template>
     </common-box>
 </template>
