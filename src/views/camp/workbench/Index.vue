@@ -6,17 +6,15 @@ const screen = ref(store.setting().screen);
 
 // 切换显示组件
 const switchSection = (section: Section) => {
-    // 原本显示则不显示
-    if (screen.value.left === section) return (screen.value.left = '');
-    if (screen.value.right === section) return (screen.value.right = '');
-
-    // 原本不显示则显示
-    const { nextScreen } = store.setting();
-    screen.value[nextScreen] = section;
+    // 其中一屏有该组件，则清空该屏
+    if (screen.value.left === section) screen.value.left = '';
+    else if (screen.value.right === section) screen.value.right = '';
+    // 两屏均无该组件，则在目标屏放置该组件
+    else screen.value[store.setting().nextScreen] = section;
 
     // 持久化存储
-    localCache.set(`${nextScreen}Screen`, section);
-    store.setting().screen[nextScreen] = section;
+    localCache.set('screen', screen.value);
+    store.setting().screen = screen.value;
 };
 
 // 需显示的真实组件
@@ -145,10 +143,12 @@ const realCompoent = reactive<any>({
         <main class="main flex-1 relative overflow-hidden">
             <split-screen>
                 <template #left>
-                    <component :is="realCompoent[screen.left]"></component>
+                    <component v-if="screen.left" :is="realCompoent[screen.left]"></component>
+                    <empty-screen v-else></empty-screen>
                 </template>
                 <template #right>
-                    <component :is="realCompoent[screen.right]"></component>
+                    <component v-if="screen.right" :is="realCompoent[screen.right]"></component>
+                    <empty-screen v-else></empty-screen>
                 </template>
             </split-screen>
         </main>

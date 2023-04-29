@@ -42,6 +42,8 @@ declare module '@vue/runtime-core' {
     DoughnutChart: typeof import('./../../src/views/camp/dashboard/components/DoughnutChart.vue')['default']
     DropSelect: typeof import('./../../src/components/base/DropSelect.vue')['default']
     EditItem: typeof import('./../../src/components/input/EditItem.vue')['default']
+    EmptyScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptyScreen.vue')['default']
+    EmptySection: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptySection.vue')['default']
     FormItem: typeof import('./../../src/components/input/FormItem.vue')['default']
     IconChristmasTreeOne: typeof import('@icon-park/vue-next')['ChristmasTreeOne']
     IconDelete: typeof import('@icon-park/vue-next')['Delete']
