@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as icons from '@icon-park/vue-next';
 import { Info, SortInfo } from '@/api/info/types';
 
 const isLoad = ref(false);
@@ -40,24 +39,8 @@ onMounted(() => {
     findList();
 });
 
-// 移除
-const removeHandle = async (index: number) => {
-    const target = list.value[index];
-    await api.info.remove(target.id).then(() => {
-        target.isDel = true;
-    });
-};
-
-// 归档
-const toggleRefineHandle = async (index: number) => {
-    const target = list.value[index];
-    await api.info.toggleRefine(target.id, !target.isRefine).then(() => {
-        target.isRefine = !target.isRefine;
-    });
-};
-
 // 更新内容
-const activeIndex = ref(-1); // 更新目标索引
+const activeIndex = ref(-1); // 激活目标索引
 const updateHandle = async (value: any) => {
     const target = list.value[activeIndex.value];
     await api.info.updateContent(target.id, { content: value }).then(() => {
@@ -70,51 +53,16 @@ const updateHandle = async (value: any) => {
 
 <template>
     <common-box class="info-process" :isLoad="isLoad">
-        <!-- 信息列表 -->
-        <section
+        <!-- 有效信息列表 -->
+        <info-item
             v-for="(item, index) of list"
             :key="index"
-            class="border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
+            :item="item"
+            :isEdit="activeIndex === index"
+            @active="activeIndex = index"
+            @updateContent="updateHandle"
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
-        >
-            <!-- 信息内容 -->
-            <edit-item
-                :value="item.content"
-                :isEdit="activeIndex === index"
-                placeholder="输入有效信息..."
-                @editOpen="activeIndex = index"
-                @editClose="updateHandle"
-            ></edit-item>
-
-            <!-- 卡片底部 -->
-            <div class="card-footer flex justify-between items-center mt-[4px]">
-                <time-bar :createTime="item.createTime" :updateTime="item.updateTime"></time-bar>
-                <!-- 操作项 -->
-                <section class="action-bar">
-                    <icon-hammer-and-anvil
-                        size="17"
-                        :strokeWidth="3"
-                        class="action-btn hover:text-primary"
-                        title="提炼"
-                    />
-                    <component
-                        :is="item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
-                        size="17"
-                        :strokeWidth="3"
-                        :title="item.isRefine ? '还需处理' : '处理完成'"
-                        class="action-btn hover:text-primary"
-                        @click="toggleRefineHandle(index)"
-                    ></component>
-                    <icon-delete
-                        size="17"
-                        :strokeWidth="3"
-                        class="action-btn hover:text-red-600"
-                        title="删除"
-                        @click="removeHandle(index)"
-                    />
-                </section>
-            </div>
-        </section>
+        ></info-item>
 
         <template #navLeft>
             <select-sort

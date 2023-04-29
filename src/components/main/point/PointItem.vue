@@ -29,7 +29,7 @@ const toggleRefineHandle = async () => {
 <template>
     <!-- 知识点项 -->
     <section
-        class="point-card flex flex-col border border-gray-200 rounded-sm pt-2 pb-2 mb-2 hover:shadow-md duration-300"
+        class="point-item flex flex-col border border-gray-200 rounded-sm pt-2 pb-2 mb-2 hover:shadow-md duration-300"
     >
         <!-- 顶部 -->
         <section
