@@ -16,6 +16,7 @@ const switchSection = (section: Section) => {
     localCache.set('screen', screen.value);
     store.setting().screen = screen.value;
 };
+provide('switchSection', switchSection);
 
 // 需显示的真实组件
 const realCompoent = reactive<any>({
@@ -30,13 +31,12 @@ const realCompoent = reactive<any>({
     ),
 });
 
-/* 刷新数据 */
-// 获取刷新知识点列表的方法
+/* 共享刷新数据方法 */
+// 获取刷新知识点列表
 const pointBoxRef = ref<any>(null);
 const refreshPointBox = () => {
     if (pointBoxRef.value) pointBoxRef.value.findList();
 };
-// 依赖注入
 provide('refreshPointBox', refreshPointBox);
 </script>
 
@@ -146,22 +146,27 @@ provide('refreshPointBox', refreshPointBox);
                 </section>
             </div>
             <div class="center"></div>
-            <div class="right"></div>
         </section>
         <!-- 工作台主体 -->
         <main class="main flex-1 relative overflow-hidden">
             <split-screen>
                 <template #left>
+                    <relate-detail
+                        v-if="screen.left && screen.left === 'relateDetail'"
+                    ></relate-detail>
                     <component
-                        v-if="screen.left"
+                        v-else-if="screen.left"
                         :is="realCompoent[screen.left]"
                         :ref="`${screen.left}BoxRef`"
                     ></component>
                     <empty-screen v-else></empty-screen>
                 </template>
                 <template #right>
+                    <relate-detail
+                        v-if="screen.right && screen.right === 'relateDetail'"
+                    ></relate-detail>
                     <component
-                        v-if="screen.right"
+                        v-else-if="screen.right"
                         :is="realCompoent[screen.right]"
                         :ref="`${screen.right}BoxRef`"
                     ></component>

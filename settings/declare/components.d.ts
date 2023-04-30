@@ -86,6 +86,8 @@ declare module '@vue/runtime-core' {
     ProcessBox: typeof import('./../../src/components/main/ProcessBox.vue')['default']
     RefineInfoModal: typeof import('./../../src/components/main/info/RefineInfoModal.vue')['default']
     RefineModal: typeof import('./../../src/components/main/info/RefineModal.vue')['default']
+    RelateDetail: typeof import('./../../src/components/main/relate/RelateDetail.vue')['default']
+    RelateProcess: typeof import('./../../src/components/main/relate/RelateProcess.vue')['default']
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

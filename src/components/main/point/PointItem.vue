@@ -56,6 +56,12 @@ const create = async () => {
     });
     emit('blur');
 };
+
+// 打开关联详情
+const switchSection: any = inject('switchSection');
+const viewRelateDetail = () => {
+    switchSection('relateDetail');
+};
 </script>
 
 <template>
@@ -89,6 +95,7 @@ const create = async () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看关联项"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="17"
