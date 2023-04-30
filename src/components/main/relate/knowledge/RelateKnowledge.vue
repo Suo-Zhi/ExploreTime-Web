@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<Props>(), {});
 </script>
 
 <template>
-    <section class="relate-knowledge h-full px-2">
+    <section class="relate-knowledge h-full">
         <relate-point-list v-if="props.type === 'point'"></relate-point-list>
     </section>
 </template>

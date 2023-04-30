@@ -107,5 +107,8 @@ watch(
     .arco-tabs-pane {
         height: 100% !important;
     }
+    .arco-tabs-nav::before {
+        height: 0px;
+    }
 }
 </style>
