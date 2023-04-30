@@ -4,7 +4,7 @@ interface Props {
     options: SelectOption[];
 }
 
-interface SelectOption {
+export interface SelectOption {
     label: string;
     value: any;
 }
