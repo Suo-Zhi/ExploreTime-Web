@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { KnowledgeType } from '@/api/relate/types';
+
 interface Props {
-    type: 'point' | 'chunk' | 'tree'; // 需要展示的知识类型
+    type: KnowledgeType; // 需要展示的知识类型
 }
 const props = withDefaults(defineProps<Props>(), {});
 </script>
 
 <template>
-    <section class="relate-knowledge h-full px-2">relate-knowledge {{ props.type }}</section>
+    <section class="relate-knowledge h-full px-2">
+        <relate-point-list v-if="props.type === 'point'"></relate-point-list>
+    </section>
 </template>
 
 <style lang="scss" scoped></style>

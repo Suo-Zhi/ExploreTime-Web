@@ -96,6 +96,7 @@ declare module '@vue/runtime-core' {
     RefineModal: typeof import('./../../src/components/main/info/RefineModal.vue')['default']
     RelateDetail: typeof import('./../../src/components/main/relate/RelateDetail.vue')['default']
     RelateKnowledge: typeof import('./../../src/components/main/relate/knowledge/RelateKnowledge.vue')['default']
+    RelatePointList: typeof import('./../../src/components/main/relate/knowledge/RelatePointList.vue')['default']
     RelateProcess: typeof import('./../../src/components/main/relate/RelateProcess.vue')['default']
     RelateSum: typeof import('./../../src/components/main/relate/summary/RelateSum.vue')['default']
     RelateSummary: typeof import('./../../src/components/main/relate/summary/RelateSummary.vue')['default']
