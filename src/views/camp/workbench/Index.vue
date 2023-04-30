@@ -11,11 +11,24 @@ const switchSection = (section: Section) => {
     else if (screen.value.right === section) screen.value.right = '';
     // 两屏均无该组件，则在目标屏放置该组件
     else screen.value[store.setting().nextScreen] = section;
-
-    // 持久化存储
-    localCache.set('screen', screen.value);
     store.setting().screen = screen.value;
 };
+
+// 持久化存储
+watch(
+    screen,
+    () => {
+        localCache.set('screen', screen.value);
+    },
+    { deep: true }
+);
+watch(
+    () => store.setting().history,
+    (newValue) => {
+        localCache.set('history', newValue);
+    },
+    { deep: true }
+);
 
 // 切换历史链接
 const switchHistory = (linkBox: LinkBox) => {
@@ -158,6 +171,7 @@ provide('refreshPointBox', refreshPointBox);
                 <template #left>
                     <relate-detail
                         v-if="screen.left && screen.left === 'relateDetail'"
+                        screen="left"
                     ></relate-detail>
                     <component
                         v-else-if="screen.left"
@@ -169,6 +183,7 @@ provide('refreshPointBox', refreshPointBox);
                 <template #right>
                     <relate-detail
                         v-if="screen.right && screen.right === 'relateDetail'"
+                        screen="right"
                     ></relate-detail>
                     <component
                         v-else-if="screen.right"

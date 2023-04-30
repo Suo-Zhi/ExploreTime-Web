@@ -6,7 +6,7 @@ export default defineStore('setting', {
         isSplitScreen: localCache.get('isSplitScreen', false), // 工作台是否分屏
         nextScreen: localCache.get('isSplitScreen', false) ? 'right' : 'left', // 工作台下一次激活的屏幕
         screen: {
-            left: localCache.get('screen')?.left || 'info', // 工作台左屏需显示组件
+            left: localCache.get('screen')?.left || (localCache.get('screen')?.right ? '' : 'info'), // 工作台左屏需显示组件(两屏均空则默认显示info)
             right: localCache.get('screen')?.right || '', // 工作台右屏需显示组件
         },
         // 排序设置
@@ -31,13 +31,13 @@ export default defineStore('setting', {
             },
         },
         // 工作台历史链接
-        history: {
+        history: localCache.get('history', {
             activeIndex: {
                 left: -1,
                 right: -1,
             },
             links: [],
-        },
+        }),
     }),
     actions: {
         // 新增历史链接

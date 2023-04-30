@@ -1,1 +1,1 @@
-export type CacheKey = 'isFoldMenu' | 'token' | 'isSplitScreen' | 'screen' | 'sort';
+export type CacheKey = 'isFoldMenu' | 'token' | 'isSplitScreen' | 'screen' | 'sort' | 'history';

@@ -1,13 +1,16 @@
 <script setup lang="ts">
+interface Props {
+    screen: 'left' | 'right'; // 当前组件所在屏幕
+}
+const props = withDefaults(defineProps<Props>(), {});
+
 const { history } = store.setting();
-const { nextScreen } = store.setting();
 
 const id = ref(); // 关联源目标Id
 const type = ref(); // 关联源目标类型
 
-const activeIndex = computed(() => history.activeIndex[nextScreen]);
-
 // 同步关联源目标值
+const activeIndex = computed(() => history.activeIndex[props.screen]);
 watch(
     activeIndex,
     () => {
