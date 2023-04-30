@@ -53,12 +53,37 @@ export default defineStore('setting', {
                 this.history.links.push(newLink);
                 // 历史链接数是否超过上限
                 const lenght = this.history.links.length;
-                if (lenght > 6) this.history.links.shift(); // 移除首个链接
+                if (lenght > 6) {
+                    this.removeHistoryLink(0); // 移除首项
+                    // 满屏有大坑(关联区),以后再来
+                }
                 // 激活新增链接
                 else this.history.activeIndex[this.nextScreen] = this.history.links.length - 1;
             }
             // 已存在则激活该链接
             else this.history.activeIndex[this.nextScreen] = index;
+        },
+
+        // 移除历史链接
+        removeHistoryLink(index: number) {
+            // 移除指定项
+            this.history.links.splice(index, 1);
+
+            // 如果移除项处于激活状态: 则清空移除项所在屏幕
+            if (index === this.history.activeIndex.left) {
+                this.history.activeIndex.left = -1;
+                this.screen.left = '';
+            }
+            if (index === this.history.activeIndex.right) {
+                this.history.activeIndex.right = -1;
+                this.screen.right = '';
+            }
+
+            // 如果移除项未激活 且 移除项位于激活项前: 则激活项前移
+            if (index < this.history.activeIndex.left && this.history.activeIndex.left !== -1)
+                this.history.activeIndex.left = this.history.activeIndex.left - 1;
+            if (index < this.history.activeIndex.right && this.history.activeIndex.right !== -1)
+                this.history.activeIndex.right = this.history.activeIndex.right - 1;
         },
     },
 });
