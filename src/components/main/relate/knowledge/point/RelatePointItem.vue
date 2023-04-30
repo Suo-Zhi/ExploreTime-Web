@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Point } from '@/api/point/types';
-import * as icons from '@icon-park/vue-next';
 
 interface Props {
     item: Point;
@@ -8,22 +7,8 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-// 移除
-const removeHandle = async () => {
-    await api.point.remove(props.item.id).then(() => {
-        props.item.isDel = true;
-    });
-};
-
-// 归档
-const toggleRefineHandle = async () => {
-    await api.point.toggleRefine(props.item.id, !props.item.isRefine).then(() => {
-        props.item.isRefine = !props.item.isRefine;
-    });
-};
-
 // 编辑目标
-const editTarget = ref<'all' | 'name' | 'content'>('all'); // 默认为all在新增时才能同时编辑名和内容
+const editTarget = ref<'name' | 'content'>('name');
 
 // 新值
 const newValue = ref({
@@ -41,20 +26,8 @@ const editEndHandle = () => {
     else if (editTarget.value === 'content') newValue.value.name = props.item.name;
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return (newValue.value.content = '');
-    // 调用新增或更新事件
-    if (props.item.id === -1) create();
-    else emit('update', newValue.value);
-};
-
-// 新增知识点
-const create = async () => {
-    // 判空
-    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
-
-    await api.point.create(newValue.value).then(() => {
-        emit('refresh');
-    });
-    emit('blur');
+    // 调用更新事件
+    emit('update', newValue.value);
 };
 
 // 打开关联详情
@@ -84,7 +57,7 @@ const viewRelateDetail = () => {
                 <edit-item
                     type="text"
                     :value="props.item.name"
-                    :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
+                    :isEdit="props.isEdit && editTarget === 'name'"
                     @editStart="
                         $emit('active');
                         editTarget = 'name';
@@ -117,7 +90,7 @@ const viewRelateDetail = () => {
             <!-- 知识点内容 -->
             <edit-item
                 :value="props.item.content"
-                :isEdit="props.isEdit && (editTarget === 'content' || editTarget === 'all')"
+                :isEdit="props.isEdit && editTarget === 'content'"
                 @editStart="
                     $emit('active');
                     editTarget = 'content';
@@ -136,20 +109,12 @@ const viewRelateDetail = () => {
             ></time-bar>
             <!-- 底部操作栏 -->
             <section class="action-bar">
-                <component
-                    :is="props.item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
+                <icon-unlink
                     size="17"
                     :strokeWidth="3"
-                    :title="props.item.isRefine ? '还需处理' : '处理完成'"
                     class="action-btn hover:text-primary"
-                    @click="toggleRefineHandle"
-                ></component>
-                <icon-delete
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-red-600"
-                    title="删除"
-                    @click="removeHandle"
+                    title="取消关联"
+                    @click="viewRelateDetail"
                 />
             </section>
         </div>

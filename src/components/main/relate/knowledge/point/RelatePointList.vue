@@ -26,9 +26,13 @@ const findList = async () => {
             isLoad.value = false;
         });
 };
-onMounted(() => {
-    findList();
-});
+watch(
+    targetId,
+    () => {
+        findList();
+    },
+    { immediate: true }
+);
 
 const activeIndex = ref(-1);
 </script>
@@ -37,13 +41,13 @@ const activeIndex = ref(-1);
     <!-- 关联知识点列表 -->
     <load-box :isLoad="isLoad" class="relate-point-list h-full">
         <scroll-bar>
-            <point-item
+            <relate-point-item
                 v-for="(item, index) of list"
                 :key="index"
                 :item="item"
                 :isEdit="activeIndex === index"
                 v-show="!item.isDel"
-            ></point-item>
+            ></relate-point-item>
         </scroll-bar>
     </load-box>
 </template>
