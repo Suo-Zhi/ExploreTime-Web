@@ -52,7 +52,7 @@
                     <a-radio value="exercise" class="flex-1 text-center !m-1">习题</a-radio>
                 </a-radio-group>
                 <!-- 曲线图 -->
-                <section class="line-chart flex-1 max-h-[90%]"><line-chart></line-chart></section>
+                <section class="line-chart flex-1 max-h-[90%]"><chart-line></chart-line></section>
             </div>
             <!-- 右侧面板 -->
             <div class="col-span-1 mb-2 flex flex-col justify-between">
@@ -86,7 +86,7 @@
                     ></data-card>
                 </section>
                 <!-- 环形图 -->
-                <section class="doughnut-chart h-72"><doughnut-chart></doughnut-chart></section>
+                <section class="doughnut-chart h-72"><chart-doughnut></chart-doughnut></section>
             </div>
         </div>
     </div>

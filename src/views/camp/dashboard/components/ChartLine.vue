@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ToolTipFormatterParams } from '@/components/chart/ChartBase.vue';
+import { ToolTipFormatterParams } from '@/components/base/ChartBase.vue';
 
 const xData = () => {
     let data = [];
     for (let i = 7; i > 0; i--) {
-        data.push(tool.formateTime(new Date().getTime(), 'MM-DD'));
+        data.push(tool.formateTime(new Date().getTime() - i * 24 * 60 * 60 * 1000, 'MM-DD'));
     }
     return data;
 };
