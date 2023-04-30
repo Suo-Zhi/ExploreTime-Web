@@ -58,9 +58,15 @@ const create = async () => {
 };
 
 // 打开关联详情
-const switchSection: any = inject('switchSection');
+const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
-    switchSection('relateDetail');
+    store.setting().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '点关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'point',
+    });
+    switchHistory('relateDetail');
 };
 </script>
 

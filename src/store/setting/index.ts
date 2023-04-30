@@ -1,4 +1,4 @@
-import { SettingState } from './types';
+import { HistoryLink, SettingState } from './types';
 
 export default defineStore('setting', {
     state: (): SettingState => ({
@@ -30,5 +30,35 @@ export default defineStore('setting', {
                 exerciseSet: localCache.get('sort')?.order?.exerciseSet || 'desc',
             },
         },
+        // 工作台历史链接
+        history: {
+            activeIndex: {
+                left: -1,
+                right: -1,
+            },
+            links: [],
+        },
     }),
+    actions: {
+        // 新增历史链接
+        addHistoryLink(newLink: HistoryLink) {
+            // 是否存在相同链接
+            const index = this.history.links.findIndex(
+                (link) => JSON.stringify(newLink) === JSON.stringify(link)
+            );
+
+            // 不存在在相同链接
+            if (index === -1) {
+                // 新增链接
+                this.history.links.push(newLink);
+                // 历史链接数是否超过上限
+                const lenght = this.history.links.length;
+                if (lenght > 6) this.history.links.shift(); // 移除首个链接
+                // 激活新增链接
+                else this.history.activeIndex[this.nextScreen] = this.history.links.length - 1;
+            }
+            // 已存在则激活该链接
+            else this.history.activeIndex[this.nextScreen] = index;
+        },
+    },
 });

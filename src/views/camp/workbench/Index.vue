@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Section } from '@/store/setting/types';
+import { LinkBox, Section } from '@/store/setting/types';
 
 // 各屏幕中需显示的组件
 const screen = ref(store.setting().screen);
@@ -16,7 +16,12 @@ const switchSection = (section: Section) => {
     localCache.set('screen', screen.value);
     store.setting().screen = screen.value;
 };
-provide('switchSection', switchSection);
+
+// 切换历史链接
+const switchHistory = (linkBox: LinkBox) => {
+    screen.value[store.setting().nextScreen] = linkBox;
+};
+provide('switchHistory', switchHistory);
 
 // 需显示的真实组件
 const realCompoent = reactive<any>({
@@ -145,7 +150,7 @@ provide('refreshPointBox', refreshPointBox);
                     </section>
                 </section>
             </div>
-            <div class="center"></div>
+            <div class="center"><history-link></history-link></div>
         </section>
         <!-- 工作台主体 -->
         <main class="main flex-1 relative overflow-hidden">
