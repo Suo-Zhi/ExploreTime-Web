@@ -13,4 +13,9 @@ export default {
     remove: (id: number) => {
         return http.patch('chunk/remove' + id);
     },
+
+    // 归档
+    toggleRefine: (id: number, value: boolean) => {
+        return http.patch('chunk/refine' + id, { value });
+    },
 };

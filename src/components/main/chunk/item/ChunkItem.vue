@@ -13,6 +13,13 @@ const removeHandle = async () => {
         props.item.isDel = true;
     });
 };
+
+// 归档
+const toggleRefineHandle = async () => {
+    await api.chunk.toggleRefine(props.item.id, !props.item.isRefine).then(() => {
+        props.item.isRefine = !props.item.isRefine;
+    });
+};
 </script>
 
 <template>
@@ -101,6 +108,7 @@ const removeHandle = async () => {
                     :strokeWidth="3"
                     :title="props.item.isRefine ? '还需处理' : '处理完成'"
                     class="action-btn hover:text-primary"
+                    @click="toggleRefineHandle"
                 ></component>
                 <icon-delete
                     size="17"
