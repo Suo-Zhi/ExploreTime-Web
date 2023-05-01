@@ -33,7 +33,7 @@ const options = {
 
     series: [
         {
-            name: 'Access From',
+            name: '输出量',
             type: 'pie',
             radius: ['56%', '84%'],
             center: ['50%', '56%'],
@@ -56,11 +56,11 @@ const options = {
             },
             data: [
                 { value: 110, name: '有效信息', itemStyle: { color: '#7BE188' } },
-                { value: 80, name: '知识点', itemStyle: { color: '#7BC0FC' } },
-                { value: 40, name: '知识块', itemStyle: { color: '#3491FA' } },
-                { value: 10, name: '知识树', itemStyle: { color: '#165DFF' } },
-                { value: 20, name: '讲解', itemStyle: { color: '#FF9A2E' } },
-                { value: 50, name: '习题', itemStyle: { color: '#FBE842' } },
+                { value: 80, name: '知识点', itemStyle: { color: '#246EFF' } },
+                { value: 40, name: '知识块', itemStyle: { color: '#00B2FF' } },
+                { value: 10, name: '知识树', itemStyle: { color: '#81E2FF' } },
+                { value: 20, name: '讲解', itemStyle: { color: '#81E2AA' } },
+                { value: 50, name: '习题', itemStyle: { color: '#81E233' } },
             ],
         },
     ],

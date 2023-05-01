@@ -78,7 +78,7 @@ const logout = () => {
                     size="24"
                     :strokeWidth="3"
                     :title="menu.title"
-                    class="cursor-pointer hover:text-primary mb-2"
+                    class="cursor-pointer hover:text-primary mb-3"
                     :class="activeRouteName === menu.routeName ? 'text-primary' : 'text-icon-gray'"
                     @click="switchMenu(menu)"
                 />

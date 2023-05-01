@@ -8,10 +8,10 @@ const props = withDefaults(defineProps<Props>(), {});
 <template>
     <!-- 关联情况总结 -->
     <section class="relate-summary h-full px-2 flex flex-col">
-        <div class="top flex-1">
+        <div class="top">
             <chart-ring :chartId="props.chartId"></chart-ring>
         </div>
-        <div class="bottom flex-1">
+        <div class="bottom">
             <chart-period :chartId="props.chartId"></chart-period>
         </div>
     </section>
