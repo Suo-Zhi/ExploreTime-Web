@@ -41,8 +41,23 @@ const viewRelateDetail = () => {
     });
     switchHistory('relateDetail');
 };
-</script>
 
+// 取消关联
+const targetId = inject<any>('targetId'); // 源目标Id
+const targetType = inject<any>('targetType'); // 源目标类型
+const cancelRelate = async (id: number) => {
+    await api.relate
+        .delRelate({
+            targetId: targetId.value,
+            targetType: targetType.value,
+            relateId: id,
+            relateType: 'point',
+        })
+        .then(() => {
+            emit('refresh');
+        });
+};
+</script>
 <template>
     <!-- 知识点项 -->
     <section
@@ -114,7 +129,7 @@ const viewRelateDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="取消关联"
-                    @click="viewRelateDetail"
+                    @click="cancelRelate(item.id)"
                 />
             </section>
         </div>

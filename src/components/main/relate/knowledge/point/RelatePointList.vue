@@ -13,7 +13,7 @@ const findList = async () => {
     isLoad.value = true;
 
     await api.relate
-        .findRelate({
+        .findPointRelate({
             targetId: targetId.value,
             targetType: targetType.value,
             relateType: 'point',
@@ -47,6 +47,7 @@ const activeIndex = ref(-1);
                 :item="item"
                 :isEdit="activeIndex === index"
                 v-show="!item.isDel"
+                @refresh="findList"
             ></relate-point-item>
         </scroll-bar>
     </load-box>
