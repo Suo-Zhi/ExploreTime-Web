@@ -7,10 +7,7 @@ const isShowRefineModel = ref(false); // 是否显示提炼框
 const refineItem = ref<Info>();
 
 // 排序
-const sort = ref<SortInfo>({
-    field: store.setting().sort.field.info,
-    order: store.setting().sort.order.info,
-});
+const sort = ref<SortInfo>(store.setting().sort.info);
 const sortOptions = [
     { label: '创建时间', value: 'createTime' },
     { label: '更新时间', value: 'updateTime' },

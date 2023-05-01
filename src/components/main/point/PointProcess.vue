@@ -5,10 +5,7 @@ import { Point, SortPoint } from '@/api/point/types';
 const isLoad = ref(false);
 
 // 排序
-const sort = ref<SortPoint>({
-    field: store.setting().sort.field.point,
-    order: store.setting().sort.order.point,
-});
+const sort = ref<SortPoint>(store.setting().sort.point);
 const sortOptions = [
     { label: '创建时间', value: 'createTime' },
     { label: '更新时间', value: 'updateTime' },

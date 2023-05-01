@@ -4,10 +4,7 @@ import { Chunk, SortChunk } from '@/api/chunk/types';
 const isLoad = ref(false);
 
 // 排序
-const sort = ref<SortChunk>({
-    field: store.setting().sort.field.point,
-    order: store.setting().sort.order.point,
-});
+const sort = ref<SortChunk>(store.setting().sort.chunk);
 const sortOptions = [
     { label: '创建时间', value: 'createTime' },
     { label: '更新时间', value: 'updateTime' },

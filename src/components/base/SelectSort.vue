@@ -34,10 +34,10 @@ const changeValueHandle = (e: any) => {
     // 触发变动事件
     emit('change');
     // 持久化存储
-    if (props.storeKey) store.setting().sort.field[props.storeKey] = e;
+    if (props.storeKey) store.setting().sort[props.storeKey].field = e;
     if (props.cacheKey) {
         let sort = store.setting().sort;
-        sort.field[props.cacheKey] = e;
+        sort[props.cacheKey].field = e;
         localCache.set('sort', sort);
     }
 };
@@ -50,10 +50,10 @@ const changeOrderHandle = () => {
     // 触发变动事件
     emit('change');
     // 持久化存储
-    if (props.storeKey) store.setting().sort.order[props.storeKey] = newOrder;
+    if (props.storeKey) store.setting().sort[props.storeKey].order = newOrder;
     if (props.cacheKey) {
         let sort = store.setting().sort;
-        sort.order[props.cacheKey] = newOrder;
+        sort[props.cacheKey].order = newOrder;
         localCache.set('sort', sort);
     }
 };

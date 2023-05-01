@@ -3,10 +3,13 @@ export interface SettingState {
     isSplitScreen: boolean;
     nextScreen: 'left' | 'right';
     screen: LRScreen;
-    sort: {
-        field: Record<Section, SortField>;
-        order: Record<Section, SortOrder>;
-    };
+    sort: Record<
+        Section,
+        {
+            field: SortField;
+            order: SortOrder;
+        }
+    >;
     history: {
         activeIndex: {
             left: number;

@@ -11,23 +11,33 @@ export default defineStore('setting', {
         },
         // 排序设置
         sort: {
-            field: {
-                info: localCache.get('sort')?.field?.info || 'updateTime',
-                point: localCache.get('sort')?.field?.point || 'updateTime',
-                chunk: localCache.get('sort')?.field?.chunk || 'updateTime',
-                tree: localCache.get('sort')?.field?.tree || 'updateTime',
-                explain: localCache.get('sort')?.field?.explain || 'updateTime',
-                exercise: localCache.get('sort')?.field?.exercise || 'updateTime',
-                exerciseSet: localCache.get('sort')?.field?.exerciseSet || 'updateTime',
+            info: {
+                field: localCache.get('sort')?.info?.field || 'updateTime',
+                order: localCache.get('sort')?.info?.order || 'desc',
             },
-            order: {
-                info: localCache.get('sort')?.order?.info || 'desc',
-                point: localCache.get('sort')?.order?.point || 'desc',
-                chunk: localCache.get('sort')?.order?.chunk || 'desc',
-                tree: localCache.get('sort')?.order?.tree || 'desc',
-                explain: localCache.get('sort')?.order?.explain || 'desc',
-                exercise: localCache.get('sort')?.order?.exercise || 'desc',
-                exerciseSet: localCache.get('sort')?.order?.exerciseSet || 'desc',
+            point: {
+                field: localCache.get('sort')?.point?.field || 'updateTime',
+                order: localCache.get('sort')?.point?.order || 'desc',
+            },
+            chunk: {
+                field: localCache.get('sort')?.chunk?.field || 'updateTime',
+                order: localCache.get('sort')?.chunk?.order || 'desc',
+            },
+            tree: {
+                field: localCache.get('sort')?.tree?.field || 'updateTime',
+                order: localCache.get('sort')?.tree?.order || 'desc',
+            },
+            explain: {
+                field: localCache.get('sort')?.explain?.field || 'updateTime',
+                order: localCache.get('sort')?.explain?.order || 'desc',
+            },
+            exercise: {
+                field: localCache.get('sort')?.exercise?.field || 'updateTime',
+                order: localCache.get('sort')?.exercise?.order || 'desc',
+            },
+            exerciseSet: {
+                field: localCache.get('sort')?.exerciseSet?.field || 'updateTime',
+                order: localCache.get('sort')?.exerciseSet?.order || 'desc',
             },
         },
         // 工作台历史链接
