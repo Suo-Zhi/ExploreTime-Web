@@ -9,13 +9,12 @@ const props = withDefaults(defineProps<Props>(), {});
 
 <template>
     <!-- 知识块 -->
-    <section class="chunk-item">
-        <div>{{ props.item.name }}</div>
+    <card-fold>
+        <template #header>
+            <div>{{ props.item.name }}</div>
+        </template>
         <div>{{ props.item.preface }}</div>
-        <div>{{ props.item.content }}</div>
-        <div>{{ props.item.endnote }}</div>
-        <div>{{ props.item.createTime }}</div>
-    </section>
+    </card-fold>
 </template>
 
 <style lang="scss" scoped></style>

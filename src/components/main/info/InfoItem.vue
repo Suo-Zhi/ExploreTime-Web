@@ -25,9 +25,7 @@ const toggleRefineHandle = async () => {
 
 <template>
     <!-- 有效信息项 -->
-    <section
-        class="info-item border border-gray-200 rounded-sm p-3 pb-2 mb-2 hover:shadow-md duration-300"
-    >
+    <section class="info-item border-base p-3 pb-2 mb-2">
         <!-- 有效信息内容 -->
         <edit-item
             :value="item.content"

@@ -72,9 +72,7 @@ const viewRelateDetail = () => {
 
 <template>
     <!-- 知识点项 -->
-    <section
-        class="point-item flex flex-col border border-gray-200 rounded-sm pt-2 pb-2 mb-2 hover:shadow-md duration-300"
-    >
+    <section class="point-item border-base flex flex-col pt-2 pb-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
