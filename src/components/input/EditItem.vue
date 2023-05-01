@@ -60,7 +60,7 @@ watch(
         <div
             v-else
             v-html="props.value"
-            class="view-box w-full h-full min-h-[8px]"
+            class="view-box content-text w-full h-full min-h-[8px]"
             @dblclick.stop="$emit('editStart')"
         ></div>
 
@@ -77,7 +77,6 @@ watch(
 .view-box {
     display: flex;
     flex-direction: column;
-    line-height: 24px;
 
     blockquote {
         margin-top: 2px;

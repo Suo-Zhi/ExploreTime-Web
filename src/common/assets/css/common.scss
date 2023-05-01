@@ -1,19 +1,29 @@
 // 操作栏
-.action-bar{
+.action-bar {
     @apply grid grid-flow-col gap-2
 }
 
 // 操作项按钮
-.action-btn{
+.action-btn {
     @apply text-slate-600 click-style
 }
 
 // 点击效果
-.click-style{
+.click-style {
     @apply duration-300 cursor-pointer select-none
 }
 
 // 通用边框
-.border-base{
+.border-base {
     @apply border border-gray-200 rounded-sm hover:shadow-md duration-300
+}
+
+// 段落
+.content-text {
+    @apply  text-slate-700 leading-[24px]
+}
+
+// 组显示隐藏切换
+.group-show{
+    @apply hidden group-hover:block duration-300
 }

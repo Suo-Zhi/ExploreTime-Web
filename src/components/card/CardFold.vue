@@ -1,9 +1,13 @@
 <script setup lang="ts">
 interface Props {
     border?: boolean; // 是否带边框
+    line?: boolean; // 是否在卡片头部和主体间显示水平线
+    isToggle?: boolean; // 是否顶部操作栏显示情况
 }
 const props = withDefaults(defineProps<Props>(), {
     border: true,
+    line: true,
+    isToggle: true,
 });
 
 // 折叠动画
@@ -35,24 +39,26 @@ const listeners = {
 <template>
     <section class="chunk-card relative rounded-sm" :class="[{ 'border-base': props.border }]">
         <!-- 头部 -->
-        <div class="card-header flex items-center border-b py-2 z-10">
+        <div class="card-header flex items-center group">
             <!-- 折叠按钮 -->
             <icon-down
                 size="18"
                 :strokeWidth="3"
-                class="text-slate-400 click-style ml-[5px] mr-1"
+                class="text-slate-400 click-style ml-[5px] mr-1 mt-[2px]"
                 :class="isFold ? '-rotate-90' : ''"
                 @click="isFold = !isFold"
             />
-            <div class="flex-1">
-                <slot name="header"></slot>
+            <!-- 头部内容 -->
+            <div class="flex-1 flex justify-between items-center">
+                <slot name="title"></slot>
+                <div :class="{ 'group-show': props.isToggle }"><slot name="actions"></slot></div>
             </div>
         </div>
 
-        <!-- 主体 -->
+        <!-- 可折叠区 -->
         <div class="card-body relative">
             <transition v-bind="listeners as any">
-                <div class="collapse-transition" v-if="!isFold">
+                <div class="collapse-transition" :class="{ 'border-t': props.line }" v-if="!isFold">
                     <slot></slot>
                 </div>
             </transition>
