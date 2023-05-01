@@ -18,14 +18,38 @@ const filterOptions = [
     { label: '已整理', value: 'true' },
 ];
 
+// 查
 const list = ref<Chunk[]>([]);
 const keywords = ref('');
+const findList = async () => {
+    isLoad.value = true;
+
+    await api.chunk
+        .findMy({ keywords: keywords.value, sort: sort.value })
+        .then((res) => {
+            list.value = res.data;
+        })
+        .finally(() => {
+            isLoad.value = false;
+        });
+};
+onMounted(() => {
+    findList();
+});
+defineExpose({
+    findList,
+});
 </script>
 
 <template>
     <common-box class="chunk-process" :isLoad="isLoad">
         <!-- 知识块列表 -->
-        <chunk-item v-for="(item, index) of list" :key="index" :item="item"></chunk-item>
+        <chunk-item
+            v-for="(item, index) of list"
+            :key="index"
+            :item="item"
+            v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
+        ></chunk-item>
 
         <template #navLeft>
             <select-sort
@@ -34,6 +58,7 @@ const keywords = ref('');
                 :options="sortOptions"
                 storeKey="chunk"
                 cacheKey="chunk"
+                @change="findList"
             ></select-sort>
             <select-type
                 v-model="filter"
@@ -43,7 +68,7 @@ const keywords = ref('');
         </template>
 
         <template #navRight>
-            <search-bar v-model="keywords"></search-bar>
+            <search-bar v-model="keywords" @search="findList"></search-bar>
             <add-button title="新增知识点"></add-button>
         </template>
     </common-box>
