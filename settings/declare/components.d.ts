@@ -45,6 +45,8 @@ declare module '@vue/runtime-core' {
     ChartLine: typeof import('./../../src/views/camp/dashboard/components/ChartLine.vue')['default']
     ChartPeriod: typeof import('./../../src/components/main/relate/summary/ChartPeriod.vue')['default']
     ChartRing: typeof import('./../../src/components/main/relate/summary/ChartRing.vue')['default']
+    ChunkItem: typeof import('./../../src/components/main/chunk/ChunkItem.vue')['default']
+    ChunkProcess: typeof import('./../../src/components/main/chunk/ChunkProcess.vue')['default']
     CommonBox: typeof import('./../../src/components/main/common/CommonBox.vue')['default']
     copy: typeof import('./../../src/components/input/FormItem copy.vue')['default']
     CusEditor: typeof import('./../../src/components/input/CusEditor.vue')['default']
