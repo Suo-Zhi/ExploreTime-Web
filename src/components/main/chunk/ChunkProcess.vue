@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UpdateChunkDTO } from '@/api/chunk/dto';
 import { Chunk, SortChunk } from '@/api/chunk/types';
 
 const isLoad = ref(false);
@@ -39,6 +40,22 @@ onMounted(() => {
 defineExpose({
     findList,
 });
+
+const activeIndex = ref(-1); // 当前激活项
+// 更新知识块主体
+const updateHandle = async (newValue: UpdateChunkDTO) => {
+    const target = list.value[activeIndex.value];
+    await api.chunk.update(target.id, newValue).then(() => {
+        // 处于搜索中则刷新列表，反之简易处理
+        if (keywords.value) findList();
+        else {
+            target.name = newValue.name;
+            target.preface = newValue.preface;
+            target.endnote = newValue.endnote;
+        }
+    });
+    activeIndex.value = -1;
+};
 </script>
 
 <template>
@@ -48,6 +65,9 @@ defineExpose({
             v-for="(item, index) of list"
             :key="index"
             :item="item"
+            :isEdit="activeIndex === index"
+            @active="activeIndex = index"
+            @update="updateHandle"
             v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
         ></chunk-item>
 

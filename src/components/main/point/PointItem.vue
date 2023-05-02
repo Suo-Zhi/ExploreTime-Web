@@ -22,19 +22,16 @@ const toggleRefineHandle = async () => {
     });
 };
 
-// 编辑目标
-const editTarget = ref<'all' | 'name' | 'content'>('all'); // 默认为all在新增时才能同时编辑名和内容
+const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
 // 新值
 const newValue = ref({
-    // 别直接等于props
     name: '',
     content: '',
 });
 
-const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
-
 // 编辑完成后需进行的处理
+const editTarget = ref<'all' | 'name' | 'content'>('all'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
 const editEndHandle = () => {
     // 补全未修改的值
     if (editTarget.value === 'name') newValue.value.content = props.item.content;

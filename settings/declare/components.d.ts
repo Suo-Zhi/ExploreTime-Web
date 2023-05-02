@@ -72,6 +72,7 @@ declare module '@vue/runtime-core' {
     IconDiamonds: typeof import('@icon-park/vue-next')['Diamonds']
     IconDocDetail: typeof import('@icon-park/vue-next')['DocDetail']
     IconDown: typeof import('@icon-park/vue-next')['Down']
+    IconEditor: typeof import('@icon-park/vue-next')['Editor']
     IconFolderClose: typeof import('@icon-park/vue-next')['FolderClose']
     IconFullScreen: typeof import('@icon-park/vue-next')['FullScreen']
     IconHammerAndAnvil: typeof import('@icon-park/vue-next')['HammerAndAnvil']

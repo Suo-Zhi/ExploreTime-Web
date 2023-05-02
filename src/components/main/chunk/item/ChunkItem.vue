@@ -4,6 +4,7 @@ import { Chunk } from '@/api/chunk/types';
 
 interface Props {
     item: Chunk;
+    isEdit: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -20,6 +21,30 @@ const toggleRefineHandle = async () => {
         props.item.isRefine = !props.item.isRefine;
     });
 };
+
+const emit = defineEmits(['active', 'update']);
+
+// 编辑前处理
+const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
+const editTarget = ref('name'); // 编辑目标
+const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
+    // 该项切换至激活状态
+    emit('active');
+    // 同步值
+    newValue.value.name = props.item.name;
+    newValue.value.preface = props.item.preface;
+    newValue.value.endnote = props.item.endnote;
+    // 锁定编辑目标
+    editTarget.value = target;
+};
+
+// 编辑完成后需进行的处理
+const editEndHandle = () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
+    // 调用更新事件
+    emit('update', newValue.value);
+};
 </script>
 
 <template>
@@ -28,7 +53,16 @@ const toggleRefineHandle = async () => {
         <!-- 标题 -->
         <template #title>
             <!-- 知识块名 -->
-            <div class="title py-2">{{ props.item.name }}</div>
+            <edit-item
+                type="text"
+                :value="props.item.name"
+                :isEdit="props.isEdit && editTarget === 'name'"
+                @editStart="editStartHandle('name')"
+                @changeValue="newValue.name = $event"
+                @editEnd="editEndHandle"
+                placeholder="请输入知识块名"
+                class="title py-2 w-[200px]"
+            ></edit-item>
         </template>
 
         <!-- 顶部操作栏 -->
@@ -46,17 +80,11 @@ const toggleRefineHandle = async () => {
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
                 />
-                <icon-align-text-top-one
-                    size="18"
+                <icon-editor
+                    size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="编辑前言"
-                />
-                <icon-align-text-bottom-one
-                    size="18"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-primary"
-                    title="编辑尾注"
+                    title="编辑"
                 />
                 <icon-hammer-and-anvil
                     size="17"
@@ -73,7 +101,14 @@ const toggleRefineHandle = async () => {
             <div
                 class="preface ml-2 py-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-blue-50"
             >
-                {{ props.item.preface }}
+                <edit-item
+                    :value="props.item.preface"
+                    :isEdit="props.isEdit && editTarget === 'preface'"
+                    @editStart="editStartHandle('preface')"
+                    @changeValue="newValue.preface = $event"
+                    @editEnd="editEndHandle"
+                    placeholder="请输入知识块前言"
+                ></edit-item>
             </div>
 
             <!-- 知识块内容列表 -->
@@ -89,7 +124,14 @@ const toggleRefineHandle = async () => {
             <div
                 class="endnote ml-2 py-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-slate-100"
             >
-                {{ props.item.endnote }}
+                <edit-item
+                    :value="props.item.endnote"
+                    :isEdit="props.isEdit && editTarget === 'endnote'"
+                    @editStart="editStartHandle('endnote')"
+                    @changeValue="newValue.endnote = $event"
+                    @editEnd="editEndHandle"
+                    placeholder="请输入知识块尾注"
+                ></edit-item>
             </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { FindChunkDTO } from './dto';
+import { FindChunkDTO, UpdateChunkDTO } from './dto';
 import { Chunk } from './types';
 
 export default {
@@ -17,5 +17,10 @@ export default {
     // 归档
     toggleRefine: (id: number, value: boolean) => {
         return http.patch('chunk/refine' + id, { value });
+    },
+
+    // 更新知识块
+    update: (id: number, dto: UpdateChunkDTO) => {
+        return http.patch('chunk/' + id, { ...dto });
     },
 };
