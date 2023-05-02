@@ -3,7 +3,7 @@ import draggable from 'vuedraggable';
 
 interface Props {
     list: Array<any>;
-    group: string;
+    group: string | Object;
 }
 const props = withDefaults(defineProps<Props>(), {});
 </script>

@@ -88,7 +88,7 @@ const changeOrderHandle = async () => {
     // 改变块顺序(以后看看能不能一次性改)
     for (let i = 0; i < props.item.content.length; i++) {
         const point = props.item.content[i];
-        await api.chunkContent.update({ chunkId: props.item.id, order: i, pointId: point.id });
+        await api.chunkContent.upsert({ chunkId: props.item.id, order: i, pointId: point.id });
     }
     // 改变知识块更新时间
     await api.chunk.updateTime(props.item.id);
@@ -160,6 +160,7 @@ const changeOrderHandle = async () => {
                     :list="props.item.content"
                     group="point"
                     @update="changeOrderHandle"
+                    @add="changeOrderHandle"
                     v-slot="drag"
                 >
                     <chunk-content

@@ -82,17 +82,25 @@ const clickAddHandle = () => {
 <template>
     <common-box class="point-process" :isLoad="isLoad">
         <!-- 知识点列表 -->
-        <point-item
-            v-for="(item, index) of list"
-            :key="index"
-            :item="item"
-            :isEdit="activeIndex === index"
-            @active="activeIndex = index"
-            @blur="activeIndex = -1"
-            @update="updateHandle"
-            @refresh="findList"
-            v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
-        ></point-item>
+        <drag-list
+            :list="list"
+            :group="{ name: 'point', pull: 'clone', put: false }"
+            :sort="false"
+            ghostClass=""
+            v-slot="drag"
+        >
+            <point-item
+                :item="drag.item"
+                :isEdit="activeIndex === drag.index"
+                @active="activeIndex = drag.index"
+                @blur="activeIndex = -1"
+                @update="updateHandle"
+                @refresh="findList"
+                v-show="
+                    !drag.item.isDel && (drag.item.isRefine === Boolean(filter) || filter === 'all')
+                "
+            ></point-item>
+        </drag-list>
 
         <template #navLeft>
             <select-sort

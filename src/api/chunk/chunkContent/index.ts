@@ -1,8 +1,8 @@
-import { UpdateChunkContentDTO } from './dto';
+import { UpsertChunkContentDTO } from './dto';
 
 export default {
     // 更新
-    update: (dto: UpdateChunkContentDTO) => {
+    upsert: (dto: UpsertChunkContentDTO) => {
         return http.post('chunk-content', { ...dto });
     },
 };
