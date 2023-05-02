@@ -39,5 +39,5 @@
 
 // 拖拽手柄
 .drag-handle{
-    @apply w-full h-full cursor-move
+    @apply w-full h-full cursor-move select-none
 }

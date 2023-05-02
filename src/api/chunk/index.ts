@@ -28,4 +28,9 @@ export default {
     create: (dto: CreateChunkDTO) => {
         return http.post('chunk', { ...dto });
     },
+
+    // 更新知识块更新时间
+    updateTime: (id: number) => {
+        return http.patch('chunk/time' + id);
+    },
 };

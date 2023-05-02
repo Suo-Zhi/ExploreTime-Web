@@ -82,6 +82,17 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
     });
     activeIndex.value = -1;
 };
+
+// 改变块内容顺序
+const changeOrderHandle = async () => {
+    // 改变块顺序(以后看看能不能一次性改)
+    for (let i = 0; i < props.item.content.length; i++) {
+        const point = props.item.content[i];
+        await api.chunkContent.update({ chunkId: props.item.id, order: i, pointId: point.id });
+    }
+    // 改变知识块更新时间
+    await api.chunk.updateTime(props.item.id);
+};
 </script>
 
 <template>
@@ -145,7 +156,12 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
             <!-- 知识块内容列表 -->
             <div class="content my-1">
                 <add-line></add-line>
-                <drag-list :list="props.item.content" group="point" v-slot="drag">
+                <drag-list
+                    :list="props.item.content"
+                    group="point"
+                    @update="changeOrderHandle"
+                    v-slot="drag"
+                >
                     <chunk-content
                         v-show="!drag.item.isDel"
                         :item="drag.item"
