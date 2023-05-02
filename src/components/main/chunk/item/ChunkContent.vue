@@ -7,12 +7,12 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-const emit = defineEmits(['active', 'blur', 'updateContent', 'refresh', 'remove']);
+const emit = defineEmits(['active', 'blur', 'update', 'refresh', 'remove', 'create', 'add']);
 
 // 编辑前处理
 const newValue = ref({ name: '', content: '' }); // 新值
 const editTarget = ref('all'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
-const editStartHandle = (target: 'all' | 'name' | 'content') => {
+const editStartHandle = (target: 'all' | 'name' | 'content' = 'all') => {
     // 该项切换至激活状态
     emit('active');
     // 同步值
@@ -30,8 +30,28 @@ const editEndHandle = () => {
     if (newValue.value.name === props.item.name && newValue.value.content === props.item.content)
         return emit('blur');
 
-    // 调用更新事件
-    emit('updateContent', newValue.value);
+    // 调用新增或更新事件
+    if (props.item.id === -1) create();
+    else emit('update', newValue.value);
+};
+
+// 新增块内容
+const refreshPointBox = inject<any>('refreshPointBox');
+const create = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
+    // 新增知识点
+    await api.point.create(newValue.value).then((res) => {
+        // 刷新知识点列表
+        refreshPointBox();
+        // 同步点,用于新增块内容
+        props.item.id = res.data.id;
+        props.item.name = res.data.name;
+        props.item.content = res.data.content;
+        // 调用新增块内容事件
+        emit('create');
+    });
+    emit('blur');
 };
 </script>
 
@@ -42,7 +62,7 @@ const editEndHandle = () => {
                 <edit-item
                     type="text"
                     :value="props.item.name"
-                    :isEdit="props.isEdit && editTarget === 'name'"
+                    :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
                     @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
@@ -80,7 +100,7 @@ const editEndHandle = () => {
             <div class="point-content border-t text-[14px] mx-2 py-1">
                 <edit-item
                     :value="props.item.content"
-                    :isEdit="props.isEdit && editTarget === 'content'"
+                    :isEdit="props.isEdit && (editTarget === 'content' || editTarget === 'all')"
                     @editStart="editStartHandle('content')"
                     @changeValue="newValue.content = $event"
                     @editEnd="editEndHandle"
@@ -89,7 +109,7 @@ const editEndHandle = () => {
             </div>
         </card-fold>
 
-        <add-line></add-line>
+        <add-line @add="$emit('add', props.item.order + 1)"></add-line>
     </section>
     <!-- 知识块内容项 -->
 </template>

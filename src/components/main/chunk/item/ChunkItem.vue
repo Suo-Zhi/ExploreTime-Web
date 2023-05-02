@@ -104,6 +104,25 @@ const removeContentHandle = async (index?: number) => {
         await changeOrderHandle();
     });
 };
+
+// 新增块内容
+const addContentHandle = (index: number) => {
+    // 往列表指定位置插入空白项
+    props.item.content.splice(index, 0, {
+        id: -1,
+        order: index,
+        name: '',
+        content: '',
+        isRefine: false,
+        isDel: false,
+        isMatch: false,
+        authorId: store.user().userinfo?.id || '',
+        createTime: new Date(),
+        updateTime: new Date(),
+    });
+    // 激活新空白项
+    activeIndex.value = index;
+};
 </script>
 
 <template>
@@ -166,7 +185,7 @@ const removeContentHandle = async (index?: number) => {
 
             <!-- 知识块内容列表 -->
             <div class="content my-1">
-                <add-line></add-line>
+                <add-line @add="addContentHandle(0)"></add-line>
                 <drag-list
                     :list="props.item.content"
                     item-key="order"
@@ -182,8 +201,10 @@ const removeContentHandle = async (index?: number) => {
                         :isEdit="activeIndex === drag.index"
                         @active="activeIndex = drag.index"
                         @blur="activeIndex = -1"
-                        @updateContent="updateContentHandle"
+                        @update="updateContentHandle"
                         @remove="removeContentHandle(drag.index)"
+                        @add="addContentHandle"
+                        @create="changeOrderHandle"
                     ></chunk-content>
                 </drag-list>
             </div>

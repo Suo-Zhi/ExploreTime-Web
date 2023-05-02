@@ -28,6 +28,6 @@ export default {
 
     // 新增
     create: (dto: CreatePointDTO) => {
-        return http.post('point', { ...dto });
+        return http.post<Point>('point', { ...dto });
     },
 };
