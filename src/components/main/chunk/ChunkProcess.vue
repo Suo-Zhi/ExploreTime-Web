@@ -42,7 +42,7 @@ defineExpose({
 });
 
 const activeIndex = ref(-1); // 当前激活项
-// 更新知识块主体
+// 更新知识块
 const updateHandle = async (newValue: UpdateChunkDTO) => {
     const target = list.value[activeIndex.value];
     await api.chunk.update(target.id, newValue).then(() => {

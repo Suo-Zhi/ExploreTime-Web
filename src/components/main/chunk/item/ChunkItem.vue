@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as icons from '@icon-park/vue-next';
 import { Chunk } from '@/api/chunk/types';
+import { UpdatePointDTO } from '@/api/point/dto';
 
 interface Props {
     item: Chunk;
@@ -8,6 +9,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
+/* 块操作 */
 // 移除
 const removeHandle = async () => {
     await api.chunk.remove(props.item.id).then(() => {
@@ -42,12 +44,20 @@ const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
 const editEndHandle = () => {
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
+    // 判断值是否变动
+    if (
+        newValue.value.name === props.item.name &&
+        newValue.value.preface === props.item.preface &&
+        newValue.value.endnote === props.item.endnote
+    )
+        return emit('blur');
+
     // 调用新增或更新事件
     if (props.item.id === -1) create();
     else emit('update', newValue.value);
 };
 
-// 新增知识点
+// 新增知识块
 const create = async () => {
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
@@ -56,6 +66,21 @@ const create = async () => {
         emit('refresh');
     });
     emit('blur');
+};
+
+/* 块内容操作 */
+// 更新块内容
+const activeIndex = ref(-1); // 激活块内容索引
+const refreshPointBox = inject<any>('refreshPointBox');
+const updateContentHandle = async (newValue: UpdatePointDTO) => {
+    const target = props.item.content[activeIndex.value];
+    await api.point.updateBody(target.id, newValue).then(() => {
+        // 简易刷新
+        target.name = newValue.name;
+        target.content = newValue.content;
+        refreshPointBox(); // 刷新知识点列表
+    });
+    activeIndex.value = -1;
 };
 </script>
 
@@ -121,9 +146,14 @@ const create = async () => {
             <div class="content">
                 <add-line></add-line>
                 <chunk-content
-                    :item="item"
                     v-for="(item, index) of props.item.content"
+                    v-show="!item.isDel"
                     :key="index"
+                    :item="item"
+                    :isEdit="activeIndex === index"
+                    @active="activeIndex = index"
+                    @blur="activeIndex = -1"
+                    @updateContent="updateContentHandle"
                 ></chunk-content>
             </div>
 
