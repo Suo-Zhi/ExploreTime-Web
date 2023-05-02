@@ -43,6 +43,7 @@ defineExpose({
 
 // 更新
 const activeIndex = ref(-1);
+const refreshChunkBox = inject<any>('refreshChunkBox');
 const updateHandle = async (newValue: UpdatePointDTO) => {
     const target = list.value[activeIndex.value];
     await api.point.update(target.id, newValue).then(() => {
@@ -52,6 +53,8 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
             target.name = newValue.name;
             target.content = newValue.content;
         }
+        // 刷新块列表(这里不太合理: 应该当知识块列表存在该知识点时刷新单独块,以后改)
+        refreshChunkBox();
     });
     activeIndex.value = -1;
 };

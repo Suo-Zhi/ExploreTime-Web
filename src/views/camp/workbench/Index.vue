@@ -56,6 +56,12 @@ const refreshPointBox = () => {
     if (pointBoxRef.value) pointBoxRef.value.findList();
 };
 provide('refreshPointBox', refreshPointBox);
+// 获取刷新知识块列表
+const chunkBoxRef = ref<any>(null);
+const refreshChunkBox = () => {
+    if (chunkBoxRef.value) chunkBoxRef.value.findList();
+};
+provide('refreshChunkBox', refreshChunkBox);
 </script>
 
 <template>

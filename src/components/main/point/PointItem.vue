@@ -9,10 +9,17 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 
 // 移除
+const refreshChunkBox = inject<any>('refreshChunkBox');
 const removeHandle = async () => {
-    await api.point.remove(props.item.id).then(() => {
-        props.item.isDel = true;
-    });
+    await api.point
+        .remove(props.item.id)
+        .then(() => {
+            props.item.isDel = true;
+        })
+        .then(() => {
+            // 刷新块列表(这里不太合理: 应该当知识块列表存在该知识点时刷新单独块,以后改)
+            refreshChunkBox();
+        });
 };
 
 // 归档
