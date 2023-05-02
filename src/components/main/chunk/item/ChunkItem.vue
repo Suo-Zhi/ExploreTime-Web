@@ -118,12 +118,13 @@ const create = async () => {
             </div>
 
             <!-- 知识块内容列表 -->
-            <div class="content my-2">
-                <!-- <chunk-content
+            <div class="content">
+                <add-line></add-line>
+                <chunk-content
                     :item="item"
                     v-for="(item, index) of props.item.content"
                     :key="index"
-                ></chunk-content> -->
+                ></chunk-content>
             </div>
 
             <!-- 知识块尾注 -->
