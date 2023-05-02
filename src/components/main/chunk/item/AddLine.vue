@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <section class="add-line w-full h-[8px] group flex items-center cursor-pointer relative">
+    <section class="add-line w-full h-[1px] group flex items-center cursor-pointer relative">
         <div class="relative w-full h-[1px] bg-gray-200">
             <icon-plus
                 size="18"

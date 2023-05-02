@@ -130,7 +130,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
         <div class="chunk-main mt-2 mb-1 content-text mx-[10px]">
             <!-- 知识块前言 -->
             <div
-                class="preface ml-2 py-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-blue-50"
+                class="preface ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-blue-50"
             >
                 <edit-item
                     :value="props.item.preface"
@@ -143,23 +143,23 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
             </div>
 
             <!-- 知识块内容列表 -->
-            <div class="content">
+            <div class="content my-1">
                 <add-line></add-line>
-                <chunk-content
-                    v-for="(item, index) of props.item.content"
-                    v-show="!item.isDel"
-                    :key="index"
-                    :item="item"
-                    :isEdit="activeIndex === index"
-                    @active="activeIndex = index"
-                    @blur="activeIndex = -1"
-                    @updateContent="updateContentHandle"
-                ></chunk-content>
+                <drag-list :list="props.item.content" group="point" v-slot="drag">
+                    <chunk-content
+                        v-show="!drag.item.isDel"
+                        :item="drag.item"
+                        :isEdit="activeIndex === drag.index"
+                        @active="activeIndex = drag.index"
+                        @blur="activeIndex = -1"
+                        @updateContent="updateContentHandle"
+                    ></chunk-content>
+                </drag-list>
             </div>
 
             <!-- 知识块尾注 -->
             <div
-                class="endnote ml-2 py-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-slate-100"
+                class="endnote ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-slate-100"
             >
                 <edit-item
                     :value="props.item.endnote"

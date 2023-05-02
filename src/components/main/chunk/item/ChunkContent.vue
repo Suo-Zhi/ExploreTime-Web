@@ -37,7 +37,7 @@ const editEndHandle = () => {
 
 <template>
     <section class="chunk-content-item">
-        <card-fold class="px-1" :line="false">
+        <card-fold :line="false" :border="false">
             <template #title>
                 <edit-item
                     type="text"
@@ -49,10 +49,12 @@ const editEndHandle = () => {
                     placeholder="请输入知识点名"
                     class="title py-1 text-[14px] leading-[14px] w-[200px]"
                 ></edit-item>
+                <!-- 拖拽手柄 -->
+                <div class="drag-handle">&nbsp;</div>
             </template>
 
             <template #actions>
-                <div class="action-bar mr-2">
+                <div class="action-bar">
                     <icon-link-one
                         size="16"
                         :strokeWidth="3"

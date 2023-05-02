@@ -58,6 +58,7 @@ declare module '@vue/runtime-core' {
     CusSearch: typeof import('./../../src/components/base/CusSearch.vue')['default']
     DataCard: typeof import('./../../src/views/camp/dashboard/components/DataCard.vue')['default']
     DoughnutChart: typeof import('./../../src/views/camp/dashboard/components/DoughnutChart.vue')['default']
+    DragList: typeof import('./../../src/components/base/DragList.vue')['default']
     DropSelect: typeof import('./../../src/components/base/DropSelect.vue')['default']
     EditItem: typeof import('./../../src/components/input/EditItem.vue')['default']
     EmptyScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptyScreen.vue')['default']

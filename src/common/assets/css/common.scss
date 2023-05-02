@@ -27,3 +27,17 @@
 .group-show{
     @apply hidden group-hover:block duration-300
 }
+
+// 拖拽副本样式
+.ghost {
+    height: 3px;
+    border-radius: 8px;
+    animation-duration: 300ms;
+    background: $color-primary;
+    overflow: hidden;
+}
+
+// 拖拽手柄
+.drag-handle{
+    @apply w-full h-full cursor-move
+}
