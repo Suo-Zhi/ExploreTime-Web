@@ -1,4 +1,4 @@
-import { FindChunkDTO, UpdateChunkDTO } from './dto';
+import { CreateChunkDTO, FindChunkDTO, UpdateChunkDTO } from './dto';
 import { Chunk } from './types';
 
 export default {
@@ -22,5 +22,10 @@ export default {
     // 更新知识块
     update: (id: number, dto: UpdateChunkDTO) => {
         return http.patch('chunk/' + id, { ...dto });
+    },
+
+    // 新增
+    create: (dto: CreateChunkDTO) => {
+        return http.post('chunk', { ...dto });
     },
 };

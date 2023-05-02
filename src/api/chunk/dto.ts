@@ -7,9 +7,8 @@ export interface FindChunkDTO {
 
 export interface CreateChunkDTO {
     name: string;
-}
-
-export interface UpdateChunkDTO extends CreateChunkDTO {
     preface: string;
     endnote: string;
 }
+
+export interface UpdateChunkDTO extends CreateChunkDTO {}

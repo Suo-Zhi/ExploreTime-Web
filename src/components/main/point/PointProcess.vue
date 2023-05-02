@@ -58,6 +58,8 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
 
 // 点击新增按钮
 const clickAddHandle = () => {
+    // 切换至非已整理列表
+    if (filter.value === 'true') filter.value = '';
     // 列表顶部插入空白项
     list.value.unshift({
         id: -1,

@@ -22,7 +22,7 @@ const toggleRefineHandle = async () => {
     });
 };
 
-const emit = defineEmits(['active', 'update']);
+const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
 // 编辑前处理
 const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
@@ -41,9 +41,21 @@ const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
 // 编辑完成后需进行的处理
 const editEndHandle = () => {
     // 判空
-    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
-    // 调用更新事件
-    emit('update', newValue.value);
+    if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
+    // 调用新增或更新事件
+    if (props.item.id === -1) create();
+    else emit('update', newValue.value);
+};
+
+// 新增知识点
+const create = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
+
+    await api.chunk.create(newValue.value).then(() => {
+        emit('refresh');
+    });
+    emit('blur');
 };
 </script>
 
@@ -80,12 +92,6 @@ const editEndHandle = () => {
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
                 />
-                <icon-editor
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-primary"
-                    title="编辑"
-                />
                 <icon-hammer-and-anvil
                     size="17"
                     :strokeWidth="3"
@@ -113,11 +119,11 @@ const editEndHandle = () => {
 
             <!-- 知识块内容列表 -->
             <div class="content my-2">
-                <chunk-content
+                <!-- <chunk-content
                     :item="item"
                     v-for="(item, index) of props.item.content"
                     :key="index"
-                ></chunk-content>
+                ></chunk-content> -->
             </div>
 
             <!-- 知识块尾注 -->
