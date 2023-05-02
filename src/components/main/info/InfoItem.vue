@@ -21,6 +21,18 @@ const toggleRefineHandle = async () => {
         props.item.isRefine = !props.item.isRefine;
     });
 };
+
+// 编辑完成后需进行的处理
+const emit = defineEmits(['active', 'blur', 'update']);
+const editEndHandle = (newValue: string) => {
+    // 判空
+    if (tool.isEmpty(newValue, '有效信息')) return;
+    // 判断值是否变动
+    if (newValue === props.item.content) return emit('blur');
+
+    // 调用更新事件
+    emit('update', newValue);
+};
 </script>
 
 <template>
@@ -32,7 +44,7 @@ const toggleRefineHandle = async () => {
             :isEdit="props.isEdit"
             placeholder="输入有效信息..."
             @editStart="$emit('active')"
-            @editEnd="$emit('updateContent', $event)"
+            @editEnd="editEndHandle"
         ></edit-item>
 
         <!-- 卡片底部 -->

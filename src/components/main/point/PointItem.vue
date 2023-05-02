@@ -40,7 +40,11 @@ const editStartHandle = (target: 'all' | 'name' | 'content') => {
 // 编辑完成后需进行的处理
 const editEndHandle = () => {
     // 判空
-    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return (newValue.value.content = '');
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
+    // 判断值是否变动
+    if (newValue.value.name === props.item.name && newValue.value.content === props.item.content)
+        return emit('blur');
+
     // 调用新增或更新事件
     if (props.item.id === -1) create();
     else emit('update', newValue.value);

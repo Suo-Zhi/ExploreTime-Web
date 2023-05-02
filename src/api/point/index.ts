@@ -22,8 +22,8 @@ export default {
     },
 
     // 更新
-    updateBody: (id: number, dto: UpdatePointDTO) => {
-        return http.patch('point/body' + id, { ...dto });
+    update: (id: number, dto: UpdatePointDTO) => {
+        return http.patch('point/' + id, { ...dto });
     },
 
     // 新增

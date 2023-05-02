@@ -60,7 +60,8 @@ const updateHandle = async (value: any) => {
             :item="item"
             :isEdit="activeIndex === index"
             @active="activeIndex = index"
-            @updateContent="updateHandle"
+            @blur="activeIndex = -1"
+            @update="updateHandle"
             @refine="
                 refineItem = item;
                 isShowRefineModel = true;

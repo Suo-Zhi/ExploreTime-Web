@@ -74,7 +74,7 @@ const activeIndex = ref(-1); // 激活块内容索引
 const refreshPointBox = inject<any>('refreshPointBox');
 const updateContentHandle = async (newValue: UpdatePointDTO) => {
     const target = props.item.content[activeIndex.value];
-    await api.point.updateBody(target.id, newValue).then(() => {
+    await api.point.update(target.id, newValue).then(() => {
         // 简易刷新
         target.name = newValue.name;
         target.content = newValue.content;

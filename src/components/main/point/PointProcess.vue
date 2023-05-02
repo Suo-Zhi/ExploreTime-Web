@@ -45,7 +45,7 @@ defineExpose({
 const activeIndex = ref(-1);
 const updateHandle = async (newValue: UpdatePointDTO) => {
     const target = list.value[activeIndex.value];
-    await api.point.updateBody(target.id, newValue).then(() => {
+    await api.point.update(target.id, newValue).then(() => {
         // 处于搜索中则刷新列表，反之简易处理
         if (keywords.value) findList();
         else {
