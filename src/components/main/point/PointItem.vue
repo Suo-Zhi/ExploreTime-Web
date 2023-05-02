@@ -24,18 +24,21 @@ const toggleRefineHandle = async () => {
 
 const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
-// 新值
-const newValue = ref({
-    name: '',
-    content: '',
-});
+// 编辑前处理
+const newValue = ref({ name: '', content: '' }); // 新值
+const editTarget = ref('all'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
+const editStartHandle = (target: 'all' | 'name' | 'content') => {
+    // 该项切换至激活状态
+    emit('active');
+    // 同步值
+    newValue.value.name = props.item.name;
+    newValue.value.content = props.item.content;
+    // 锁定编辑目标
+    editTarget.value = target;
+};
 
 // 编辑完成后需进行的处理
-const editTarget = ref<'all' | 'name' | 'content'>('all'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
 const editEndHandle = () => {
-    // 补全未修改的值
-    if (editTarget.value === 'name') newValue.value.content = props.item.content;
-    else if (editTarget.value === 'content') newValue.value.name = props.item.name;
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return (newValue.value.content = '');
     // 调用新增或更新事件
@@ -80,10 +83,7 @@ const viewRelateDetail = () => {
                     type="text"
                     :value="props.item.name"
                     :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
-                    @editStart="
-                        $emit('active');
-                        editTarget = 'name';
-                    "
+                    @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
                     placeholder="请输入知识点名"
@@ -113,10 +113,7 @@ const viewRelateDetail = () => {
             <edit-item
                 :value="props.item.content"
                 :isEdit="props.isEdit && (editTarget === 'content' || editTarget === 'all')"
-                @editStart="
-                    $emit('active');
-                    editTarget = 'content';
-                "
+                @editStart="editStartHandle('content')"
                 @changeValue="newValue.content = $event"
                 @editEnd="editEndHandle"
                 placeholder="请输入知识点内容"
