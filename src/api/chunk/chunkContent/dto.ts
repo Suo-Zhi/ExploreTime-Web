@@ -3,3 +3,8 @@ export interface UpsertChunkContentDTO {
     order: number;
     pointId: number;
 }
+
+export interface DeleteChunkContentDTO {
+    chunkId: number;
+    order: number;
+}

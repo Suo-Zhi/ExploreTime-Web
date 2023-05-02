@@ -7,7 +7,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-const emit = defineEmits(['active', 'blur', 'updateContent', 'refresh']);
+const emit = defineEmits(['active', 'blur', 'updateContent', 'refresh', 'remove']);
 
 // 编辑前处理
 const newValue = ref({ name: '', content: '' }); // 新值
@@ -72,6 +72,7 @@ const editEndHandle = () => {
                         :strokeWidth="3"
                         class="cursor-pointer hover:text-red-600"
                         title="移出"
+                        @click="$emit('remove')"
                     />
                 </div>
             </template>

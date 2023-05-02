@@ -84,6 +84,7 @@ const clickAddHandle = () => {
         <!-- 知识点列表 -->
         <drag-list
             :list="list"
+            item-key="id"
             :group="{ name: 'point', pull: 'clone', put: false }"
             :sort="false"
             ghostClass=""

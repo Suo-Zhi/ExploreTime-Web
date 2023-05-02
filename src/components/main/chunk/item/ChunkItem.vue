@@ -93,6 +93,17 @@ const changeOrderHandle = async () => {
     // 改变知识块更新时间
     await api.chunk.updateTime(props.item.id);
 };
+
+// 移出块内容
+const removeContentHandle = async (index?: number) => {
+    // 按钮移出需要伪刷新,拖拽移出不用
+    if (typeof index === 'number') props.item.content.splice(index, 1);
+    // 先删除列表[最后一项],然后再通过upset获得新列表(删的不是最后一个会导致出现两个末尾项)
+    const length = props.item.content.length;
+    await api.chunkContent.delete({ chunkId: props.item.id, order: length }).then(async () => {
+        await changeOrderHandle();
+    });
+};
 </script>
 
 <template>
@@ -158,9 +169,11 @@ const changeOrderHandle = async () => {
                 <add-line></add-line>
                 <drag-list
                     :list="props.item.content"
+                    item-key="order"
                     group="point"
                     @update="changeOrderHandle"
                     @add="changeOrderHandle"
+                    @remove="removeContentHandle()"
                     v-slot="drag"
                 >
                     <chunk-content
@@ -170,6 +183,7 @@ const changeOrderHandle = async () => {
                         @active="activeIndex = drag.index"
                         @blur="activeIndex = -1"
                         @updateContent="updateContentHandle"
+                        @remove="removeContentHandle(drag.index)"
                     ></chunk-content>
                 </drag-list>
             </div>

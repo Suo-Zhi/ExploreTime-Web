@@ -15,7 +15,6 @@ const props = withDefaults(defineProps<Props>(), {});
         handle=".drag-handle"
         ghostClass="ghost"
         animation="200"
-        item-key="id"
         :scroll-sensitivity="150"
         :force-fallback="true"
         scrollSpeed="20"
