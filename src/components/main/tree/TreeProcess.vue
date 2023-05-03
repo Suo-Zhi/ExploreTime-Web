@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SortTree } from '@/api/tree/types';
+import { SortTree, TreeItem } from '@/api/tree/types';
 
 const isLoad = ref(false);
 
@@ -17,6 +17,29 @@ const filterOptions = [
     { label: '私有', value: '' },
     { label: '公开', value: 'true' },
 ];
+
+// 查
+const list = ref<TreeItem[]>([]);
+const keywords = ref('');
+const findList = async () => {
+    isLoad.value = true;
+
+    await api.tree
+        .findMy({ keywords: keywords.value, sort: sort.value })
+        .then((res) => {
+            list.value = res.data;
+            console.log(list.value);
+        })
+        .finally(() => {
+            isLoad.value = false;
+        });
+};
+onMounted(async () => {
+    await findList();
+});
+defineExpose({
+    findList,
+});
 </script>
 
 <template>
@@ -30,6 +53,7 @@ const filterOptions = [
                 :options="sortOptions"
                 storeKey="tree"
                 cacheKey="tree"
+                @change="findList"
             ></select-sort>
             <select-type
                 v-model="filter"
@@ -39,6 +63,7 @@ const filterOptions = [
         </template>
 
         <template #navRight>
+            <search-bar v-model="keywords" @search="findList"></search-bar>
             <add-button title="新增知识树"></add-button>
         </template>
     </common-box>
