@@ -36,12 +36,20 @@ watch(
 
 // 新增关联
 const addRelateHandle = async (index: number) => {
-    await api.relate.createRelate({
-        targetId: targetId.value,
-        targetType: targetType.value,
-        relateId: list.value[index].id,
-        relateType: 'point',
-    });
+    await api.relate
+        .createRelate({
+            targetId: targetId.value,
+            targetType: targetType.value,
+            relateId: list.value[index].id,
+            relateType: 'point',
+        })
+        .then((res) => {
+            // 不能重复关联或关联本身
+            if (res.data.status === 0) {
+                list.value.splice(index, 1);
+                store.global().prompt(res.data.msg);
+            }
+        });
 };
 
 // 更新知识点
