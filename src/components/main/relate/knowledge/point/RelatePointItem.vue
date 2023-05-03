@@ -7,28 +7,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-// 编辑目标
-const editTarget = ref<'name' | 'content'>('name');
-
-// 新值
-const newValue = ref({
-    // 别直接等于props
-    name: '',
-    content: '',
-});
-
-const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
-
-// 编辑完成后需进行的处理
-const editEndHandle = () => {
-    // 补全未修改的值
-    if (editTarget.value === 'name') newValue.value.content = props.item.content;
-    else if (editTarget.value === 'content') newValue.value.name = props.item.name;
-    // 判空
-    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return (newValue.value.content = '');
-    // 调用更新事件
-    emit('update', newValue.value);
-};
+const emit = defineEmits(['refresh', 'active', 'blur', 'update']);
 
 // 打开关联详情
 const switchHistory: any = inject('switchHistory');
@@ -57,6 +36,30 @@ const cancelRelate = async (id: number) => {
             emit('refresh');
         });
 };
+
+// 编辑前处理
+const newValue = ref({ name: '', content: '' }); // 新值
+const editTarget = ref('name'); // 编辑目标
+const editStartHandle = (target: 'name' | 'content') => {
+    // 该项切换至激活状态
+    emit('active');
+    // 同步值
+    newValue.value.name = props.item.name;
+    newValue.value.content = props.item.content;
+    // 锁定编辑目标
+    editTarget.value = target;
+};
+
+// 编辑完成后需进行的处理
+const editEndHandle = () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
+    // 判断值是否变动
+    if (newValue.value.name === props.item.name && newValue.value.content === props.item.content)
+        return emit('blur');
+    // 调用更新事件
+    emit('update', newValue.value);
+};
 </script>
 <template>
     <!-- 知识点项 -->
@@ -73,10 +76,7 @@ const cancelRelate = async (id: number) => {
                     type="text"
                     :value="props.item.name"
                     :isEdit="props.isEdit && editTarget === 'name'"
-                    @editStart="
-                        $emit('active');
-                        editTarget = 'name';
-                    "
+                    @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
                     placeholder="请输入知识点名"
@@ -108,10 +108,7 @@ const cancelRelate = async (id: number) => {
             <edit-item
                 :value="props.item.content"
                 :isEdit="props.isEdit && editTarget === 'content'"
-                @editStart="
-                    $emit('active');
-                    editTarget = 'content';
-                "
+                @editStart="editStartHandle('content')"
                 @changeValue="newValue.content = $event"
                 @editEnd="editEndHandle"
                 placeholder="请输入知识点内容"

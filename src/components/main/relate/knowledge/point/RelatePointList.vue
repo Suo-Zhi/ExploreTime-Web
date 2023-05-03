@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UpdatePointDTO } from '@/api/point/dto';
 import { Point } from '@/api/point/types';
 
 const targetId = inject<any>('targetId'); // 源目标Id
@@ -34,8 +35,6 @@ watch(
     { immediate: true }
 );
 
-const activeIndex = ref(-1);
-
 // 新增关联
 const addRelateHandle = async (index: number) => {
     await api.relate.createRelate({
@@ -44,6 +43,26 @@ const addRelateHandle = async (index: number) => {
         relateId: list.value[index].id,
         relateType: 'point',
     });
+};
+
+// 更新知识点
+const activeIndex = ref(-1);
+const refreshPointBox = inject<any>('refreshPointBox');
+const refreshChunkBox = inject<any>('refreshChunkBox');
+const updateHandle = async (newValue: UpdatePointDTO) => {
+    const target = list.value[activeIndex.value];
+    await api.point.update(target.id, newValue).then(() => {
+        // 处于搜索中则刷新列表，反之简易处理
+        if (keywords.value) findList();
+        else {
+            target.name = newValue.name;
+            target.content = newValue.content;
+        }
+        // 刷新其它区域
+        refreshPointBox();
+        refreshChunkBox(); // 这里不太合理: 应该当知识块列表存在该知识点时刷新单独块,以后改
+    });
+    activeIndex.value = -1;
 };
 </script>
 
@@ -64,7 +83,10 @@ const addRelateHandle = async (index: number) => {
                     :item="drag.item"
                     :isEdit="activeIndex === drag.index"
                     v-show="!drag.item.isDel"
+                    @active="activeIndex = drag.index"
+                    @blur="activeIndex = -1"
                     @refresh="findList"
+                    @update="updateHandle"
                 ></relate-point-item>
             </drag-list>
         </scroll-bar>
