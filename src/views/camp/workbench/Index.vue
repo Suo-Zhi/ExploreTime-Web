@@ -14,10 +14,13 @@ const switchSection = (section: Section) => {
     store.setting().screen = screen.value;
 };
 
-// 持久化存储
 watch(
     screen,
-    () => {
+    (newValue) => {
+        // 不显示链接页时重置链接索引
+        if (newValue.left.search('Detail') === -1) store.setting().history.activeIndex.left = -1;
+        if (newValue.right.search('Detail') === -1) store.setting().history.activeIndex.right = -1;
+        // 持久化存储
         localCache.set('screen', screen.value);
     },
     { deep: true }

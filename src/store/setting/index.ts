@@ -61,14 +61,11 @@ export default defineStore('setting', {
             if (index === -1) {
                 // 新增链接
                 this.history.links.push(newLink);
-                // 历史链接数是否超过上限
+                // 历史链接数超过上限则移除首项
                 const lenght = this.history.links.length;
-                if (lenght > 6) {
-                    this.removeHistoryLink(0); // 移除首项
-                    // 满屏有大坑(关联区),以后再来
-                }
+                if (lenght > 6) this.removeHistoryLink(0);
                 // 激活新增链接
-                else this.history.activeIndex[this.nextScreen] = this.history.links.length - 1;
+                this.history.activeIndex[this.nextScreen] = this.history.links.length - 1;
             }
             // 已存在则激活该链接
             else this.history.activeIndex[this.nextScreen] = index;
