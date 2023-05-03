@@ -40,7 +40,7 @@ const activeIndex = ref(-1);
 <template>
     <!-- 关联知识点列表 -->
     <load-box :isLoad="isLoad" class="relate-point-list h-full">
-        <scroll-bar>
+        <scroll-bar v-if="list.length !== 0">
             <relate-point-item
                 v-for="(item, index) of list"
                 :key="index"
@@ -50,6 +50,7 @@ const activeIndex = ref(-1);
                 @refresh="findList"
             ></relate-point-item>
         </scroll-bar>
+        <empty v-else-if="!isLoad" text="暂无关联知识点" />
     </load-box>
 </template>
 
