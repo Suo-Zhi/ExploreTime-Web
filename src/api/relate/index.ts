@@ -1,5 +1,5 @@
 import { Point } from '../point/types';
-import { DelRelateDTO, FindRelateDTO } from './dto';
+import { CreateRelateDTO, DelRelateDTO, FindRelateDTO } from './dto';
 
 export default {
     // 获取关联项
@@ -14,9 +14,12 @@ export default {
     // 取消关联
     delRelate: (dto: DelRelateDTO) => {
         return http.delete('relate', {
-            params: {
-                ...dto,
-            },
+            params: { ...dto },
         });
+    },
+
+    // 新增关联
+    createRelate: (dto: CreateRelateDTO) => {
+        return http.post('relate', { ...dto });
     },
 };

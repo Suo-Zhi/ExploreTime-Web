@@ -35,6 +35,16 @@ watch(
 );
 
 const activeIndex = ref(-1);
+
+// 新增关联
+const addRelateHandle = async (index: number) => {
+    await api.relate.createRelate({
+        targetId: targetId.value,
+        targetType: targetType.value,
+        relateId: list.value[index].id,
+        relateType: 'point',
+    });
+};
 </script>
 
 <template>
@@ -48,6 +58,7 @@ const activeIndex = ref(-1);
                 :sort="false"
                 ghostClass=""
                 v-slot="drag"
+                @add="addRelateHandle($event.newIndex)"
             >
                 <relate-point-item
                     :item="drag.item"
