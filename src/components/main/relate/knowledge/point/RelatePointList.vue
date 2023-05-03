@@ -17,7 +17,6 @@ const findList = async () => {
         .findPointRelate({
             targetId: targetId.value,
             targetType: targetType.value,
-            relateType: 'point',
             keywords: keywords.value,
         })
         .then((res) => {

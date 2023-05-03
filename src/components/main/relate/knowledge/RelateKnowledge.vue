@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<Props>(), {});
 <template>
     <section class="relate-knowledge h-full">
         <relate-point-list v-if="props.type === 'point'"></relate-point-list>
+        <relate-chunk-list v-if="props.type === 'chunk'"></relate-chunk-list>
     </section>
 </template>
 
