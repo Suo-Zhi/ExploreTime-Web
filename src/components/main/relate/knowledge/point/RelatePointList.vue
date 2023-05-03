@@ -67,7 +67,7 @@ const updateHandle = async (newValue: UpdatePointDTO) => {
 
 <template>
     <!-- 关联知识点列表 -->
-    <load-box :isLoad="isLoad" class="relate-point-list h-full relative">
+    <load-box :isLoad="isLoad" class="relate-point-list h-full pb-[36px] relative">
         <scroll-bar>
             <drag-list
                 :list="list"

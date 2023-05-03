@@ -38,7 +38,7 @@ const activeIndex = ref(-1);
 
 <template>
     <!-- 关联知识块列表 -->
-    <load-box :isLoad="isLoad" class="relate-chunk-list h-full relative">
+    <load-box :isLoad="isLoad" class="relate-chunk-list h-full pb-[30px] relative">
         <scroll-bar>
             <relate-chunk-item
                 v-for="(item, index) of list"
@@ -46,6 +46,7 @@ const activeIndex = ref(-1);
                 :item="item"
                 :isEdit="activeIndex === index"
                 v-show="!item.isDel"
+                @refresh="findList"
             ></relate-chunk-item>
         </scroll-bar>
         <empty v-if="!isLoad && list.length === 0" text="暂无关联知识块" />

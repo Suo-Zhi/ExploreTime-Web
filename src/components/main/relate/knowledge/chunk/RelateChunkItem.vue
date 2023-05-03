@@ -7,6 +7,8 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
+const emit = defineEmits(['refresh']);
+
 // 打开关联详情
 const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
@@ -17,6 +19,22 @@ const viewRelateDetail = () => {
         targetType: 'chunk',
     });
     switchHistory('relateDetail');
+};
+
+// 取消关联
+const targetId = inject<any>('targetId'); // 源目标Id
+const targetType = inject<any>('targetType'); // 源目标类型
+const cancelRelate = async (id: number) => {
+    await api.relate
+        .delRelate({
+            targetId: targetId.value,
+            targetType: targetType.value,
+            relateId: id,
+            relateType: 'chunk',
+        })
+        .then(() => {
+            emit('refresh');
+        });
 };
 
 const activeIndex = ref(-1);
@@ -105,6 +123,7 @@ const activeIndex = ref(-1);
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="取消关联"
+                    @click="cancelRelate(item.id)"
                 />
             </section>
         </div>
