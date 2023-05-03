@@ -16,16 +16,16 @@ provide('targetType', targetType);
 provide('keywords', keywords);
 
 // 同步关联源目标值
-const activeIndex = computed(() => history.activeIndex[props.screen]);
 watch(
-    activeIndex,
-    () => {
-        if (activeIndex.value !== -1 && history.links[activeIndex.value]) {
-            targetId.value = history.links[activeIndex.value].targetId;
-            targetType.value = history.links[activeIndex.value].targetType;
+    () => history.activeIndex,
+    (newValue) => {
+        const index = newValue[props.screen];
+        if (index !== -1 && history.links[index]) {
+            targetId.value = history.links[index].targetId;
+            targetType.value = history.links[index].targetType;
         }
     },
-    { immediate: true }
+    { immediate: true, deep: true }
 );
 
 const tab = ref<'sum' | 'knowledge' | 'explain' | 'exercise'>('knowledge'); // 当前激活选项卡
