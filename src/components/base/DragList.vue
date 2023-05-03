@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {});
         :scroll-sensitivity="150"
         :force-fallback="true"
         scrollSpeed="20"
+        class="h-full"
     >
         <template #item="{ element: item, index }">
             <div>

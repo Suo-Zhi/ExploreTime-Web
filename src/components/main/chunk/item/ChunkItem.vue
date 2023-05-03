@@ -123,6 +123,18 @@ const addContentHandle = (index: number) => {
     // 激活新空白项
     activeIndex.value = index;
 };
+
+// 打开关联详情
+const switchHistory: any = inject('switchHistory');
+const viewRelateDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '块关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'chunk',
+    });
+    switchHistory('relateDetail');
+};
 </script>
 
 <template>
@@ -151,6 +163,7 @@ const addContentHandle = (index: number) => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="关联情况"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"

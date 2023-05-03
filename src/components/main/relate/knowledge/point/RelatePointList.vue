@@ -39,18 +39,25 @@ const activeIndex = ref(-1);
 
 <template>
     <!-- 关联知识点列表 -->
-    <load-box :isLoad="isLoad" class="relate-point-list h-full">
-        <scroll-bar v-if="list.length !== 0">
-            <relate-point-item
-                v-for="(item, index) of list"
-                :key="index"
-                :item="item"
-                :isEdit="activeIndex === index"
-                v-show="!item.isDel"
-                @refresh="findList"
-            ></relate-point-item>
+    <load-box :isLoad="isLoad" class="relate-point-list h-full relative">
+        <scroll-bar>
+            <drag-list
+                :list="list"
+                item-key="id"
+                :group="{ name: 'point', pull: 'clone' }"
+                :sort="false"
+                ghostClass=""
+                v-slot="drag"
+            >
+                <relate-point-item
+                    :item="drag.item"
+                    :isEdit="activeIndex === drag.index"
+                    v-show="!drag.item.isDel"
+                    @refresh="findList"
+                ></relate-point-item>
+            </drag-list>
         </scroll-bar>
-        <empty v-else-if="!isLoad" text="暂无关联知识点" />
+        <empty v-if="!isLoad && list.length === 0" text="暂无关联知识点" />
     </load-box>
 </template>
 

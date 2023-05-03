@@ -114,6 +114,8 @@ declare module '@vue/runtime-core' {
     ProcessBox: typeof import('./../../src/components/main/ProcessBox.vue')['default']
     RefineInfoModal: typeof import('./../../src/components/main/info/RefineInfoModal.vue')['default']
     RefineModal: typeof import('./../../src/components/main/info/RefineModal.vue')['default']
+    RelateChunkItem: typeof import('./../../src/components/main/relate/knowledge/chunk/RelateChunkItem.vue')['default']
+    RelateChunkList: typeof import('./../../src/components/main/relate/knowledge/chunk/RelateChunkList.vue')['default']
     RelateDetail: typeof import('./../../src/components/main/relate/RelateDetail.vue')['default']
     RelateKnowledge: typeof import('./../../src/components/main/relate/knowledge/RelateKnowledge.vue')['default']
     RelatePointItem: typeof import('./../../src/components/main/relate/knowledge/point/RelatePointItem.vue')['default']
