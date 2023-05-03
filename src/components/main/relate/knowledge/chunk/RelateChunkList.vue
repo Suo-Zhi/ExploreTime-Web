@@ -34,20 +34,46 @@ watch(
 );
 
 const activeIndex = ref(-1);
+
+// 新增关联
+const addRelateHandle = async (index: number) => {
+    await api.relate
+        .createRelate({
+            targetId: targetId.value,
+            targetType: targetType.value,
+            relateId: list.value[index].id,
+            relateType: 'chunk',
+        })
+        .then((res) => {
+            // 不能重复关联或关联本身
+            if (res.data.status === 0) {
+                list.value.splice(index, 1);
+                store.global().prompt(res.data.msg);
+            }
+        });
+};
 </script>
 
 <template>
     <!-- 关联知识块列表 -->
-    <load-box :isLoad="isLoad" class="relate-chunk-list h-full pb-[30px] relative">
+    <load-box :isLoad="isLoad" class="relate-chunk-list h-full pb-[36px] relative">
         <scroll-bar>
-            <relate-chunk-item
-                v-for="(item, index) of list"
-                :key="index"
-                :item="item"
-                :isEdit="activeIndex === index"
-                v-show="!item.isDel"
-                @refresh="findList"
-            ></relate-chunk-item>
+            <drag-list
+                :list="list"
+                item-key="id"
+                :group="{ name: 'chunk', pull: 'clone' }"
+                :sort="false"
+                ghostClass=""
+                v-slot="drag"
+                @add="addRelateHandle($event.newIndex)"
+            >
+                <relate-chunk-item
+                    :item="drag.item"
+                    :isEdit="activeIndex === drag.index"
+                    v-show="!drag.item.isDel"
+                    @refresh="findList"
+                ></relate-chunk-item>
+            </drag-list>
         </scroll-bar>
         <empty v-if="!isLoad && list.length === 0" text="暂无关联知识块" />
     </load-box>

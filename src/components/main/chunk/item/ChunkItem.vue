@@ -153,6 +153,8 @@ const viewRelateDetail = () => {
                 placeholder="请输入知识块名"
                 class="title py-2 w-[200px]"
             ></edit-item>
+            <!-- 拖拽手柄 -->
+            <div class="drag-handle">&nbsp;</div>
         </template>
 
         <!-- 顶部操作栏 -->

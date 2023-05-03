@@ -80,19 +80,28 @@ const clickAddHandle = () => {
 </script>
 
 <template>
-    <common-box class="chunk-process" :isLoad="isLoad">
+    <common-box class="chunk-process pb-[6px]" :isLoad="isLoad">
         <!-- 知识块列表 -->
-        <chunk-item
-            v-for="(item, index) of list"
-            :key="index"
-            :item="item"
-            :isEdit="activeIndex === index"
-            @active="activeIndex = index"
-            @blur="activeIndex = -1"
-            @update="updateHandle"
-            @refresh="findList"
-            v-show="!item.isDel && (item.isRefine === Boolean(filter) || filter === 'all')"
-        ></chunk-item>
+        <drag-list
+            :list="list"
+            item-key="id"
+            :group="{ name: 'chunk', pull: 'clone', put: false }"
+            :sort="false"
+            ghostClass=""
+            v-slot="drag"
+        >
+            <chunk-item
+                :item="drag.item"
+                :isEdit="activeIndex === drag.index"
+                @active="activeIndex = drag.index"
+                @blur="activeIndex = -1"
+                @update="updateHandle"
+                @refresh="findList"
+                v-show="
+                    !drag.item.isDel && (drag.item.isRefine === Boolean(filter) || filter === 'all')
+                "
+            ></chunk-item>
+        </drag-list>
 
         <template #navLeft>
             <select-sort
