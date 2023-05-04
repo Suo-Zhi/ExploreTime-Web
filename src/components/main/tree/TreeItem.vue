@@ -20,6 +20,33 @@ const togglePublicHandle = async () => {
         props.item.isPublic = !props.item.isPublic;
     });
 };
+
+const emit = defineEmits(['active', 'blur', 'update']);
+
+// 编辑前处理
+const newValue = ref({ name: '', preface: '' }); // 新值
+const editTarget = ref('all'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
+const editStartHandle = (target: 'all' | 'name' | 'preface') => {
+    // 该项切换至激活状态
+    emit('active');
+    // 同步值
+    newValue.value.name = props.item.name;
+    newValue.value.preface = props.item.preface;
+    // 锁定编辑目标
+    editTarget.value = target;
+};
+
+// 编辑完成后需进行的处理
+const editEndHandle = () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识树名', 'text')) return;
+    // 判断值是否变动
+    if (newValue.value.name === props.item.name && newValue.value.preface === props.item.preface)
+        return emit('blur');
+
+    // 调用更新事件
+    emit('update', newValue.value);
+};
 </script>
 
 <template>
@@ -34,7 +61,10 @@ const togglePublicHandle = async () => {
                 <edit-item
                     type="text"
                     :value="props.item.name"
-                    :isEdit="props.isEdit"
+                    :isEdit="props.isEdit && editTarget === 'name'"
+                    @editStart="editStartHandle('name')"
+                    @changeValue="newValue.name = $event"
+                    @editEnd="editEndHandle"
                     placeholder="请输入知识树名"
                 ></edit-item>
             </div>
@@ -71,8 +101,11 @@ const togglePublicHandle = async () => {
             <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
                 <edit-item
                     :value="props.item.preface"
-                    :isEdit="props.isEdit"
-                    placeholder="请输入知识点内容"
+                    :isEdit="props.isEdit && editTarget === 'preface'"
+                    @editStart="editStartHandle('preface')"
+                    @changeValue="newValue.preface = $event"
+                    @editEnd="editEndHandle"
+                    placeholder="请输入知识树前言"
                 ></edit-item>
             </div>
         </div>

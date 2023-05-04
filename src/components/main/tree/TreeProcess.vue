@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UpdateTreeDTO } from '@/api/tree/dto';
 import { SortTree, Tree } from '@/api/tree/types';
 
 const isLoad = ref(false);
@@ -40,7 +41,20 @@ defineExpose({
     findList,
 });
 
+// 更新
 const activeIndex = ref(-1);
+const updateHandle = async (newValue: UpdateTreeDTO) => {
+    const target = list.value[activeIndex.value];
+    await api.tree.update(target.id, newValue).then(() => {
+        // 处于搜索中则刷新列表，反之简易处理
+        if (keywords.value) findList();
+        else {
+            target.name = newValue.name;
+            target.preface = newValue.preface;
+        }
+    });
+    activeIndex.value = -1;
+};
 </script>
 
 <template>
@@ -51,6 +65,9 @@ const activeIndex = ref(-1);
             :key="index"
             :item="item"
             :isEdit="activeIndex === index"
+            @active="activeIndex = index"
+            @blur="activeIndex = -1"
+            @update="updateHandle"
             v-show="!item.isDel && (item.isPublic === Boolean(filter) || filter === 'all')"
         ></tree-item>
 

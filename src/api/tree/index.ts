@@ -1,4 +1,4 @@
-import { FindTreeDTO } from './dto';
+import { FindTreeDTO, UpdateTreeDTO } from './dto';
 import { Tree } from './types';
 
 export default {
@@ -17,5 +17,10 @@ export default {
     // 公开
     togglePublic: (id: number, value: boolean) => {
         return http.patch('tree/public' + id, { value });
+    },
+
+    // 更新
+    update: (id: number, dto: UpdateTreeDTO) => {
+        return http.patch('tree/' + id, { ...dto });
     },
 };
