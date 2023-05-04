@@ -20,8 +20,6 @@ const getTreeDetail = async () => {
 };
 getTreeDetail();
 
-const isEdit = ref(false);
-
 // 打开关联详情
 const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
@@ -43,6 +41,38 @@ const togglePublicHandle = async () => {
         store.global().prompt(treeDetail.value.isPublic ? '公开成功' : '已取消公开', 'success');
     });
 };
+
+// 编辑前处理
+const editTarget = ref(''); // 编辑目标
+const newValue = ref({ name: '', preface: '' }); // 新值
+const editStartHandle = (target: 'name' | 'preface') => {
+    // 同步值
+    newValue.value.name = treeDetail.value.name;
+    newValue.value.preface = treeDetail.value.preface;
+    // 锁定编辑目标
+    editTarget.value = target;
+};
+
+// 编辑完成后需进行的处理
+const editEndHandle = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识树名', 'text')) return;
+    // 判断值是否变动
+    if (
+        newValue.value.name === treeDetail.value.name &&
+        newValue.value.preface === treeDetail.value.preface
+    )
+        return (editTarget.value = '');
+
+    // 更新树信息
+    await api.tree.update(treeDetail.value.id, newValue.value).then(() => {
+        // 刷新
+        treeDetail.value.name = newValue.value.name;
+        treeDetail.value.preface = newValue.value.preface;
+        refreshTreeBox();
+    });
+    editTarget.value = ''; // 取消编辑状态
+};
 </script>
 
 <template>
@@ -52,8 +82,11 @@ const togglePublicHandle = async () => {
             <edit-item
                 type="text"
                 :value="treeDetail.name"
-                :isEdit="isEdit"
+                :isEdit="editTarget === 'name'"
                 placeholder="请输入知识树名"
+                @editStart="editStartHandle('name')"
+                @changeValue="newValue.name = $event"
+                @editEnd="editEndHandle"
                 class="text-[26px]"
                 textClass="text-[26px] leading-[26px] h-[31.5px] text-center"
             ></edit-item>
@@ -63,8 +96,11 @@ const togglePublicHandle = async () => {
         <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
             <edit-item
                 :value="treeDetail.preface"
-                :isEdit="isEdit"
+                :isEdit="editTarget === 'preface'"
                 placeholder="请输入知识树前言"
+                @editStart="editStartHandle('preface')"
+                @changeValue="newValue.preface = $event"
+                @editEnd="editEndHandle"
             ></edit-item>
         </div>
 
