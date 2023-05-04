@@ -10,11 +10,9 @@ export interface Tree {
     authorId: string; // 作者Id
     createTime: Date; // 创建时间
     updateTime: Date; // 更新时间
-}
 
-export interface TreeItem extends Tree {
-    chunkTotal: number;
-    pointTotal: number;
+    chunkTotal: number; // 包含知识块数
+    pointTotal: number; // 包括知识点数
 }
 
 export interface SortTree {

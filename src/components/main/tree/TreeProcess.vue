@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SortTree, TreeItem } from '@/api/tree/types';
+import { SortTree, Tree } from '@/api/tree/types';
 
 const isLoad = ref(false);
 
@@ -19,7 +19,7 @@ const filterOptions = [
 ];
 
 // 查
-const list = ref<TreeItem[]>([]);
+const list = ref<Tree[]>([]);
 const keywords = ref('');
 const findList = async () => {
     isLoad.value = true;
@@ -28,23 +28,31 @@ const findList = async () => {
         .findMy({ keywords: keywords.value, sort: sort.value })
         .then((res) => {
             list.value = res.data;
-            console.log(list.value);
         })
         .finally(() => {
             isLoad.value = false;
         });
 };
-onMounted(async () => {
-    await findList();
+onMounted(() => {
+    findList();
 });
 defineExpose({
     findList,
 });
+
+const activeIndex = ref(-1);
 </script>
 
 <template>
     <common-box class="tree-process pb-[6px]" :isLoad="isLoad">
         <!-- 知识树列表 -->
+        <tree-item
+            v-for="(item, index) of list"
+            :key="index"
+            :item="item"
+            :isEdit="activeIndex === index"
+            v-show="!item.isDel && (item.isPublic === Boolean(filter) || filter === 'all')"
+        ></tree-item>
 
         <template #navLeft>
             <select-sort
