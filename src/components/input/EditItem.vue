@@ -4,10 +4,12 @@ interface Props {
     isEdit: boolean; // 是否切换为编辑状态
     placeholder: string;
     type?: 'rich' | 'text'; // 编辑框类型（富文本 | 普通文本）
+    textClass?: string; // 普通文本样式
 }
 const props = withDefaults(defineProps<Props>(), {
     isEdit: false,
     type: 'rich',
+    textClass: '',
 });
 
 const newValue = ref('');
@@ -53,6 +55,7 @@ watch(
                 "
                 @keydown.ctrl.enter="$emit('editEnd', newValue)"
                 class="w-full h-[24px] bg-white border-b border-primary ring-0 outline-none text-[14px]"
+                :class="props.textClass"
             />
         </div>
 
@@ -61,6 +64,7 @@ watch(
             v-else
             v-html="props.value"
             class="view-box content-text w-full h-full min-h-[8px]"
+            :class="props.textClass"
             @dblclick.stop="$emit('editStart')"
         ></div>
 
