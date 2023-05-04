@@ -22,6 +22,18 @@ getTreeDetail();
 
 const isEdit = ref(false);
 
+// 打开关联详情
+const switchHistory: any = inject('switchHistory');
+const viewRelateDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '树关联-' + treeDetail.value.name,
+        targetId: treeDetail.value.id,
+        targetType: 'tree',
+    });
+    switchHistory('relateDetail');
+};
+
 // 公开
 const refreshTreeBox = inject<any>('refreshTreeBox');
 const togglePublicHandle = async () => {
@@ -72,6 +84,7 @@ const togglePublicHandle = async () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看关联项"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"
