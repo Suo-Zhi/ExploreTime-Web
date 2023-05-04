@@ -106,7 +106,11 @@ const editEndHandle = async () => {
 
         <!-- 知识树内容 -->
         <section class="tree-nodes">
-            <tree-node></tree-node>
+            <tree-node
+                v-for="(node, index) of treeDetail.nodes"
+                :key="index"
+                :node="node"
+            ></tree-node>
         </section>
 
         <template #navLeft>
