@@ -1,5 +1,6 @@
 import { Chunk } from '../chunk/types';
 import { Point } from '../point/types';
+import { Tree } from '../tree/types';
 import { CreateRelateDTO, DelRelateDTO, FindRelateDTO } from './dto';
 
 export default {
@@ -14,6 +15,13 @@ export default {
     findChunkRelate: (dto: FindRelateDTO) => {
         return http.get<Chunk[]>('relate/chunk', {
             params: { ...dto, relateType: 'chunk' },
+        });
+    },
+
+    // 获取树关联项
+    findTreeRelate: (dto: FindRelateDTO) => {
+        return http.get<Tree[]>('relate/tree', {
+            params: { ...dto, relateType: 'tree' },
         });
     },
 

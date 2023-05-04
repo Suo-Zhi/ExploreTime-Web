@@ -125,6 +125,8 @@ declare module '@vue/runtime-core' {
     RelateProcess: typeof import('./../../src/components/main/relate/RelateProcess.vue')['default']
     RelateSum: typeof import('./../../src/components/main/relate/summary/RelateSum.vue')['default']
     RelateSummary: typeof import('./../../src/components/main/relate/summary/RelateSummary.vue')['default']
+    RelateTreeItem: typeof import('./../../src/components/main/relate/knowledge/tree/RelateTreeItem.vue')['default']
+    RelateTreeList: typeof import('./../../src/components/main/relate/knowledge/tree/RelateTreeList.vue')['default']
     RollBackground: typeof import('./../../src/views/auth/components/RollBackground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
