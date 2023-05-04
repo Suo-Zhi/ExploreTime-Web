@@ -59,6 +59,18 @@ const create = async () => {
     });
     emit('blur');
 };
+
+// 打开关联详情
+const switchHistory: any = inject('switchHistory');
+const viewRelateDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '树关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'tree',
+    });
+    switchHistory('relateDetail');
+};
 </script>
 
 <template>
@@ -87,6 +99,7 @@ const create = async () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看关联项"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"

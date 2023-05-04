@@ -63,7 +63,7 @@ export default defineStore('setting', {
                 this.history.links.push(newLink);
                 // 历史链接数超过上限则移除首项
                 const lenght = this.history.links.length;
-                if (lenght > 6) this.removeHistoryLink(0);
+                if (lenght > 5) this.removeHistoryLink(0);
                 // 激活新增链接
                 this.history.activeIndex[this.nextScreen] = this.history.links.length - 1;
             }
