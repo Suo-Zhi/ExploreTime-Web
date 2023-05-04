@@ -10,7 +10,7 @@ const isFold = ref(false);
 
 <template>
     <!-- 局部导航 -->
-    <section class="section-nav absolute px-2 top-0 w-full group z-20">
+    <section class="section-nav absolute px-2 top-0 w-full z-20">
         <div
             class="flex justify-between items-center overflow-hidden duration-300 relative"
             :class="[isFold ? 'cursor-pointer h-[1px]' : 'h-[30px]']"
@@ -31,11 +31,11 @@ const isFold = ref(false);
                 isFold = !isFold;
                 $emit('update:modelValue', isFold);
             "
-            :class="[isFold ? '-rotate-180 -bottom-[12px]' : '']"
+            :class="[isFold ? '-rotate-180 -bottom-[12.5px]' : '']"
             size="18"
             :strokeWidth="3"
             theme="filled"
-            class="text-secondary cursor-pointer duration-100 group-hover:block hidden absolute left-1/2 -translate-x-1/2 -bottom-[7px] z-20"
+            class="hover:text-secondary text-transparent cursor-pointer duration-100 absolute left-1/2 -translate-x-1/2 -bottom-[7px] z-20"
         ></component>
     </section>
 </template>
