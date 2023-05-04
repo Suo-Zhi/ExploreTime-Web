@@ -1,4 +1,4 @@
-import { FindTreeDTO, UpdateTreeDTO } from './dto';
+import { CreateTreeDTO, FindTreeDTO, UpdateTreeDTO } from './dto';
 import { Tree } from './types';
 
 export default {
@@ -22,5 +22,10 @@ export default {
     // 更新
     update: (id: number, dto: UpdateTreeDTO) => {
         return http.patch('tree/' + id, { ...dto });
+    },
+
+    // 新增
+    create: (dto: CreateTreeDTO) => {
+        return http.post<Tree>('tree', { ...dto });
     },
 };

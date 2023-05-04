@@ -21,7 +21,7 @@ const togglePublicHandle = async () => {
     });
 };
 
-const emit = defineEmits(['active', 'blur', 'update']);
+const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
 
 // 编辑前处理
 const newValue = ref({ name: '', preface: '' }); // 新值
@@ -44,8 +44,20 @@ const editEndHandle = () => {
     if (newValue.value.name === props.item.name && newValue.value.preface === props.item.preface)
         return emit('blur');
 
-    // 调用更新事件
-    emit('update', newValue.value);
+    // 调用新增或更新事件
+    if (props.item.id === -1) create();
+    else emit('update', newValue.value);
+};
+
+// 新增知识点
+const create = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识点名', 'text')) return;
+
+    await api.tree.create(newValue.value).then(() => {
+        emit('refresh');
+    });
+    emit('blur');
 };
 </script>
 
@@ -61,7 +73,7 @@ const editEndHandle = () => {
                 <edit-item
                     type="text"
                     :value="props.item.name"
-                    :isEdit="props.isEdit && editTarget === 'name'"
+                    :isEdit="props.isEdit && (editTarget === 'name' || editTarget === 'all')"
                     @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
@@ -101,7 +113,7 @@ const editEndHandle = () => {
             <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
                 <edit-item
                     :value="props.item.preface"
-                    :isEdit="props.isEdit && editTarget === 'preface'"
+                    :isEdit="props.isEdit && (editTarget === 'preface' || editTarget === 'all')"
                     @editStart="editStartHandle('preface')"
                     @changeValue="newValue.preface = $event"
                     @editEnd="editEndHandle"
