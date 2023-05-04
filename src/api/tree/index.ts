@@ -13,4 +13,9 @@ export default {
     remove: (id: number) => {
         return http.patch('tree/remove' + id);
     },
+
+    // 公开
+    togglePublic: (id: number, value: boolean) => {
+        return http.patch('tree/public' + id, { value });
+    },
 };

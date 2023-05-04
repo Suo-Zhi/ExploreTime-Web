@@ -13,6 +13,13 @@ const removeHandle = async () => {
         props.item.isDel = true;
     });
 };
+
+// 公开
+const togglePublicHandle = async () => {
+    await api.tree.togglePublic(props.item.id, !props.item.isPublic).then(() => {
+        props.item.isPublic = !props.item.isPublic;
+    });
+};
 </script>
 
 <template>
@@ -51,7 +58,10 @@ const removeHandle = async () => {
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看树详情"
                 />
-                <lock-button :isPublic="props.item.isPublic"></lock-button>
+                <lock-button
+                    :isPublic="props.item.isPublic"
+                    @click="togglePublicHandle"
+                ></lock-button>
             </section>
         </div>
 
