@@ -81,17 +81,26 @@ const clickAddHandle = () => {
 <template>
     <common-box class="tree-process pb-[6px]" :isLoad="isLoad">
         <!-- 知识树列表 -->
-        <tree-item
-            v-for="(item, index) of list"
-            :key="index"
-            :item="item"
-            :isEdit="activeIndex === index"
-            @active="activeIndex = index"
-            @blur="activeIndex = -1"
-            @update="updateHandle"
-            @refresh="findList"
-            v-show="!item.isDel && (item.isPublic === Boolean(filter) || filter === 'all')"
-        ></tree-item>
+        <drag-list
+            :list="list"
+            item-key="id"
+            :group="{ name: 'tree', pull: 'clone', put: false }"
+            :sort="false"
+            ghostClass=""
+            v-slot="drag"
+        >
+            <tree-item
+                :item="drag.item"
+                :isEdit="activeIndex === drag.index"
+                @active="activeIndex = drag.index"
+                @blur="activeIndex = -1"
+                @update="updateHandle"
+                @refresh="findList"
+                v-show="
+                    !drag.item.isDel && (drag.item.isPublic === Boolean(filter) || filter === 'all')
+                "
+            ></tree-item>
+        </drag-list>
 
         <template #navLeft>
             <select-sort

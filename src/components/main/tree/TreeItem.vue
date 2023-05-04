@@ -92,6 +92,8 @@ const viewRelateDetail = () => {
                     placeholder="请输入知识树名"
                 ></edit-item>
             </div>
+            <!-- 拖拽手柄 -->
+            <div class="drag-handle">&nbsp;</div>
             <!-- 顶部操作栏 -->
             <section class="action-bar">
                 <icon-link-one
