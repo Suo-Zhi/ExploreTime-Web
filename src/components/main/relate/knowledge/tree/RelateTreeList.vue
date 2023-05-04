@@ -20,7 +20,6 @@ const findList = async () => {
         })
         .then((res) => {
             list.value = res.data;
-            console.log(list.value);
         })
         .finally(() => {
             isLoad.value = false;
@@ -33,11 +32,22 @@ watch(
     },
     { immediate: true }
 );
+
+const activeIndex = ref(-1);
 </script>
 
 <template>
     <!-- 关联知识点列表 -->
     <load-box :isLoad="isLoad" class="relate-point-list h-full pb-[36px] relative">
+        <scroll-bar>
+            <relate-tree-item
+                v-for="(item, index) of list"
+                :key="index"
+                :item="item"
+                :isEdit="activeIndex === index"
+                v-show="!item.isDel"
+            ></relate-tree-item>
+        </scroll-bar>
         <empty v-if="!isLoad && list.length === 0" text="暂无关联知识树" />
     </load-box>
 </template>
