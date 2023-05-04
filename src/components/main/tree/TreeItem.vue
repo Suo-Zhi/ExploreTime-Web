@@ -71,6 +71,17 @@ const viewRelateDetail = () => {
     });
     switchHistory('relateDetail');
 };
+
+// 打开树详情
+const viewTreeDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'treeDetail',
+        linkTitle: '树详情-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'tree',
+    });
+    switchHistory('treeDetail');
+};
 </script>
 
 <template>
@@ -114,6 +125,7 @@ const viewRelateDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看树详情"
+                    @click="viewTreeDetail"
                 />
                 <lock-button
                     :isPublic="props.item.isPublic"

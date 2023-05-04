@@ -142,6 +142,7 @@ declare module '@vue/runtime-core' {
     TimeBar: typeof import('./../../src/components/base/TimeBar.vue')['default']
     TodayCard: typeof import('./../../src/views/camp/dashboard/components/TodayCard.vue')['default']
     TodayDataCard: typeof import('./../../src/views/camp/dashboard/components/TodayDataCard.vue')['default']
+    TreeDetail: typeof import('./../../src/components/main/tree/detail/TreeDetail.vue')['default']
     TreeItem: typeof import('./../../src/components/main/tree/TreeItem.vue')['default']
     TreeProcess: typeof import('./../../src/components/main/tree/TreeProcess.vue')['default']
     TrendArrow: typeof import('./../../src/components/data/TrendArrow.vue')['default']

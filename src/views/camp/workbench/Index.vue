@@ -182,6 +182,10 @@ provide('refreshChunkBox', refreshChunkBox);
                         v-if="screen.left && screen.left === 'relateDetail'"
                         screen="left"
                     ></relate-detail>
+                    <tree-detail
+                        v-else-if="screen.left && screen.left === 'treeDetail'"
+                        screen="left"
+                    ></tree-detail>
                     <component
                         v-else-if="screen.left"
                         :is="realCompoent[screen.left]"
@@ -194,6 +198,10 @@ provide('refreshChunkBox', refreshChunkBox);
                         v-if="screen.right && screen.right === 'relateDetail'"
                         screen="right"
                     ></relate-detail>
+                    <tree-detail
+                        v-else-if="screen.right && screen.right === 'treeDetail'"
+                        screen="right"
+                    ></tree-detail>
                     <component
                         v-else-if="screen.right"
                         :is="realCompoent[screen.right]"

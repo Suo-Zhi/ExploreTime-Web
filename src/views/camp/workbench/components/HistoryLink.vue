@@ -14,7 +14,7 @@ watch(
 const switchHistory: any = inject('switchHistory');
 const activeLink = (index: number) => {
     history.activeIndex[nextScreen.value] = index;
-    switchHistory('relateDetail');
+    switchHistory(history.links[index].linkType);
 };
 </script>
 

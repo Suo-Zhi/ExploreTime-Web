@@ -15,7 +15,7 @@ provide('targetId', targetId);
 provide('targetType', targetType);
 provide('keywords', keywords);
 
-// 同步关联源目标值
+// 同步关联源目标值(这里用计算属性有bug,以后再来)
 watch(
     () => history.activeIndex,
     (newValue) => {
