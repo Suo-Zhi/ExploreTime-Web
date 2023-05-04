@@ -45,6 +45,7 @@ const activeIndex = ref(-1);
                 :key="index"
                 :item="item"
                 :isEdit="activeIndex === index"
+                @refresh="findList"
                 v-show="!item.isDel"
             ></relate-tree-item>
         </scroll-bar>
