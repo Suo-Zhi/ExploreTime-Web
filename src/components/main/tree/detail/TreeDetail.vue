@@ -12,7 +12,7 @@ const treeId = computed(() => history.links[history.activeIndex[props.screen]].t
 // 获取树详情
 const isLoad = ref(false);
 const keywords = ref('');
-const treeDetail = ref<TreeDetail>();
+const treeDetail = ref({} as TreeDetail);
 const getTreeDetail = async () => {
     await api.treeNode.getTreeDetail(treeId.value).then((res) => {
         treeDetail.value = res.data;
@@ -21,10 +21,20 @@ const getTreeDetail = async () => {
 getTreeDetail();
 
 const isEdit = ref(false);
+
+// 公开
+const refreshTreeBox = inject<any>('refreshTreeBox');
+const togglePublicHandle = async () => {
+    await api.tree.togglePublic(treeDetail.value.id, !treeDetail.value.isPublic).then(() => {
+        treeDetail.value.isPublic = !treeDetail.value.isPublic;
+        refreshTreeBox();
+        store.global().prompt(treeDetail.value.isPublic ? '公开成功' : '已取消公开', 'success');
+    });
+};
 </script>
 
 <template>
-    <common-box v-if="treeDetail" class="tree-detail" :isLoad="isLoad">
+    <common-box v-if="treeDetail.id" class="tree-detail" :isLoad="isLoad">
         <!-- 知识树名 -->
         <div class="tree-name text-center mt-[6px] mb-[8px]">
             <edit-item
@@ -69,7 +79,10 @@ const isEdit = ref(false);
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
                 />
-                <lock-button :isPublic="treeDetail.isPublic"></lock-button>
+                <lock-button
+                    :isPublic="treeDetail.isPublic"
+                    @click="togglePublicHandle"
+                ></lock-button>
             </div>
         </template>
     </common-box>

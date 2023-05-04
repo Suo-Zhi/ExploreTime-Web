@@ -65,6 +65,12 @@ const refreshChunkBox = () => {
     if (chunkBoxRef.value) chunkBoxRef.value.findList();
 };
 provide('refreshChunkBox', refreshChunkBox);
+// 获取刷新知识树列表
+const treeBoxRef = ref<any>(null);
+const refreshTreeBox = () => {
+    if (treeBoxRef.value) treeBoxRef.value.findList();
+};
+provide('refreshTreeBox', refreshTreeBox);
 </script>
 
 <template>
