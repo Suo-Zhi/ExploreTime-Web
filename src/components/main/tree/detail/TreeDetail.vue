@@ -106,11 +106,9 @@ const editEndHandle = async () => {
 
         <!-- 知识树内容 -->
         <section class="tree-nodes mt-3">
-            <tree-node
-                v-for="(node, index) of treeDetail.nodes"
-                :key="index"
-                :node="node"
-            ></tree-node>
+            <drag-list :list="treeDetail.nodes" item-key="nodeId" group="chunk" v-slot="drag">
+                <tree-node :node="drag.item"></tree-node>
+            </drag-list>
         </section>
 
         <template #navLeft>

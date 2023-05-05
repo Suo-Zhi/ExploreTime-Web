@@ -37,7 +37,7 @@ const listeners = {
 </script>
 
 <template>
-    <section class="chunk-card relative rounded-sm" :class="[{ 'border-base': props.border }]">
+    <section class="card relative rounded-sm" :class="[{ 'border-base': props.border }]">
         <!-- 头部 -->
         <div class="card-header flex items-center group">
             <!-- 折叠按钮 -->
