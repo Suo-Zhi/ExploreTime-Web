@@ -73,6 +73,27 @@ const editEndHandle = async () => {
     });
     editTarget.value = ''; // 取消编辑状态
 };
+
+// 改变节点顺序
+const changeOrderHandle = async () => {
+    // 改变块顺序(以后看看能不能一次性改)
+    for (let i = 0; i < treeDetail.value.nodes.length; i++) {
+        const node = treeDetail.value.nodes[i];
+        await api.treeNode
+            .upsert(node.nodeId, {
+                treeId: treeDetail.value.id,
+                parentNodeId: null,
+                order: i,
+                nodeId: node.id,
+            })
+            .then(() => {
+                // 伪刷新点排序,否则连续新增会乱序
+                node.order = i;
+            });
+    }
+    // 改变知识树更新时间
+    await api.tree.updateTime(treeDetail.value.id);
+};
 </script>
 
 <template>
@@ -106,8 +127,18 @@ const editEndHandle = async () => {
 
         <!-- 知识树内容 -->
         <section class="tree-nodes mt-3">
-            <drag-list :list="treeDetail.nodes" item-key="nodeId" group="chunk" v-slot="drag">
-                <tree-node :node="drag.item"></tree-node>
+            <drag-list
+                :list="treeDetail.nodes"
+                item-key="nodeId"
+                group="chunk"
+                v-slot="drag"
+                @update="changeOrderHandle"
+            >
+                <tree-node
+                    :treeId="treeDetail.id"
+                    :node="drag.item"
+                    :parentNodeId="drag.item.nodeId"
+                ></tree-node>
             </drag-list>
         </section>
 

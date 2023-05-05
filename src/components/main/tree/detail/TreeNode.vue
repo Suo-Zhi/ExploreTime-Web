@@ -3,13 +3,17 @@ import { UpdatePointDTO } from '@/api/point/dto';
 import { TreeNode } from '@/api/tree/treeNode/types';
 
 interface Props {
-    node: TreeNode;
-    parentLevel?: string;
+    treeId: number; // 树Id
+    node: TreeNode; // 节点
+    parentNodeId: number | null; // 父级Id
+    parentLevel?: string; // 父节点标题
 }
 const props = withDefaults(defineProps<Props>(), {});
 
 // 标题层级
-const level = tool.getTitleLevel(props.node.deep, props.node.order, props.parentLevel);
+const level = computed(() =>
+    tool.getTitleLevel(props.node.deep, props.node.order, props.parentLevel)
+);
 
 /* 节点操作 */
 // 编辑前处理
@@ -46,6 +50,27 @@ const editEndHandle = async () => {
         refreshChunkBox();
     });
     editTarget.value = ''; // 取消编辑状态
+};
+
+// 改变节点顺序
+const changeOrderHandle = async () => {
+    // 改变块顺序(以后看看能不能一次性改)
+    for (let i = 0; i < props.node.nodes.length; i++) {
+        const node = props.node.nodes[i];
+        await api.treeNode
+            .upsert(node.nodeId, {
+                treeId: props.node.id,
+                parentNodeId: props.parentNodeId,
+                order: i,
+                nodeId: node.id,
+            })
+            .then(() => {
+                // 伪刷新点排序,否则连续新增会乱序
+                node.order = i;
+            });
+    }
+    // 改变知识树更新时间
+    await api.tree.updateTime(props.treeId);
 };
 
 /* 节点内容操作 */
@@ -135,8 +160,19 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
             </div>
 
             <!-- 子节点 -->
-            <drag-list :list="node.nodes" item-key="nodeId" group="chunk" v-slot="drag">
-                <child-node :node="drag.item" :parentLevel="level"></child-node>
+            <drag-list
+                :list="node.nodes"
+                item-key="nodeId"
+                group="chunk"
+                v-slot="drag"
+                @update="changeOrderHandle"
+            >
+                <child-node
+                    :treeId="props.treeId"
+                    :node="drag.item"
+                    :parentNodeId="props.parentNodeId"
+                    :parentLevel="level"
+                ></child-node>
             </drag-list>
             <!-- 节点尾注 -->
             <div class="endnote">

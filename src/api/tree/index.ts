@@ -28,4 +28,9 @@ export default {
     create: (dto: CreateTreeDTO) => {
         return http.post<Tree>('tree', { ...dto });
     },
+
+    // 更新时间
+    updateTime: (id: number) => {
+        return http.patch('tree/time' + id);
+    },
 };
