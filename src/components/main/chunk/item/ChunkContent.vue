@@ -103,7 +103,7 @@ const viewRelateDetail = () => {
                     <icon-reduce
                         size="16"
                         :strokeWidth="3"
-                        class="cursor-pointer hover:text-red-600"
+                        class="action-btn hover:text-red-600"
                         title="移出"
                         @click="$emit('remove')"
                     />

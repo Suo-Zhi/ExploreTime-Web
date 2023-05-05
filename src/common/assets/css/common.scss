@@ -41,3 +41,35 @@
 .drag-handle{
     @apply w-full h-full cursor-move select-none
 }
+
+// 前言样式
+.preface{
+    @apply ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-blue-50
+}
+.preface::before {
+    content: '';
+    width: 2px;
+    height: 60%;
+    border-radius: 8px;
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: $color-secondary;
+}
+
+// 尾注样式
+.endnote{
+    @apply  ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-slate-100
+}
+.endnote::before {
+    content: '';
+    width: 2px;
+    height: 60%;
+    border-radius: 8px;
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #d8dde0;
+}

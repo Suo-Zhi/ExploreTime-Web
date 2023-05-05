@@ -93,7 +93,7 @@ const editEndHandle = async () => {
         </div>
 
         <!-- 知识树前言 -->
-        <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
+        <div class="preface !ml-[2px]">
             <edit-item
                 :value="treeDetail.preface"
                 :isEdit="editTarget === 'preface'"

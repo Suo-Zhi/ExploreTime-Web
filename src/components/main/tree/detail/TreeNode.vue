@@ -65,67 +65,94 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 </script>
 
 <template>
-    <section class="tree-node">
-        <!-- 节点名 -->
-        <title-level :deep="props.node.deep" :level="level">
-            <edit-item
-                type="text"
-                :value="props.node.name"
-                :isEdit="editTarget === 'name'"
-                placeholder="请输入知识块名"
-                class="title w-auto"
-                @editStart="editStartHandle('name')"
-                @changeValue="newValue.name = $event"
-                @editEnd="editEndHandle"
-            ></edit-item>
-        </title-level>
-        <!-- 节点前言 -->
-        <div
-            class="preface py-1 pl-1 rounded-sm relative bg-gradient-to-l from-slate-50 to-blue-50"
-        >
-            <edit-item
-                :value="props.node.preface"
-                :isEdit="editTarget === 'preface'"
-                placeholder="请输入知识块前言"
-                @editStart="editStartHandle('preface')"
-                @changeValue="newValue.preface = $event"
-                @editEnd="editEndHandle"
-            ></edit-item>
-        </div>
-        <!-- 节点内容 -->
-        <div class="node-content">
-            <chunk-content
-                v-for="(item, index) of props.node.content"
+    <card-fold class="mb-3 pb-2">
+        <template #title>
+            <title-level :deep="props.node.deep" :level="level">
+                <edit-item
+                    type="text"
+                    :value="props.node.name"
+                    :isEdit="editTarget === 'name'"
+                    placeholder="请输入知识块名"
+                    class="title w-auto"
+                    @editStart="editStartHandle('name')"
+                    @changeValue="newValue.name = $event"
+                    @editEnd="editEndHandle"
+                ></edit-item>
+            </title-level>
+        </template>
+
+        <template #actions>
+            <div class="action-bar mr-2">
+                <icon-link-one
+                    size="18"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-primary"
+                    title="关联情况"
+                />
+                <icon-comment
+                    size="18"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-primary mt-[1px]"
+                    title="查看反馈"
+                />
+                <icon-reduce
+                    size="18"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-red-600"
+                    title="移出"
+                />
+            </div>
+        </template>
+
+        <!-- 节点主体 -->
+        <div class="chunk-main mt-2 mb-1 content-text mx-[10px]">
+            <!-- 节点前言 -->
+            <div class="preface !py-1 !mt-3 mb-1">
+                <edit-item
+                    :value="props.node.preface"
+                    :isEdit="editTarget === 'preface'"
+                    placeholder="请输入知识块前言"
+                    @editStart="editStartHandle('preface')"
+                    @changeValue="newValue.preface = $event"
+                    @editEnd="editEndHandle"
+                ></edit-item>
+            </div>
+
+            <!-- 节点内容列表 -->
+            <div class="node-content mb-2">
+                <chunk-content
+                    v-for="(item, index) of props.node.content"
+                    :key="index"
+                    v-show="!item.isDel"
+                    :item="item"
+                    :isEdit="activeIndex === index"
+                    @active="activeIndex = index"
+                    @blur="activeIndex = -1"
+                    @update="updateContentHandle"
+                ></chunk-content>
+            </div>
+
+            <!-- 子节点 -->
+            <child-node
+                v-for="(item, index) of node.nodes"
                 :key="index"
-                v-show="!item.isDel"
-                :item="item"
-                :isEdit="activeIndex === index"
-                @active="activeIndex = index"
-                @blur="activeIndex = -1"
-                @update="updateContentHandle"
-            ></chunk-content>
+                :node="item"
+                :parentLevel="level"
+            ></child-node>
+
+            <!-- 节点尾注 -->
+            <div class="endnote">
+                <edit-item
+                    :value="props.node.endnote"
+                    :isEdit="editTarget === 'endnote'"
+                    placeholder="请输入知识块尾注"
+                    @editStart="editStartHandle('endnote')"
+                    @changeValue="newValue.endnote = $event"
+                    @editEnd="editEndHandle"
+                ></edit-item>
+            </div>
         </div>
-        <!-- 子节点 -->
-        <child-node
-            v-for="(item, index) of node.nodes"
-            :key="index"
-            :node="item"
-            :parentLevel="level"
-        ></child-node>
-        <!-- 节点尾注 -->
-        <div
-            class="endnote py-1 pl-1 rounded-sm relative bg-gradient-to-l from-slate-50 to-slate-100"
-        >
-            <edit-item
-                :value="props.node.endnote"
-                :isEdit="editTarget === 'endnote'"
-                placeholder="请输入知识块尾注"
-                @editStart="editStartHandle('endnote')"
-                @changeValue="newValue.endnote = $event"
-                @editEnd="editEndHandle"
-            ></edit-item>
-        </div>
-    </section>
+    </card-fold>
 </template>
 
 <script lang="ts">

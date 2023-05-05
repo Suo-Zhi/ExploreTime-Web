@@ -2,7 +2,7 @@
 interface Props {
     border?: boolean; // 是否带边框
     line?: boolean; // 是否在卡片头部和主体间显示水平线
-    isToggle?: boolean; // 是否顶部操作栏显示情况
+    isToggle?: boolean; // 顶部操作栏是否动态显示
 }
 const props = withDefaults(defineProps<Props>(), {
     border: true,

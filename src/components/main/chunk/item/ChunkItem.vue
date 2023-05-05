@@ -185,9 +185,7 @@ const viewRelateDetail = () => {
         <!-- 知识块主体 -->
         <div class="chunk-main mt-2 mb-1 content-text mx-[10px]">
             <!-- 知识块前言 -->
-            <div
-                class="preface ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-blue-50"
-            >
+            <div class="preface">
                 <edit-item
                     :value="props.item.preface"
                     :isEdit="props.isEdit && editTarget === 'preface'"
@@ -225,9 +223,7 @@ const viewRelateDetail = () => {
             </div>
 
             <!-- 知识块尾注 -->
-            <div
-                class="endnote ml-2 py-1 pl-1 rounded-sm relative bg-gradient-to-r from-slate-50 to-slate-100"
-            >
+            <div class="endnote">
                 <edit-item
                     :value="props.item.endnote"
                     :isEdit="props.isEdit && editTarget === 'endnote'"
@@ -268,27 +264,4 @@ const viewRelateDetail = () => {
     </card-fold>
 </template>
 
-<style lang="scss" scoped>
-.preface::before {
-    content: '';
-    width: 2px;
-    height: 60%;
-    border-radius: 8px;
-    position: absolute;
-    left: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: $color-secondary;
-}
-.endnote::before {
-    content: '';
-    width: 2px;
-    height: 60%;
-    border-radius: 8px;
-    position: absolute;
-    left: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #d8dde0;
-}
-</style>
+<style lang="scss" scoped></style>

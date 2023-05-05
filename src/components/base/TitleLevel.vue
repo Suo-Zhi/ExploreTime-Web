@@ -14,8 +14,8 @@ const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
         :class="[
             levelStyle,
             props.deep === 1 ? 'justify-center' : '',
-            props.deep < 3 ? 'my-2' : '',
-            props.deep === 3 || props.deep === 4 ? 'my-1' : '',
+            props.deep < 4 ? 'my-2' : '',
+            props.deep >= 4 ? 'my-1' : '',
         ]"
     >
         <span :class="props.deep > 1 ? 'mr-[6px]' : ''">{{ props.level }}</span>
@@ -25,21 +25,21 @@ const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
 
 <style lang="scss" scoped>
 .level1 {
-    font-size: 26px;
+    font-size: 22px;
 }
 .level2 {
-    font-size: 24px;
+    font-size: 21px;
 }
 .level3 {
     font-size: 20px;
 }
 .level4 {
-    font-size: 18px;
+    font-size: 19px;
 }
 .level5 {
-    font-size: 16px;
+    font-size: 18px;
 }
 .level-min {
-    font-size: 14px;
+    font-size: 17px;
 }
 </style>
