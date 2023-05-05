@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
     deep: number;
-    level: string;
+    prefix: string;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -18,7 +18,7 @@ const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
             props.deep >= 4 ? 'my-1' : '',
         ]"
     >
-        <span :class="props.deep > 1 ? 'mr-[6px]' : ''">{{ props.level }}</span>
+        <span :class="props.deep > 1 ? 'mr-[6px]' : ''">{{ props.prefix }}</span>
         <slot></slot>
     </div>
 </template>

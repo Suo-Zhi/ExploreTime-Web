@@ -19,8 +19,8 @@ export const tool = {
         return content.trim() === '';
     },
 
-    // 获取标题层级
-    getTitleLevel: (deep: number, order: number, parentTitle: string = '') => {
+    // 获取节点标题前缀
+    getNodePrefix: (deep: number, order: number, parentPrefix: string = '') => {
         const firstLevel = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一'];
         switch (deep) {
             case 1:
@@ -28,9 +28,9 @@ export const tool = {
             case 2:
                 return order + 1 + '.';
             case 3:
-                return parentTitle + (order + 1);
+                return parentPrefix + (order + 1);
             default:
-                return parentTitle + '.' + (order + 1);
+                return parentPrefix + '.' + (order + 1);
         }
     },
 };

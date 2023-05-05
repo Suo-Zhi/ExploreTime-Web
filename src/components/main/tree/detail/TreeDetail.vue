@@ -78,17 +78,19 @@ const editEndHandle = async () => {
 const changeOrderHandle = async () => {
     // 改变块顺序(以后看看能不能一次性改)
     for (let i = 0; i < treeDetail.value.nodes.length; i++) {
-        const node = treeDetail.value.nodes[i];
+        const item = treeDetail.value.nodes[i];
         await api.treeNode
-            .upsert(node.nodeId, {
+            .upsert(item.node.id, {
                 treeId: treeDetail.value.id,
                 parentNodeId: null,
                 order: i,
-                nodeId: node.id,
+                nodeId: item.id,
             })
             .then(() => {
-                // 伪刷新点排序,否则连续新增会乱序
-                node.order = i;
+                // 伪刷新
+                item.level.deep = 1;
+                item.node.order = i;
+                item.level.prefix = tool.getNodePrefix(item.level.deep, item.node.order);
             });
     }
     // 改变知识树更新时间
@@ -134,11 +136,7 @@ const changeOrderHandle = async () => {
                 v-slot="drag"
                 @update="changeOrderHandle"
             >
-                <tree-node
-                    :treeId="treeDetail.id"
-                    :node="drag.item"
-                    :parentNodeId="drag.item.nodeId"
-                ></tree-node>
+                <tree-node :item="drag.item"></tree-node>
             </drag-list>
         </section>
 

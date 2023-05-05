@@ -3,17 +3,9 @@ import { UpdatePointDTO } from '@/api/point/dto';
 import { TreeNode } from '@/api/tree/treeNode/types';
 
 interface Props {
-    treeId: number; // 树Id
-    node: TreeNode; // 节点
-    parentNodeId: number | null; // 父级Id
-    parentLevel?: string; // 父节点标题
+    item: TreeNode; // 节点
 }
 const props = withDefaults(defineProps<Props>(), {});
-
-// 标题层级
-const level = computed(() =>
-    tool.getTitleLevel(props.node.deep, props.node.order, props.parentLevel)
-);
 
 /* 节点操作 */
 // 编辑前处理
@@ -21,9 +13,9 @@ const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
 const editTarget = ref(''); // 编辑目标
 const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
     // 同步值
-    newValue.value.name = props.node.name;
-    newValue.value.preface = props.node.preface;
-    newValue.value.endnote = props.node.endnote;
+    newValue.value.name = props.item.name;
+    newValue.value.preface = props.item.preface;
+    newValue.value.endnote = props.item.endnote;
     // 锁定编辑目标
     editTarget.value = target;
 };
@@ -35,18 +27,18 @@ const editEndHandle = async () => {
     if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
     // 判断值是否变动
     if (
-        newValue.value.name === props.node.name &&
-        newValue.value.preface === props.node.preface &&
-        newValue.value.endnote === props.node.endnote
+        newValue.value.name === props.item.name &&
+        newValue.value.preface === props.item.preface &&
+        newValue.value.endnote === props.item.endnote
     )
         return (editTarget.value = '');
 
     // 更新树节点
-    await api.chunk.update(props.node.id, newValue.value).then(() => {
+    await api.chunk.update(props.item.id, newValue.value).then(() => {
         // 刷新
-        props.node.name = newValue.value.name;
-        props.node.preface = newValue.value.preface;
-        props.node.endnote = newValue.value.endnote;
+        props.item.name = newValue.value.name;
+        props.item.preface = newValue.value.preface;
+        props.item.endnote = newValue.value.endnote;
         refreshChunkBox();
     });
     editTarget.value = ''; // 取消编辑状态
@@ -55,22 +47,29 @@ const editEndHandle = async () => {
 // 改变节点顺序
 const changeOrderHandle = async () => {
     // 改变块顺序(以后看看能不能一次性改)
-    for (let i = 0; i < props.node.nodes.length; i++) {
-        const node = props.node.nodes[i];
+    for (let i = 0; i < props.item.node.children.length; i++) {
+        const item = props.item.node.children[i];
+
         await api.treeNode
-            .upsert(node.nodeId, {
-                treeId: props.node.id,
-                parentNodeId: props.parentNodeId,
+            .upsert(item.id, {
+                treeId: props.item.node.treeId,
+                parentNodeId: props.item.node.id,
                 order: i,
-                nodeId: node.id,
+                nodeId: item.id,
             })
             .then(() => {
-                // 伪刷新点排序,否则连续新增会乱序
-                node.order = i;
+                // 伪刷新
+                item.level.deep = props.item.level.deep + 1;
+                item.node.order = i;
+                item.level.prefix = tool.getNodePrefix(
+                    item.level.deep,
+                    item.node.order,
+                    props.item.level.prefix
+                );
             });
     }
     // 改变知识树更新时间
-    await api.tree.updateTime(props.treeId);
+    await api.tree.updateTime(props.item.node.treeId);
 };
 
 /* 节点内容操作 */
@@ -78,7 +77,7 @@ const activeIndex = ref(-1); // 激活块内容索引
 // 更新块内容
 const refreshPointBox = inject<any>('refreshPointBox');
 const updateContentHandle = async (newValue: UpdatePointDTO) => {
-    const target = props.node.content[activeIndex.value];
+    const target = props.item.content[activeIndex.value];
     await api.point.update(target.id, newValue).then(() => {
         // 简易刷新
         target.name = newValue.name;
@@ -92,10 +91,10 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 <template>
     <card-fold class="mb-3">
         <template #title>
-            <title-level :deep="props.node.deep" :level="level">
+            <title-level :deep="props.item.level.deep" :prefix="props.item.level.prefix">
                 <edit-item
                     type="text"
-                    :value="props.node.name"
+                    :value="props.item.name"
                     :isEdit="editTarget === 'name'"
                     placeholder="请输入知识块名"
                     class="title w-[200px]"
@@ -136,7 +135,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
             <!-- 节点前言 -->
             <div class="preface !py-1 !mt-3 mb-1">
                 <edit-item
-                    :value="props.node.preface"
+                    :value="props.item.preface"
                     :isEdit="editTarget === 'preface'"
                     placeholder="请输入知识块前言"
                     @editStart="editStartHandle('preface')"
@@ -147,7 +146,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 
             <!-- 节点内容列表 -->
             <div class="node-content mb-2">
-                <drag-list :list="props.node.content" item-key="order" group="point" v-slot="drag">
+                <drag-list :list="props.item.content" item-key="order" group="point" v-slot="drag">
                     <chunk-content
                         v-show="!drag.item.isDel"
                         :item="drag.item"
@@ -161,23 +160,18 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 
             <!-- 子节点 -->
             <drag-list
-                :list="node.nodes"
+                :list="item.node.children"
                 item-key="nodeId"
                 group="chunk"
                 v-slot="drag"
                 @update="changeOrderHandle"
             >
-                <child-node
-                    :treeId="props.treeId"
-                    :node="drag.item"
-                    :parentNodeId="props.parentNodeId"
-                    :parentLevel="level"
-                ></child-node>
+                <child-node :item="drag.item"></child-node>
             </drag-list>
             <!-- 节点尾注 -->
             <div class="endnote">
                 <edit-item
-                    :value="props.node.endnote"
+                    :value="props.item.endnote"
                     :isEdit="editTarget === 'endnote'"
                     placeholder="请输入知识块尾注"
                     @editStart="editStartHandle('endnote')"

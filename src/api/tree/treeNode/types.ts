@@ -5,9 +5,18 @@ export interface TreeDetail extends Tree {
     nodes: TreeNode[];
 }
 
+// 必须继承Chunk,不然无法拖拽
 export interface TreeNode extends Chunk {
-    nodeId: number; // 节点Id
-    deep: number; // 节点所在层级
-    order: number; // 节点在层中的顺序
-    nodes: TreeNode[]; // 子节点
+    node: {
+        id: number; // 节点Id
+        treeId: number; // 节点所在树Id
+        parentNodeId: number; // 父节点Id
+        order: number; // 节点在层中的顺序
+        children: TreeNode[]; // 子节点
+    };
+
+    level: {
+        deep: number; // 节点所在层级
+        prefix: string; // 节点标题前缀
+    };
 }
