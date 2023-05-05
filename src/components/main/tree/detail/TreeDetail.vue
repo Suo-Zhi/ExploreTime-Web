@@ -76,7 +76,7 @@ const editEndHandle = async () => {
 </script>
 
 <template>
-    <common-box v-if="treeDetail.id" class="tree-detail" :isLoad="isLoad">
+    <common-box v-if="treeDetail.id" class="tree-detail pb-[6px]" :isLoad="isLoad">
         <!-- 知识树名 -->
         <div class="tree-name text-center mt-[6px] mb-[8px]">
             <edit-item

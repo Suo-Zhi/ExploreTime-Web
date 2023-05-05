@@ -15,7 +15,7 @@ const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
             levelStyle,
             props.deep === 1 ? 'justify-center' : '',
             props.deep < 3 ? 'my-2' : '',
-            props.deep === 4 ? 'my-1' : '',
+            props.deep === 3 || props.deep === 4 ? 'my-1' : '',
         ]"
     >
         <span :class="props.deep > 1 ? 'mr-[6px]' : ''">{{ props.level }}</span>
