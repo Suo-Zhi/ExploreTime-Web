@@ -198,7 +198,6 @@ const viewRelateDetail = () => {
 
             <!-- 知识块内容列表 -->
             <div class="content my-1">
-                <add-line @add="addContentHandle(0)"></add-line>
                 <drag-list
                     :list="props.item.content"
                     item-key="order"
@@ -220,10 +219,11 @@ const viewRelateDetail = () => {
                         @create="changeOrderHandle"
                     ></chunk-content>
                 </drag-list>
+                <chunk-add-line @add="addContentHandle(props.item.content.length)"></chunk-add-line>
             </div>
 
             <!-- 知识块尾注 -->
-            <div class="endnote">
+            <div class="endnote !mt-[6px]">
                 <edit-item
                     :value="props.item.endnote"
                     :isEdit="props.isEdit && editTarget === 'endnote'"

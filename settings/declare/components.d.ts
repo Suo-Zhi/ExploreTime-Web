@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
     ChartLine: typeof import('./../../src/views/camp/dashboard/components/ChartLine.vue')['default']
     ChartPeriod: typeof import('./../../src/components/main/relate/summary/ChartPeriod.vue')['default']
     ChartRing: typeof import('./../../src/components/main/relate/summary/ChartRing.vue')['default']
+    ChunkAddLine: typeof import('./../../src/components/main/chunk/item/ChunkAddLine.vue')['default']
     ChunkCard: typeof import('./../../src/components/main/chunk/item/ChunkCard.vue')['default']
     ChunkContent: typeof import('./../../src/components/main/chunk/item/ChunkContent.vue')['default']
     ChunkItem: typeof import('./../../src/components/main/chunk/item/ChunkItem.vue')['default']
