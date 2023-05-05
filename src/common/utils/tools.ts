@@ -18,4 +18,19 @@ export const tool = {
         if (content.trim() === '') store.global().prompt(`${prompt}不能为空`, 'warning');
         return content.trim() === '';
     },
+
+    // 获取标题层级
+    getTitleLevel: (deep: number, order: number, parentTitle: string = '') => {
+        const firstLevel = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一'];
+        switch (deep) {
+            case 1:
+                return firstLevel[order] + '、';
+            case 2:
+                return order + 1 + '.';
+            case 3:
+                return parentTitle + (order + 1);
+            default:
+                return parentTitle + '.' + (order + 1);
+        }
+    },
 };
