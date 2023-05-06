@@ -78,9 +78,8 @@ const editEndHandle = async () => {
 const changeOrderHandle = async () => {
     for (let i = 0; i < treeDetail.value.nodes.length; i++) {
         const item = treeDetail.value.nodes[i];
-
         await api.treeNode
-            .upsert(item.node?.id || -1, {
+            .upsert(item.node.id, {
                 treeId: treeDetail.value.id,
                 parentNodeId: null,
                 order: i,
@@ -88,25 +87,39 @@ const changeOrderHandle = async () => {
             })
             .then((res) => {
                 // 伪刷新
-                item.level = {
-                    deep: 1,
-                    prefix: tool.getNodePrefix(1, i),
-                };
-                // 为新节点附值,防止连续新增时重复创建节点
-                if (!item.node) {
-                    item.node = {
-                        id: res.data.id,
-                        treeId: treeDetail.value.id,
-                        parentNodeId: null,
-                        order: i,
-                        children: [],
-                    };
-                }
-                item.node.order = i; // order不同步移除会乱序(别else)
+                item.node.id = res.data.id;
+                item.node.order = i;
+                item.level.prefix = tool.getNodePrefix(1, i);
             });
     }
     // 改变知识树更新时间
     await api.tree.updateTime(treeDetail.value.id);
+};
+
+// 新增节点
+const addHandle = async (e: any) => {
+    const i = e.newIndex;
+
+    // 填充新节点默认值
+    const item = treeDetail.value.nodes[i];
+    item.node = {
+        id: -1,
+        treeId: treeDetail.value.id,
+        parentNodeId: null,
+        order: i,
+    } as any;
+    if (!item.node.children) item.node.children = [];
+    item.level = {
+        deep: 1,
+        prefix: '',
+    };
+
+    // 要深拷贝,不然连续新增时会出现相同项
+    let newItem = {} as any;
+    Object.assign(newItem, item);
+    treeDetail.value.nodes.splice(i, 1, newItem);
+
+    await changeOrderHandle();
 };
 
 // 移除节点
@@ -149,11 +162,11 @@ const removeChildNodeHandle = async (index: number) => {
         <section class="tree-nodes mt-3">
             <drag-list
                 :list="treeDetail.nodes"
-                item-key="nodeId"
+                item-key="node.id"
                 group="chunk"
                 v-slot="drag"
                 @update="changeOrderHandle"
-                @add="changeOrderHandle"
+                @add="addHandle"
             >
                 <tree-node :item="drag.item" @remove="removeChildNodeHandle"></tree-node>
             </drag-list>

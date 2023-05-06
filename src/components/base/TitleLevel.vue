@@ -1,27 +1,30 @@
 <script setup lang="ts">
 interface Props {
-    deep?: number;
-    prefix?: string;
+    level?: {
+        deep: number;
+        prefix: string;
+    };
 }
-const props = withDefaults(defineProps<Props>(), {
-    deep: 1,
-    prefix: '',
-});
+const props = withDefaults(defineProps<Props>(), {});
 
-const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
+const levelStyle = computed(() => {
+    if (props.level) return 'level' + (props.level.deep < 6 ? props.level.deep : '-min');
+    else return 'level-min';
+});
 </script>
 
 <template>
     <div
+        v-if="props.level"
         class="title-level text-slate-800 flex items-center"
         :class="[
             levelStyle,
-            props.deep === 1 ? 'justify-center' : '',
-            props.deep < 4 ? 'my-2' : '',
-            props.deep >= 4 ? 'my-1' : '',
+            props.level.deep === 1 ? 'justify-center' : '',
+            props.level.deep < 4 ? 'my-2' : '',
+            props.level.deep >= 4 ? 'my-1' : '',
         ]"
     >
-        <span :class="props.deep > 1 ? 'mr-[6px]' : ''">{{ props.prefix }}</span>
+        <span :class="props.level.deep > 1 ? 'mr-[6px]' : ''">{{ props.level.prefix }}</span>
         <slot></slot>
     </div>
 </template>

@@ -65,7 +65,7 @@ const changeOrderHandle = async () => {
         const item = props.item.node.children[i];
 
         await api.treeNode
-            .upsert(item.node?.id || -1, {
+            .upsert(item.node.id, {
                 treeId: props.item.node.treeId,
                 parentNodeId: props.item.node.id,
                 order: i,
@@ -73,29 +73,39 @@ const changeOrderHandle = async () => {
             })
             .then((res) => {
                 // 伪刷新
-                item.level = {
-                    deep: props.item.level.deep + 1,
-                    prefix: tool.getNodePrefix(
-                        props.item.level.deep + 1,
-                        i,
-                        props.item.level.prefix
-                    ),
-                };
-                // 为新节点附值,防止连续新增时重复创建节点
-                if (!item.node) {
-                    item.node = {
-                        id: res.data.id,
-                        treeId: props.item.node.treeId,
-                        parentNodeId: props.item.node.id,
-                        order: i,
-                        children: [],
-                    };
-                }
-                item.node.order = i; // order不同步移除会乱序(别else)
+                item.node.id = res.data.id;
+                item.node.order = i;
+                item.level.prefix = tool.getNodePrefix(item.level.deep, i, props.item.level.prefix);
             });
     }
     // 改变知识树更新时间
     await api.tree.updateTime(props.item.node.treeId);
+};
+
+// 新增节点
+const addHandle = async (e: any) => {
+    const i = e.newIndex;
+
+    const item = props.item.node.children[i];
+    // 填充新节点默认值
+    item.node = {
+        id: -1,
+        treeId: props.item.node.treeId,
+        parentNodeId: props.item.node.id,
+        order: i,
+    } as any;
+    if (!item.node.children) item.node.children = [];
+    item.level = {
+        deep: props.item.level.deep + 1,
+        prefix: '',
+    };
+
+    // 要深拷贝,不然连续新增时会出现相同项
+    let newItem = {} as any;
+    Object.assign(newItem, item);
+    props.item.node.children.splice(i, 1, newItem);
+
+    await changeOrderHandle();
 };
 
 // 移除节点
@@ -114,7 +124,7 @@ const removeChildNodeHandle = async (index: number) => {
 <template>
     <card-fold class="mb-3">
         <template #title>
-            <title-level :deep="props.item.level?.deep" :prefix="props.item.level?.prefix">
+            <title-level :level="props.item.level">
                 <edit-item
                     type="text"
                     :value="props.item.name"
@@ -189,7 +199,8 @@ const removeChildNodeHandle = async (index: number) => {
                 group="chunk"
                 v-slot="drag"
                 @update="changeOrderHandle"
-                @add="changeOrderHandle"
+                @add="addHandle"
+                class="min-h-[20px]"
             >
                 <child-node :item="drag.item" @remove="removeChildNodeHandle"></child-node>
             </drag-list>
