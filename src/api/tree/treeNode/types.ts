@@ -10,7 +10,7 @@ export interface TreeNode extends Chunk {
     node: {
         id: number; // 节点Id
         treeId: number; // 节点所在树Id
-        parentNodeId: number; // 父节点Id
+        parentNodeId: number | null; // 父节点Id
         order: number; // 节点在层中的顺序
         children: TreeNode[]; // 子节点
     };

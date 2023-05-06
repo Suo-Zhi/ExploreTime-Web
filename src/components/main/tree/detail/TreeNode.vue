@@ -46,26 +46,36 @@ const editEndHandle = async () => {
 
 // 改变节点顺序
 const changeOrderHandle = async () => {
-    // 改变块顺序(以后看看能不能一次性改)
     for (let i = 0; i < props.item.node.children.length; i++) {
         const item = props.item.node.children[i];
 
         await api.treeNode
-            .upsert(item.id, {
+            .upsert(item.node?.id || -1, {
                 treeId: props.item.node.treeId,
                 parentNodeId: props.item.node.id,
                 order: i,
                 nodeId: item.id,
             })
-            .then(() => {
+            .then((res) => {
                 // 伪刷新
-                item.level.deep = props.item.level.deep + 1;
-                item.node.order = i;
-                item.level.prefix = tool.getNodePrefix(
-                    item.level.deep,
-                    item.node.order,
-                    props.item.level.prefix
-                );
+                item.level = {
+                    deep: props.item.level.deep + 1,
+                    prefix: tool.getNodePrefix(
+                        props.item.level.deep + 1,
+                        i,
+                        props.item.level.prefix
+                    ),
+                };
+                // 为新节点附值,防止连续新增时重复创建节点
+                if (!item.node) {
+                    item.node = {
+                        id: res.data.id,
+                        treeId: props.item.node.treeId,
+                        parentNodeId: props.item.node.id,
+                        order: i,
+                        children: [],
+                    };
+                }
             });
     }
     // 改变知识树更新时间
@@ -91,7 +101,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 <template>
     <card-fold class="mb-3">
         <template #title>
-            <title-level :deep="props.item.level.deep" :prefix="props.item.level.prefix">
+            <title-level :deep="props.item.level?.deep" :prefix="props.item.level?.prefix">
                 <edit-item
                     type="text"
                     :value="props.item.name"
@@ -160,11 +170,12 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
 
             <!-- 子节点 -->
             <drag-list
-                :list="item.node.children"
+                :list="item.node?.children || []"
                 item-key="nodeId"
                 group="chunk"
                 v-slot="drag"
                 @update="changeOrderHandle"
+                @add="changeOrderHandle"
             >
                 <child-node :item="drag.item"></child-node>
             </drag-list>

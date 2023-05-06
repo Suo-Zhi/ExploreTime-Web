@@ -1,9 +1,12 @@
 <script setup lang="ts">
 interface Props {
-    deep: number;
-    prefix: string;
+    deep?: number;
+    prefix?: string;
 }
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {
+    deep: 1,
+    prefix: '',
+});
 
 const levelStyle = 'level' + (props.deep < 6 ? props.deep : '-min');
 </script>
