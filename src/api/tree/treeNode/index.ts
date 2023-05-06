@@ -11,4 +11,9 @@ export default {
     upsert: (id: number, dto: UpsertTreeNodeDTO) => {
         return http.patch('tree-node/' + id, { ...dto });
     },
+
+    // 删除
+    delete: (id: number) => {
+        return http.delete('tree-node/' + id);
+    },
 };

@@ -102,10 +102,17 @@ const changeOrderHandle = async () => {
                         children: [],
                     };
                 }
+                item.node.order = i; // order不同步移除会乱序(别else)
             });
     }
     // 改变知识树更新时间
     await api.tree.updateTime(treeDetail.value.id);
+};
+
+// 移除节点
+const removeChildNodeHandle = async (index: number) => {
+    treeDetail.value.nodes.splice(index, 1);
+    await changeOrderHandle();
 };
 </script>
 
@@ -138,7 +145,7 @@ const changeOrderHandle = async () => {
             ></edit-item>
         </div>
 
-        <!-- 知识树内容 -->
+        <!-- 知识树节点 -->
         <section class="tree-nodes mt-3">
             <drag-list
                 :list="treeDetail.nodes"
@@ -148,7 +155,7 @@ const changeOrderHandle = async () => {
                 @update="changeOrderHandle"
                 @add="changeOrderHandle"
             >
-                <tree-node :item="drag.item"></tree-node>
+                <tree-node :item="drag.item" @remove="removeChildNodeHandle"></tree-node>
             </drag-list>
         </section>
 

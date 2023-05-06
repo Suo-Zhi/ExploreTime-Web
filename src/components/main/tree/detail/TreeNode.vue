@@ -7,6 +7,21 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
+/* 节点内容操作 */
+const activeIndex = ref(-1); // 激活块内容索引
+// 更新块内容
+const refreshPointBox = inject<any>('refreshPointBox');
+const updateContentHandle = async (newValue: UpdatePointDTO) => {
+    const target = props.item.content[activeIndex.value];
+    await api.point.update(target.id, newValue).then(() => {
+        // 简易刷新
+        target.name = newValue.name;
+        target.content = newValue.content;
+        refreshPointBox(); // 刷新知识点列表
+    });
+    activeIndex.value = -1;
+};
+
 /* 节点操作 */
 // 编辑前处理
 const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
@@ -76,25 +91,23 @@ const changeOrderHandle = async () => {
                         children: [],
                     };
                 }
+                item.node.order = i; // order不同步移除会乱序(别else)
             });
     }
     // 改变知识树更新时间
     await api.tree.updateTime(props.item.node.treeId);
 };
 
-/* 节点内容操作 */
-const activeIndex = ref(-1); // 激活块内容索引
-// 更新块内容
-const refreshPointBox = inject<any>('refreshPointBox');
-const updateContentHandle = async (newValue: UpdatePointDTO) => {
-    const target = props.item.content[activeIndex.value];
-    await api.point.update(target.id, newValue).then(() => {
-        // 简易刷新
-        target.name = newValue.name;
-        target.content = newValue.content;
-        refreshPointBox(); // 刷新知识点列表
+// 移除节点
+const emit = defineEmits(['remove']);
+const removeHandle = async () => {
+    await api.treeNode.delete(props.item.node.id).then(() => {
+        emit('remove', props.item.node.order);
     });
-    activeIndex.value = -1;
+};
+const removeChildNodeHandle = async (index: number) => {
+    props.item.node.children.splice(index, 1);
+    await changeOrderHandle();
 };
 </script>
 
@@ -136,6 +149,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
                     :strokeWidth="3"
                     class="action-btn hover:text-red-600"
                     title="移出"
+                    @click="removeHandle"
                 />
             </div>
         </template>
@@ -154,7 +168,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
                 ></edit-item>
             </div>
 
-            <!-- 节点内容列表 -->
+            <!-- 块内容列表 -->
             <div class="node-content mb-2">
                 <drag-list :list="props.item.content" item-key="order" group="point" v-slot="drag">
                     <chunk-content
@@ -177,7 +191,7 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
                 @update="changeOrderHandle"
                 @add="changeOrderHandle"
             >
-                <child-node :item="drag.item"></child-node>
+                <child-node :item="drag.item" @remove="removeChildNodeHandle"></child-node>
             </drag-list>
             <!-- 节点尾注 -->
             <div class="endnote">
