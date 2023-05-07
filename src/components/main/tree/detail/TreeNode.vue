@@ -47,6 +47,18 @@ const changeOrderHandle = async () => {
     refreshChunkBox();
 };
 
+// 移出块内容
+const removeContentHandle = async (index?: number) => {
+    // 按钮移出需要伪刷新,拖拽移出不用
+    if (typeof index === 'number') props.item.content.splice(index, 1);
+    // 先删除列表[最后一项],然后再通过upset获得新列表(删的不是最后一个会导致出现两个末尾项)
+    const length = props.item.content.length;
+    await api.chunkContent.delete({ chunkId: props.item.id, order: length }).then(() => {
+        refreshChunkBox();
+        changeOrderHandle();
+    });
+};
+
 /**
  * 节点操作
  * */
@@ -179,6 +191,7 @@ const addChildNodeHandle = () => {
                     group="point"
                     v-slot="drag"
                     @update="changeOrderHandle"
+                    @remove="removeContentHandle()"
                 >
                     <chunk-content
                         v-show="!drag.item.isDel"
@@ -187,6 +200,7 @@ const addChildNodeHandle = () => {
                         @active="activeIndex = drag.index"
                         @blur="activeIndex = -1"
                         @update="updateContentHandle"
+                        @remove="removeContentHandle(drag.index)"
                     ></chunk-content>
                 </drag-list>
                 <add-line-two
