@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
             <icon-plus
                 size="18"
                 :strokeWidth="3"
-                class="text-transparent duration-300 cursor-pointer inline-block -mt-[2px] -ml-[12px] absolute"
+                class="text-transparent duration-300 cursor-pointer inline-block -mt-[1px] -ml-[12px] absolute"
                 :class="`group-hover:text-${props.bottonColor}`"
                 :title="props.bottonText"
                 @click="$emit('addBotton')"

@@ -5,6 +5,7 @@ import { TreeNode } from '@/api/tree/treeNode/types';
 interface Props {
     treeId: number;
     item: TreeNode; // 节点
+    isEdit: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -23,11 +24,14 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
     activeIndex.value = -1;
 };
 
+const emit = defineEmits(['active', 'blur', 'add', 'create', 'delete']);
+
 /* 节点操作 */
 // 编辑前处理
 const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
-const editTarget = ref(''); // 编辑目标
+const editTarget = ref('name'); // 编辑目标
 const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
+    emit('active');
     // 同步值
     newValue.value.name = props.item.name;
     newValue.value.preface = props.item.preface;
@@ -47,9 +51,17 @@ const editEndHandle = async () => {
         newValue.value.preface === props.item.preface &&
         newValue.value.endnote === props.item.endnote
     )
-        return (editTarget.value = '');
+        return emit('blur');
 
-    // 更新树节点
+    // 调用新增或更新方法
+    if (props.item.id === -1) create();
+    else update();
+
+    emit('blur');
+};
+
+// 更新节点
+const update = async () => {
     await api.chunk.update(props.item.id, newValue.value).then(() => {
         // 刷新
         props.item.name = newValue.value.name;
@@ -57,7 +69,24 @@ const editEndHandle = async () => {
         props.item.endnote = newValue.value.endnote;
         refreshChunkBox();
     });
-    editTarget.value = ''; // 取消编辑状态
+};
+
+// 创建节点
+const create = async () => {
+    // 判空
+    if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
+
+    await api.chunk.create(newValue.value).then((res) => {
+        props.item.id = res.data.id;
+        refreshChunkBox(); // 刷新知识块加工区
+        emit('create'); // 通过changeOrder新增节点
+    });
+};
+
+// 新增子节点
+const childNodesRef = ref<any>(null);
+const addChildNodeHandle = () => {
+    if (childNodesRef.value) childNodesRef.value.addNodeHandle(0);
 };
 </script>
 
@@ -68,7 +97,7 @@ const editEndHandle = async () => {
                 <edit-item
                     type="text"
                     :value="props.item.name"
-                    :isEdit="editTarget === 'name'"
+                    :isEdit="props.isEdit && editTarget === 'name'"
                     placeholder="请输入知识块名"
                     class="title !w-[200px]"
                     @editStart="editStartHandle('name')"
@@ -110,7 +139,7 @@ const editEndHandle = async () => {
             <div class="preface !py-1 !mt-3 mb-1">
                 <edit-item
                     :value="props.item.preface"
-                    :isEdit="editTarget === 'preface'"
+                    :isEdit="props.isEdit && editTarget === 'preface'"
                     placeholder="请输入知识块前言"
                     @editStart="editStartHandle('preface')"
                     @changeValue="newValue.preface = $event"
@@ -130,7 +159,11 @@ const editEndHandle = async () => {
                         @update="updateContentHandle"
                     ></chunk-content>
                 </drag-list>
-                <add-line-two topText="新增块内容" bottonText="新增节点"></add-line-two>
+                <add-line-two
+                    topText="新增块内容"
+                    bottonText="新增节点"
+                    @addBotton="addChildNodeHandle"
+                ></add-line-two>
             </div>
 
             <!-- 子节点列表 -->
@@ -140,13 +173,14 @@ const editEndHandle = async () => {
                 :deep="props.item.level?.deep || 1"
                 :parentPrefix="props.item.level?.prefix || ''"
                 :nodes="props.item.node?.children || []"
+                ref="childNodesRef"
             ></tree-node-list>
 
             <!-- 节点尾注 -->
             <div class="endnote mt-[5px]">
                 <edit-item
                     :value="props.item.endnote"
-                    :isEdit="editTarget === 'endnote'"
+                    :isEdit="props.isEdit && editTarget === 'endnote'"
                     placeholder="请输入知识块尾注"
                     @editStart="editStartHandle('endnote')"
                     @changeValue="newValue.endnote = $event"
