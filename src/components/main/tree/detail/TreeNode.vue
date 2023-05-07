@@ -59,6 +59,25 @@ const removeContentHandle = async (index?: number) => {
     });
 };
 
+// 新增块内容
+const addContentHandle = (index: number) => {
+    // 往列表指定位置插入空白项
+    props.item.content.splice(index, 0, {
+        id: -1,
+        order: index,
+        name: '',
+        content: '',
+        isRefine: false,
+        isDel: false,
+        isMatch: false,
+        authorId: store.user().userinfo?.id || '',
+        createTime: new Date(),
+        updateTime: new Date(),
+    });
+    // 激活新空白项
+    activeIndex.value = index;
+};
+
 /**
  * 节点操作
  * */
@@ -192,6 +211,7 @@ const addChildNodeHandle = () => {
                     v-slot="drag"
                     @update="changeOrderHandle"
                     @remove="removeContentHandle()"
+                    @add="changeOrderHandle"
                 >
                     <chunk-content
                         v-show="!drag.item.isDel"
@@ -201,11 +221,14 @@ const addChildNodeHandle = () => {
                         @blur="activeIndex = -1"
                         @update="updateContentHandle"
                         @remove="removeContentHandle(drag.index)"
+                        @add="addContentHandle"
+                        @create="changeOrderHandle"
                     ></chunk-content>
                 </drag-list>
                 <add-line-two
                     topText="新增块内容"
                     bottonText="新增节点"
+                    @addTop="addContentHandle(props.item.content.length)"
                     @addBotton="addChildNodeHandle"
                 ></add-line-two>
             </div>
