@@ -9,8 +9,13 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-/* 节点内容操作 */
-const activeIndex = ref(-1); // 激活块内容索引
+const refreshChunkBox = inject<any>('refreshChunkBox');
+
+/**
+ * 块内容操作
+ * */
+const activeIndex = ref(-1); // 需激活的块内容索引
+
 // 更新块内容
 const refreshPointBox = inject<any>('refreshPointBox');
 const updateContentHandle = async (newValue: UpdatePointDTO) => {
@@ -24,9 +29,29 @@ const updateContentHandle = async (newValue: UpdatePointDTO) => {
     activeIndex.value = -1;
 };
 
+// 改变块内容顺序
+const changeOrderHandle = async () => {
+    // 改变块顺序(以后看看能不能一次性改)
+    for (let i = 0; i < props.item.content.length; i++) {
+        const point = props.item.content[i];
+        await api.chunkContent
+            .upsert({ chunkId: props.item.id, order: i, pointId: point.id })
+            .then(() => {
+                // 伪刷新点排序,否则连续新增会乱序
+                props.item.content[i].order = i;
+            });
+    }
+    // 改变知识块更新时间
+    await api.chunk.updateTime(props.item.id);
+    // 刷新知识块加工区
+    refreshChunkBox();
+};
+
+/**
+ * 节点操作
+ * */
 const emit = defineEmits(['active', 'blur', 'add', 'create', 'delete']);
 
-/* 节点操作 */
 // 编辑前处理
 const newValue = ref({ name: '', preface: '', endnote: '' }); // 新值
 const editTarget = ref('name'); // 编辑目标
@@ -41,7 +66,6 @@ const editStartHandle = (target: 'name' | 'preface' | 'endnote') => {
 };
 
 // 编辑完成后需进行的处理
-const refreshChunkBox = inject<any>('refreshChunkBox');
 const editEndHandle = async () => {
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
@@ -79,7 +103,7 @@ const create = async () => {
     await api.chunk.create(newValue.value).then((res) => {
         props.item.id = res.data.id;
         refreshChunkBox(); // 刷新知识块加工区
-        emit('create'); // 通过changeOrder新增节点
+        emit('create');
     });
 };
 
@@ -149,7 +173,13 @@ const addChildNodeHandle = () => {
 
             <!-- 块内容列表 -->
             <div class="node-content mb-2">
-                <drag-list :list="props.item.content" item-key="order" group="point" v-slot="drag">
+                <drag-list
+                    :list="props.item.content"
+                    item-key="order"
+                    group="point"
+                    v-slot="drag"
+                    @update="changeOrderHandle"
+                >
                     <chunk-content
                         v-show="!drag.item.isDel"
                         :item="drag.item"
