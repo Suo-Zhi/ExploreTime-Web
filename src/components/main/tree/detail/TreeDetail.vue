@@ -19,6 +19,7 @@ const getTreeDetail = async () => {
     });
 };
 getTreeDetail();
+provide('refreshTreeDetail', getTreeDetail);
 
 // 打开关联详情
 const switchHistory: any = inject('switchHistory');
@@ -73,64 +74,6 @@ const editEndHandle = async () => {
     });
     editTarget.value = ''; // 取消编辑状态
 };
-
-// 改变节点顺序
-const changeOrderHandle = async () => {
-    for (let i = 0; i < treeDetail.value.nodes.length; i++) {
-        const item = treeDetail.value.nodes[i];
-
-        await api.treeNode
-            .upsert(item.node.id, {
-                treeId: treeDetail.value.id,
-                parentNodeId: null,
-                order: i,
-                nodeId: item.id,
-            })
-            .then((res) => {
-                // 伪刷新
-                item.node.id = res.data.id;
-                item.node.order = i;
-                item.level.prefix = tool.getNodePrefix(1, i);
-            });
-    }
-    // 改变知识树更新时间
-    await api.tree.updateTime(treeDetail.value.id);
-};
-
-// 新增节点
-const addHandle = async (e: any) => {
-    const i = e.newIndex;
-
-    // 填充新节点默认值
-    const item = treeDetail.value.nodes[i];
-    let newItem = {} as any;
-    Object.assign(newItem, item);
-
-    if (!newItem.node) {
-        newItem.node = {
-            id: -1,
-            children: [],
-        };
-    }
-    newItem.node.treeId = treeDetail.value.id;
-    newItem.node.parentNodeId = null;
-    newItem.node.order = i;
-    newItem.level = {
-        deep: 1,
-        prefix: tool.getNodePrefix(1, i),
-    };
-
-    // 换成新节点
-    treeDetail.value.nodes.splice(i, 1, newItem);
-
-    await changeOrderHandle();
-};
-
-// 移除节点
-const removeChildNodeHandle = async (index: number) => {
-    treeDetail.value.nodes.splice(index, 1);
-    await changeOrderHandle();
-};
 </script>
 
 <template>
@@ -163,19 +106,13 @@ const removeChildNodeHandle = async (index: number) => {
         </div>
 
         <!-- 知识树节点 -->
-        <section class="tree-nodes mt-3">
-            <drag-list
-                :list="treeDetail.nodes"
-                item-key="node.id"
-                group="chunk"
-                v-slot="drag"
-                @add="addHandle"
-                @remove="changeOrderHandle"
-                @update="changeOrderHandle"
-            >
-                <tree-node :item="drag.item" @remove="removeChildNodeHandle"></tree-node>
-            </drag-list>
-        </section>
+        <tree-node-list
+            :treeId="treeDetail.id"
+            :parentNodeId="null"
+            :deep="0"
+            :parentPrefix="''"
+            :nodes="treeDetail.nodes"
+        ></tree-node-list>
 
         <template #navLeft>
             <search-bar v-model="keywords"></search-bar>

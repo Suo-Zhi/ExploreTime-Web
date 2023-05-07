@@ -3,6 +3,7 @@ import { UpdatePointDTO } from '@/api/point/dto';
 import { TreeNode } from '@/api/tree/treeNode/types';
 
 interface Props {
+    treeId: number;
     item: TreeNode; // 节点
 }
 const props = withDefaults(defineProps<Props>(), {});
@@ -58,70 +59,6 @@ const editEndHandle = async () => {
     });
     editTarget.value = ''; // 取消编辑状态
 };
-
-// 改变节点顺序
-const changeOrderHandle = async () => {
-    for (let i = 0; i < props.item.node.children.length; i++) {
-        const item = props.item.node.children[i];
-
-        await api.treeNode
-            .upsert(item.node.id, {
-                treeId: props.item.node.treeId,
-                parentNodeId: props.item.node.id,
-                order: i,
-                nodeId: item.id,
-            })
-            .then((res) => {
-                // 伪刷新
-                item.node.id = res.data.id;
-                item.node.order = i;
-                item.level.prefix = tool.getNodePrefix(item.level.deep, i, props.item.level.prefix);
-            });
-    }
-    // 改变知识树更新时间
-    await api.tree.updateTime(props.item.node.treeId);
-};
-
-// 新增节点
-const addHandle = async (e: any) => {
-    const i = e.newIndex;
-
-    // 填充新节点默认值
-    const item = props.item.node.children[i];
-    let newItem = {} as any;
-    Object.assign(newItem, item);
-
-    if (!newItem.node) {
-        newItem.node = {
-            id: -1,
-            children: [],
-        };
-    }
-    newItem.node.treeId = props.item.node.treeId;
-    newItem.node.parentNodeId = props.item.node.id;
-    newItem.node.order = i;
-    newItem.level = {
-        deep: props.item.level.deep + 1,
-        prefix: '',
-    };
-
-    // 换成新节点
-    props.item.node.children.splice(i, 1, newItem);
-
-    await changeOrderHandle();
-};
-
-// 移除节点
-const emit = defineEmits(['remove']);
-const removeHandle = async () => {
-    await api.treeNode.delete(props.item.node.id).then(() => {
-        emit('remove', props.item.node.order);
-    });
-};
-const removeChildNodeHandle = async (index: number) => {
-    props.item.node.children.splice(index, 1);
-    await changeOrderHandle();
-};
 </script>
 
 <template>
@@ -162,7 +99,7 @@ const removeChildNodeHandle = async (index: number) => {
                     :strokeWidth="3"
                     class="action-btn hover:text-red-600"
                     title="移出"
-                    @click="removeHandle"
+                    @click="$emit('delete')"
                 />
             </div>
         </template>
@@ -195,19 +132,14 @@ const removeChildNodeHandle = async (index: number) => {
                 </drag-list>
             </div>
 
-            <!-- 子节点 -->
-            <drag-list
-                :list="props.item.node?.children || []"
-                item-key="node.id"
-                group="chunk"
-                v-slot="drag"
-                @add="addHandle"
-                @remove="changeOrderHandle"
-                @update="changeOrderHandle"
-                class="min-h-[20px]"
-            >
-                <child-node :item="drag.item" @remove="removeChildNodeHandle"></child-node>
-            </drag-list>
+            <!-- 子节点列表 -->
+            <tree-node-list
+                :treeId="props.treeId"
+                :parentNodeId="props.item.node?.id || -1"
+                :deep="props.item.level?.deep || 1"
+                :parentPrefix="props.item.level?.prefix || ''"
+                :nodes="props.item.node?.children || []"
+            ></tree-node-list>
 
             <!-- 节点尾注 -->
             <div class="endnote">
