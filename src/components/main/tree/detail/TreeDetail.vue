@@ -78,6 +78,7 @@ const editEndHandle = async () => {
 const changeOrderHandle = async () => {
     for (let i = 0; i < treeDetail.value.nodes.length; i++) {
         const item = treeDetail.value.nodes[i];
+
         await api.treeNode
             .upsert(item.node.id, {
                 treeId: treeDetail.value.id,
@@ -102,21 +103,24 @@ const addHandle = async (e: any) => {
 
     // 填充新节点默认值
     const item = treeDetail.value.nodes[i];
-    item.node = {
-        id: -1,
-        treeId: treeDetail.value.id,
-        parentNodeId: null,
-        order: i,
-    } as any;
-    if (!item.node.children) item.node.children = [];
-    item.level = {
-        deep: 1,
-        prefix: '',
-    };
-
-    // 要深拷贝,不然连续新增时会出现相同项
     let newItem = {} as any;
     Object.assign(newItem, item);
+
+    if (!newItem.node) {
+        newItem.node = {
+            id: -1,
+            children: [],
+        };
+    }
+    newItem.node.treeId = treeDetail.value.id;
+    newItem.node.parentNodeId = null;
+    newItem.node.order = i;
+    newItem.level = {
+        deep: 1,
+        prefix: tool.getNodePrefix(1, i),
+    };
+
+    // 换成新节点
     treeDetail.value.nodes.splice(i, 1, newItem);
 
     await changeOrderHandle();
@@ -165,8 +169,9 @@ const removeChildNodeHandle = async (index: number) => {
                 item-key="node.id"
                 group="chunk"
                 v-slot="drag"
-                @update="changeOrderHandle"
                 @add="addHandle"
+                @remove="changeOrderHandle"
+                @update="changeOrderHandle"
             >
                 <tree-node :item="drag.item" @remove="removeChildNodeHandle"></tree-node>
             </drag-list>

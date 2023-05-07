@@ -86,23 +86,26 @@ const changeOrderHandle = async () => {
 const addHandle = async (e: any) => {
     const i = e.newIndex;
 
-    const item = props.item.node.children[i];
     // 填充新节点默认值
-    item.node = {
-        id: -1,
-        treeId: props.item.node.treeId,
-        parentNodeId: props.item.node.id,
-        order: i,
-    } as any;
-    if (!item.node.children) item.node.children = [];
-    item.level = {
+    const item = props.item.node.children[i];
+    let newItem = {} as any;
+    Object.assign(newItem, item);
+
+    if (!newItem.node) {
+        newItem.node = {
+            id: -1,
+            children: [],
+        };
+    }
+    newItem.node.treeId = props.item.node.treeId;
+    newItem.node.parentNodeId = props.item.node.id;
+    newItem.node.order = i;
+    newItem.level = {
         deep: props.item.level.deep + 1,
         prefix: '',
     };
 
-    // 要深拷贝,不然连续新增时会出现相同项
-    let newItem = {} as any;
-    Object.assign(newItem, item);
+    // 换成新节点
     props.item.node.children.splice(i, 1, newItem);
 
     await changeOrderHandle();
@@ -130,7 +133,7 @@ const removeChildNodeHandle = async (index: number) => {
                     :value="props.item.name"
                     :isEdit="editTarget === 'name'"
                     placeholder="请输入知识块名"
-                    class="title w-[200px]"
+                    class="title !w-[200px]"
                     @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
@@ -194,16 +197,18 @@ const removeChildNodeHandle = async (index: number) => {
 
             <!-- 子节点 -->
             <drag-list
-                :list="item.node?.children || []"
-                item-key="nodeId"
+                :list="props.item.node?.children || []"
+                item-key="node.id"
                 group="chunk"
                 v-slot="drag"
-                @update="changeOrderHandle"
                 @add="addHandle"
+                @remove="changeOrderHandle"
+                @update="changeOrderHandle"
                 class="min-h-[20px]"
             >
                 <child-node :item="drag.item" @remove="removeChildNodeHandle"></child-node>
             </drag-list>
+
             <!-- 节点尾注 -->
             <div class="endnote">
                 <edit-item
