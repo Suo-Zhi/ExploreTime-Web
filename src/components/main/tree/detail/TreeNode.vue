@@ -62,7 +62,7 @@ const editEndHandle = async () => {
 </script>
 
 <template>
-    <card-fold class="mb-3">
+    <card-fold class="mt-[5px] mb-[5px]">
         <template #title>
             <title-level :level="props.item.level">
                 <edit-item
@@ -130,6 +130,7 @@ const editEndHandle = async () => {
                         @update="updateContentHandle"
                     ></chunk-content>
                 </drag-list>
+                <add-line-two topText="新增块内容" bottonText="新增节点"></add-line-two>
             </div>
 
             <!-- 子节点列表 -->
@@ -142,7 +143,7 @@ const editEndHandle = async () => {
             ></tree-node-list>
 
             <!-- 节点尾注 -->
-            <div class="endnote">
+            <div class="endnote mt-[5px]">
                 <edit-item
                     :value="props.item.endnote"
                     :isEdit="editTarget === 'endnote'"

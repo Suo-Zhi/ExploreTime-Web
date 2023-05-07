@@ -63,6 +63,7 @@ watch(
                 :item="drag.item"
                 @delete="deleteHandle(drag.index)"
             ></tree-node>
+            <add-line-one text="新增节点" color="green-500"></add-line-one>
         </drag-list>
     </section>
 </template>

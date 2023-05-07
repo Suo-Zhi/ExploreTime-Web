@@ -224,7 +224,10 @@ const viewRelateDetail = () => {
                         @create="changeOrderHandle"
                     ></chunk-content>
                 </drag-list>
-                <chunk-add-line @add="addContentHandle(props.item.content.length)"></chunk-add-line>
+                <add-line-one
+                    text="新增块内容"
+                    @add="addContentHandle(props.item.content.length)"
+                ></add-line-one>
             </div>
 
             <!-- 知识块尾注 -->

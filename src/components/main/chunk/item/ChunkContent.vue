@@ -69,7 +69,7 @@ const viewRelateDetail = () => {
 
 <template>
     <section class="chunk-content-item">
-        <chunk-add-line @add="$emit('add', props.item.order)"></chunk-add-line>
+        <add-line-one text="新增块内容" @add="$emit('add', props.item.order)"></add-line-one>
 
         <card-fold :line="false" :border="false">
             <template #title>

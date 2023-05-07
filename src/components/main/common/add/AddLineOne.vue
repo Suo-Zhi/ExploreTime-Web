@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+interface Props {
+    text: string;
+    color?: string;
+}
+const props = withDefaults(defineProps<Props>(), {
+    color: 'primary',
+});
+</script>
 
 <template>
     <section class="add-line w-full h-[1px] group flex items-center cursor-pointer relative">
@@ -6,8 +14,9 @@
             <icon-plus
                 size="18"
                 :strokeWidth="3"
-                class="text-transparent group-hover:text-primary duration-300 cursor-pointer inline-block -mt-2 -ml-[12px] absolute"
-                title="新增块内容"
+                class="text-transparent duration-300 cursor-pointer inline-block -mt-2 -ml-[12px] absolute"
+                :class="`group-hover:text-${props.color}`"
+                :title="props.text"
                 @click="$emit('add')"
             />
         </div>
