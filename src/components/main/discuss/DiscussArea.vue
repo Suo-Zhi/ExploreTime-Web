@@ -28,6 +28,20 @@ watch(
         if (isShow) findList();
     }
 );
+
+// 新增反馈
+const addFeedbackModalVisible = ref(false);
+const newValue = ref('');
+const addFeedback = async () => {
+    await api.feedback.create({
+        content: newValue.value,
+        targetId: discuss.targetId,
+        targetType: discuss.targetType,
+    });
+    findList();
+    addFeedbackModalVisible.value = false;
+    newValue.value = '';
+};
 </script>
 
 <template>
@@ -48,7 +62,9 @@ watch(
                     <span class="text-[24px] mr-2">讨论区</span>
                     <search-bar v-model="keywords" @search="findList" />
                 </div>
-                <a-button type="primary" size="small">新增反馈</a-button>
+                <a-button type="primary" size="small" @click="addFeedbackModalVisible = true">
+                    新增反馈
+                </a-button>
             </div>
 
             <!-- 反馈列表 -->
@@ -63,6 +79,26 @@ watch(
             </load-box>
             <empty v-if="!isLoad && list.length === 0" text="暂无反馈" />
         </div>
+
+        <!-- 新增反馈对话框 -->
+        <a-modal
+            draggable
+            v-model:visible="addFeedbackModalVisible"
+            @ok="addFeedback"
+            @cancel="
+                addFeedbackModalVisible = false;
+                newValue = '';
+            "
+        >
+            <template #title>新增反馈</template>
+            <div>
+                <cus-editor
+                    toolbarType="none"
+                    placeholder="输入反馈"
+                    v-model="newValue"
+                ></cus-editor>
+            </div>
+        </a-modal>
     </a-drawer>
 </template>
 

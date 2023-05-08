@@ -5,3 +5,9 @@ export interface FindFeedbackDTO {
     targetType: DiscussType;
     keywords: string;
 }
+
+export interface CreateFeedbackDTO {
+    content: string;
+    targetType: DiscussType;
+    targetId: number;
+}
