@@ -8,7 +8,9 @@ export const baseRoutes: RouteRecordRaw[] = [
         meta: {
             auth: true,
         },
+        redirect: '/camp',
         component: () => import('@/views/camp/Index.vue'),
+        children: [],
     },
     // 404页面
     {
