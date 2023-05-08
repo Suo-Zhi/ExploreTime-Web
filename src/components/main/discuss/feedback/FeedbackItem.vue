@@ -12,11 +12,7 @@ const { formateTime } = tool;
 <template>
     <section class="feedback-item border-base px-2 mb-3 pt-2 pb-1">
         <div class="header flex justify-between items-center mb-1">
-            <!-- 用户信息 -->
-            <section class="userinfo flex items-center">
-                <avatar></avatar>
-                <span class="ml-2 text-[16px] text-slate-700">Tom</span>
-            </section>
+            <user-item :id="props.item.authorId"></user-item>
 
             <!-- 额外操作 -->
             <a-popover

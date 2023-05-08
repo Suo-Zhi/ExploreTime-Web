@@ -31,7 +31,12 @@ watch(
     <common-box class="tree-detail pb-[6px]" :isLoad="isLoad">
         <div class="main" v-if="treeDetail.id">
             <!-- 知识树名 -->
-            <div class="tree-name text-center mt-[6px] mb-[8px]">
+            <div class="tree-name text-center mt-[6px] mb-[8px] relative">
+                <user-item
+                    :id="treeDetail.authorId"
+                    :showFollow="true"
+                    class="absolute -top-[2px]"
+                ></user-item>
                 <text-view
                     :text="treeDetail.name"
                     textClass="text-[26px] leading-[26px] h-[31.5px] text-center"

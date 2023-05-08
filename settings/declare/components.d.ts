@@ -191,5 +191,6 @@ declare module '@vue/runtime-core' {
     TreeNodeView: typeof import('./../../src/views/square/components/tree/detail/TreeNodeView.vue')['default']
     TreeProcess: typeof import('./../../src/components/main/tree/TreeProcess.vue')['default']
     TrendArrow: typeof import('./../../src/components/data/TrendArrow.vue')['default']
+    UserItem: typeof import('./../../src/components/base/UserItem.vue')['default']
   }
 }
