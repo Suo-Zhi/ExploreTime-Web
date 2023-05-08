@@ -77,6 +77,8 @@ const editEndHandle = async () => {
         // 刷新
         treeDetail.value.name = newValue.value.name;
         treeDetail.value.preface = newValue.value.preface;
+        history.links[history.activeIndex[props.screen]].linkTitle =
+            '树详情-' + newValue.value.name;
         refreshTreeBox();
     });
     editTarget.value = ''; // 取消编辑状态
