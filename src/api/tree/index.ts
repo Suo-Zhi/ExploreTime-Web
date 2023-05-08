@@ -9,6 +9,13 @@ export default {
         });
     },
 
+    // 获取公开知识树列表
+    findPublic(keywords: string) {
+        return http.get<Tree[]>('tree/public', {
+            params: { keywords },
+        });
+    },
+
     // 移除
     remove: (id: number) => {
         return http.patch('tree/remove' + id);
