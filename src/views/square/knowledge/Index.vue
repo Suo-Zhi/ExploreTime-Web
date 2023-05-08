@@ -19,9 +19,9 @@ const { history } = square; // 历史链接
                     ></tree-detail-view>
 
                     <!-- 关联详情 -->
-                    <div v-else-if="history.links[history.activeIndex].linkType === 'relateDetail'">
-                        {{ history.links[history.activeIndex].linkTitle }}
-                    </div>
+                    <relate-detail-view
+                        v-else-if="history.links[history.activeIndex].linkType === 'relateDetail'"
+                    ></relate-detail-view>
                 </template>
 
                 <template #right>
