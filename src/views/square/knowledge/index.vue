@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const square = store.square(); // 是否分屏
+
+const { history } = square; // 历史链接
 </script>
 
 <template>
@@ -9,7 +11,17 @@ const square = store.square(); // 是否分屏
         <main class="mt-[30px]">
             <square-split-screen>
                 <template #left>
-                    <tree-list-view></tree-list-view>
+                    <tree-list-view v-if="history.activeIndex === -1"></tree-list-view>
+
+                    <!-- 树详情 -->
+                    <div v-else-if="history.links[history.activeIndex].linkType === 'treeDetail'">
+                        {{ history.links[history.activeIndex].linkTitle }}
+                    </div>
+
+                    <!-- 关联详情 -->
+                    <div v-else-if="history.links[history.activeIndex].linkType === 'relateDetail'">
+                        {{ history.links[history.activeIndex].linkTitle }}
+                    </div>
                 </template>
 
                 <template #right>

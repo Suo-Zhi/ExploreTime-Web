@@ -20,7 +20,7 @@ const square = store.square(); // 是否分屏
                 color="#168cff"
                 size="medium"
                 class="cursor-pointer select-none"
-                @click="$router.push({ name: props.index })"
+                @click="square.history.activeIndex = -1"
             >
                 {{ props.title }}
             </a-tag>

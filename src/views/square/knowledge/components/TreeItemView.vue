@@ -5,6 +5,26 @@ interface Props {
     item: Tree;
 }
 const props = withDefaults(defineProps<Props>(), {});
+
+// 打开树详情
+const viewTreeDetail = () => {
+    store.square().addHistoryLink({
+        linkType: 'treeDetail',
+        linkTitle: '树详情-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'tree',
+    });
+};
+
+// 打开关联详情
+const viewRelateDetail = () => {
+    store.square().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '树关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'tree',
+    });
+};
 </script>
 
 <template>
@@ -25,6 +45,7 @@ const props = withDefaults(defineProps<Props>(), {});
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看关联项"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"
@@ -36,7 +57,7 @@ const props = withDefaults(defineProps<Props>(), {});
         </div>
 
         <!-- 主体 -->
-        <div class="body cursor-pointer pl-1 pr-2">
+        <div class="body cursor-pointer pl-1 pr-2" @click="viewTreeDetail">
             <!-- 知识树前言 -->
             <div class="preface my-2 px-3">
                 <text-view :text="props.item.preface"></text-view>
