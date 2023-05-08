@@ -21,7 +21,7 @@ const levelStyle = computed(() => {
             levelStyle,
             props.level.deep === 1 ? 'justify-center' : '',
             props.level.deep < 4 ? 'my-2' : '',
-            props.level.deep >= 4 ? 'my-1' : '',
+            props.level.deep >= 4 ? 'my-[6px]' : '',
         ]"
     >
         <span :class="props.level.deep > 1 ? 'mr-[6px]' : ''">{{ props.level.prefix }}</span>
