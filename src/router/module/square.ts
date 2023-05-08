@@ -9,7 +9,7 @@ export default {
         {
             path: 'knowledge',
             name: 'knowledge',
-            component: () => import('@/views/square/knowledge/index.vue'),
+            component: () => import('@/views/square/knowledge/Index.vue'),
         },
         {
             path: 'article',
