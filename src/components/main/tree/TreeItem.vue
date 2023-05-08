@@ -137,7 +137,7 @@ const viewTreeDetail = () => {
         <!-- 中部主体 -->
         <div class="card-body point-content my-2 px-3">
             <!-- 知识树前言 -->
-            <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
+            <div class="preface">
                 <edit-item
                     :value="props.item.preface"
                     :isEdit="props.isEdit && (editTarget === 'preface' || editTarget === 'all')"

@@ -23,9 +23,15 @@ findList();
 </script>
 
 <template>
-    <section class="tree-list-view">
-        {{ list }}
-    </section>
+    <load-box :isLoad="isLoad" class="tree-list-view h-full">
+        <scroll-bar>
+            <tree-item-view
+                v-for="(item, index) of list"
+                :key="index"
+                :item="item"
+            ></tree-item-view>
+        </scroll-bar>
+    </load-box>
 </template>
 
 <style lang="scss" scoped></style>
