@@ -6,6 +6,8 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
+const { openDiscussArea } = store.square(); // 打开讨论区
+
 // 打开树详情
 const viewTreeDetail = () => {
     store.square().addHistoryLink({
@@ -52,6 +54,7 @@ const viewRelateDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
+                    @click="openDiscussArea(props.item.id, 'tree')"
                 />
             </section>
         </div>

@@ -15,6 +15,8 @@ const props = withDefaults(defineProps<Props>(), {});
         <main class="main flex-1 items-stretch relative overflow-hidden">
             <router-view></router-view>
         </main>
+        <!-- 讨论区 -->
+        <discuss-area></discuss-area>
     </div>
 </template>
 

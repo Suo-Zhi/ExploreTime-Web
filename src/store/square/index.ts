@@ -1,12 +1,19 @@
 import { HistoryLink } from '../setting/types';
-import { SquareState } from './types';
+import { DiscussType, SquareState } from './types';
 
 export default defineStore('square', {
     state: (): SquareState => ({
         isOpenInfoBox: false, // 是否分屏
+        // 历史链接
         history: {
             activeIndex: -1,
             links: [],
+        },
+        // 讨论区
+        discuss: {
+            isShow: false,
+            targetId: -1,
+            targetType: 'point',
         },
     }),
 
@@ -41,6 +48,13 @@ export default defineStore('square', {
             // 如果移除项未激活 且 移除项位于激活项左侧: 则激活项左移1位
             else if (index < this.history.activeIndex)
                 this.history.activeIndex = this.history.activeIndex - 1;
+        },
+
+        // 打开讨论区
+        openDiscussArea(targetId: number, targetType: DiscussType) {
+            this.discuss.targetId = targetId;
+            this.discuss.targetType = targetType;
+            this.discuss.isShow = true;
         },
     },
 });
