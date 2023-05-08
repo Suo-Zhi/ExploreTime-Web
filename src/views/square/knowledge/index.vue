@@ -13,7 +13,10 @@ const square = store.square(); // 是否分屏
                 </template>
 
                 <template #right>
-                    <info-process v-if="square.isOpenInfoBox"></info-process>
+                    <!-- 信息收集箱 -->
+                    <auth-box>
+                        <info-process v-show="square.isOpenInfoBox"></info-process>
+                    </auth-box>
                 </template>
             </square-split-screen>
         </main>
