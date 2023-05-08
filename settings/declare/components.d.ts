@@ -145,6 +145,8 @@ declare module '@vue/runtime-core' {
     SelectType: typeof import('./../../src/components/base/SelectType.vue')['default']
     SplitScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/SplitScreen.vue')['default']
     SplitScreenButton: typeof import('./../../src/views/camp/workbench/components/splitScreen/SplitScreenButton.vue')['default']
+    SquareLink: typeof import('./../../src/views/square/components/SquareLink.vue')['default']
+    SquareNav: typeof import('./../../src/views/square/components/SquareNav.vue')['default']
     TimeBar: typeof import('./../../src/components/base/TimeBar.vue')['default']
     Title: typeof import('./../../src/components/main/tree/detail/Title.vue')['default']
     TitleLevel: typeof import('./../../src/components/base/TitleLevel.vue')['default']
