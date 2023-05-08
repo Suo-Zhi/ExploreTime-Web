@@ -1,34 +1,38 @@
 <script setup lang="ts">
-const isLoad = ref(false);
+import { Feedback } from '@/api/feedback/types';
+interface Props {
+    keywords: string;
+}
+const props = withDefaults(defineProps<Props>(), {});
 
-const list = ref([
-    {
-        id: 1,
-        content: '11111111',
-        targetType: 'tree',
-        targetId: '1',
-        extra: {
-            replyCount: 1,
-            likeCount: 3,
-            isLike: true,
-        },
-        authorId: 'jerry',
-        createTime: new Date(),
-    },
-    {
-        id: 2,
-        content: '22222222',
-        targetType: 'tree',
-        targetId: '1',
-        extra: {
-            replyCount: 2,
-            likeCount: 4,
-            isLike: false,
-        },
-        authorId: 'jerry',
-        createTime: new Date(),
-    },
-]);
+const isLoad = ref(false);
+const { discuss } = store.square();
+
+// 查
+const list = ref<Feedback[]>([]);
+const findList = async () => {
+    isLoad.value = true;
+
+    await api.feedback
+        .find({
+            targetId: discuss.targetId,
+            targetType: discuss.targetType,
+            keywords: props.keywords,
+        })
+        .then((res) => {
+            list.value = res.data;
+        });
+    isLoad.value = false;
+};
+watch(
+    () => discuss.isShow,
+    (isShow) => {
+        if (isShow) findList();
+    }
+);
+defineExpose({
+    findList,
+});
 </script>
 
 <template>

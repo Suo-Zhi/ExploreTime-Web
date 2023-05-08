@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { Feedback } from '@/api/feedback/types';
+
 interface Props {
-    item: any;
+    item: Feedback;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -54,7 +56,7 @@ const { formateTime } = tool;
                         title="回复"
                     />
                     <span class="text-[13px] ml-[2px]">
-                        {{ props.item.extra.replyCount }}
+                        {{ props.item.extra?.replyCount }}
                     </span>
                 </div>
 
@@ -64,11 +66,11 @@ const { formateTime } = tool;
                         size="18"
                         :strokeWidth="3"
                         class="action-btn hover:text-primary"
-                        :class="props.item.extra.isLike ? '!text-primary' : ''"
-                        :title="props.item.extra.isLike ? '取消点赞' : '点赞'"
+                        :class="props.item.extra?.isLike ? '!text-primary' : ''"
+                        :title="props.item.extra?.isLike ? '取消点赞' : '点赞'"
                     />
                     <span class="text-[13px] ml-[2px]">
-                        {{ props.item.extra.likeCount }}
+                        {{ props.item.extra?.likeCount }}
                     </span>
                 </div>
             </div>
