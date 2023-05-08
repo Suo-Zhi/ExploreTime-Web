@@ -18,7 +18,14 @@ const getTreeDetail = async () => {
         treeDetail.value = res.data;
     });
 };
-getTreeDetail();
+watch(
+    treeId,
+    () => {
+        getTreeDetail();
+    },
+    { immediate: true }
+);
+
 provide('refreshTreeDetail', getTreeDetail);
 
 // 打开关联详情

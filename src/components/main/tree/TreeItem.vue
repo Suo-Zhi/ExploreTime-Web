@@ -107,6 +107,13 @@ const viewTreeDetail = () => {
             <div class="drag-handle">&nbsp;</div>
             <!-- 顶部操作栏 -->
             <section class="action-bar">
+                <icon-notes
+                    size="17"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-primary"
+                    title="查看树详情"
+                    @click="viewTreeDetail"
+                />
                 <icon-link-one
                     size="17"
                     :strokeWidth="3"
@@ -119,13 +126,6 @@ const viewTreeDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
-                />
-                <icon-notes
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-primary mt-[1px]"
-                    title="查看树详情"
-                    @click="viewTreeDetail"
                 />
                 <lock-button
                     :isPublic="props.item.isPublic"
