@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
-    img: string;
-    text: string;
+    img?: string;
+    text?: string;
     size?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -23,7 +23,8 @@ const props = withDefaults(defineProps<Props>(), {
             class="rounded-[50%] bg-secondary text-center leading-[30px] cursor-pointer"
             :style="{ width: props.size, height: props.size }"
         >
-            {{ props.text.substring(0, 1) }}
+            <span v-if="props.text">{{ props.text.substring(0, 1) }}</span>
+            <span v-else class="text-white">?</span>
         </div>
     </section>
 </template>

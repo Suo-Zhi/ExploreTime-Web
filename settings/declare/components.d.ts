@@ -102,6 +102,7 @@ declare module '@vue/runtime-core' {
     IconTopBar: typeof import('@icon-park/vue-next')['TopBar']
     IconTreeList: typeof import('@icon-park/vue-next')['TreeList']
     IconUnlink: typeof import('@icon-park/vue-next')['Unlink']
+    IconVrGlasses: typeof import('@icon-park/vue-next')['VrGlasses']
     InfoBox: typeof import('./../../src/components/main/info/InfoBox.vue')['default']
     InfoItem: typeof import('./../../src/components/main/info/InfoItem.vue')['default']
     InfoProcess: typeof import('./../../src/components/main/info/InfoProcess.vue')['default']

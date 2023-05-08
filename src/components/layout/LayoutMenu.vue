@@ -33,13 +33,17 @@ watch(isFold, () => {
 });
 
 // 用户信息(用于头像)
-const { userinfo } = store.user();
+const userinfo = ref(store.user().userinfo);
 
 // 退出登录
 const router = useRouter();
 const logout = () => {
     localCache.remove('token');
-    router.push({ name: 'login' });
+    store.user().userinfo = null;
+    userinfo.value = null;
+    // 处于个人空间时返回登录页
+    if (route.path.search('camp') == 1) router.push({ name: 'login' });
+    store.global().prompt('已退出登录', 'success');
 };
 </script>
 
@@ -86,10 +90,11 @@ const logout = () => {
             <!-- 我的 -->
             <div class="my">
                 <a-popover
+                    v-if="userinfo"
                     position="rb"
                     :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
                 >
-                    <avatar :img="userinfo?.avatar" :text="userinfo?.nickname" size="30px"></avatar>
+                    <avatar :img="userinfo.avatar" :text="userinfo.nickname" size="30px"></avatar>
                     <template #content>
                         <div
                             class="border-b border-gray-300 pb-1 cursor-pointer hover:text-primary duration-300"
@@ -104,6 +109,13 @@ const logout = () => {
                         </div>
                     </template>
                 </a-popover>
+
+                <avatar
+                    v-else
+                    size="30px"
+                    @click="$router.push({ name: 'login' })"
+                    title="前往登录"
+                ></avatar>
             </div>
         </aside>
 
