@@ -143,6 +143,18 @@ const childNodesRef = ref<any>(null);
 const addChildNodeHandle = () => {
     if (childNodesRef.value) childNodesRef.value.addNodeHandle(0);
 };
+
+// 打开关联详情
+const switchHistory: any = inject('switchHistory');
+const viewRelateDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '块关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'chunk',
+    });
+    switchHistory('relateDetail');
+};
 </script>
 
 <template>
@@ -171,6 +183,7 @@ const addChildNodeHandle = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="关联情况"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"
