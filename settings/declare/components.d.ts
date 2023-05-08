@@ -76,7 +76,7 @@ declare module '@vue/runtime-core' {
     EmptyScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptyScreen.vue')['default']
     EmptySection: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptySection.vue')['default']
     FeedbackDrawer: typeof import('./../../src/components/main/discuss/feedback/FeedbackDrawer.vue')['default']
-    FeedbackItem: typeof import('./../../src/components/main/discuss/feedback/FeedbackItem.vue')['default']
+    FeedbackItem: typeof import('./../../src/components/main/discuss/FeedbackItem.vue')['default']
     FeedbackList: typeof import('./../../src/components/main/discuss/feedback/FeedbackList.vue')['default']
     FormItem: typeof import('./../../src/components/input/FormItem.vue')['default']
     GoToLogin: typeof import('./../../src/components/base/GoToLogin.vue')['default']
