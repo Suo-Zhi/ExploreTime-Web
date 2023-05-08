@@ -95,6 +95,7 @@ declare module '@vue/runtime-core' {
     IconNotes: typeof import('@icon-park/vue-next')['Notes']
     IconPlayCycle: typeof import('@icon-park/vue-next')['PlayCycle']
     IconPlus: typeof import('@icon-park/vue-next')['Plus']
+    IconRedo: typeof import('@icon-park/vue-next')['Redo']
     IconReduce: typeof import('@icon-park/vue-next')['Reduce']
     IconRuduce: typeof import('@icon-park/vue-next')['Ruduce']
     IconSearch: typeof import('@icon-park/vue-next')['Search']

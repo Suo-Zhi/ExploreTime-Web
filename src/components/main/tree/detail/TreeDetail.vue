@@ -120,6 +120,13 @@ const editEndHandle = async () => {
 
         <template #navRight>
             <div class="action-bar">
+                <icon-redo
+                    size="17"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-primary"
+                    title="刷新"
+                    @click="getTreeDetail"
+                />
                 <icon-link-one
                     size="17"
                     :strokeWidth="3"
