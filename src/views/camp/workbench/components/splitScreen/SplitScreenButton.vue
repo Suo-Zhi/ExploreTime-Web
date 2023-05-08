@@ -11,10 +11,7 @@ watch(
             store.setting().nextScreen = 'right';
         }
         // 单屏时清空右屏
-        else {
-            localCache.set('rightScreen', '');
-            store.setting().screen.right = '';
-        }
+        else store.setting().screen.right = '';
 
         // 持久化存储
         localCache.set('isSplitScreen', isSplitScreen.value);
@@ -51,7 +48,7 @@ watch(
             size="19"
             :strokeWidth="3"
             class="group-hover:text-primary text-icon-gray"
-            :title="!isSplitScreen ? '分屏' : '合并'"
+            :title="!isSplitScreen ? '分屏' : '单屏'"
         />
     </section>
 </template>
