@@ -9,32 +9,22 @@ const props = withDefaults(defineProps<Props>(), {});
 const { formateTime } = tool;
 const isLoad = ref(false);
 
-const list = ref<Reply[]>([
-    {
-        id: 1,
-        content: '111111',
-        extra: {
-            replyCount: 3,
-            likeCount: 1,
-            isLike: false,
-        },
-        rootId: null,
-        authorId: 'jerry',
-        createTime: new Date(),
+// 获取根回复
+const list = ref<Reply[]>([]);
+const getList = async () => {
+    isLoad.value = true;
+    await api.reply.getRoot(props.feedbackId).then((res) => {
+        list.value = res.data;
+    });
+    isLoad.value = false;
+};
+watch(
+    () => props.feedbackId,
+    () => {
+        getList();
     },
-    {
-        id: 1,
-        content: '222222',
-        extra: {
-            replyCount: 3,
-            likeCount: 1,
-            isLike: false,
-        },
-        rootId: null,
-        authorId: 'jerry',
-        createTime: new Date(),
-    },
-]);
+    { immediate: true }
+);
 </script>
 
 <template>
