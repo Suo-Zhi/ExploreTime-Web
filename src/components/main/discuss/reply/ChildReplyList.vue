@@ -109,30 +109,15 @@ const toggleLikeHandle = async (index: number) => {
                 </div>
 
                 <!-- 额外操作 -->
-                <a-popover
-                    v-if="item.author.id"
-                    position="left"
-                    :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
-                >
-                    <icon-more
-                        size="20"
-                        :strokeWidth="3"
-                        class="action-btn hover:text-primary"
-                        title="更多"
-                    />
-                    <template #content>
-                        <div class="mt-[6px] cursor-pointer text-center hover:text-primary">
-                            关注回复者
-                        </div>
-                        <div
-                            v-if="user.userinfo?.id === item.author.id"
-                            class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
-                            @click="delHandle(index)"
-                        >
-                            删除回复
-                        </div>
-                    </template>
-                </a-popover>
+                <more-button-user :targetId="item.author.id" text="回复者">
+                    <div
+                        v-if="user.userinfo?.id === item.author.id"
+                        class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
+                        @click="delHandle(index)"
+                    >
+                        删除反馈
+                    </div>
+                </more-button-user>
             </div>
 
             <!-- 内容 -->
