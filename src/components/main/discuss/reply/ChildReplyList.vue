@@ -9,34 +9,22 @@ const props = withDefaults(defineProps<Props>(), {});
 const { formateTime } = tool;
 const isLoad = ref(false);
 
-const list = ref<ChildReply[]>([
-    {
-        id: 1,
-        content: '111111',
-        extra: {
-            replyCount: 3,
-            likeCount: 1,
-            isLike: false,
-        },
-        rootId: null,
-        receiver: { nickname: '' },
-        authorId: 'jerry',
-        createTime: new Date(),
+// 获取根回复
+const list = ref<ChildReply[]>([]);
+const getList = async () => {
+    isLoad.value = true;
+    await api.reply.getChild(props.rootId).then((res) => {
+        list.value = res.data;
+    });
+    isLoad.value = false;
+};
+watch(
+    () => props.rootId,
+    () => {
+        getList();
     },
-    {
-        id: 1,
-        content: '222222',
-        extra: {
-            replyCount: 3,
-            likeCount: 1,
-            isLike: false,
-        },
-        rootId: null,
-        receiver: { nickname: 'tom' },
-        authorId: 'jerry',
-        createTime: new Date(),
-    },
-]);
+    { immediate: true }
+);
 </script>
 
 <template>
@@ -54,7 +42,7 @@ const list = ref<ChildReply[]>([
                     <user-item :id="item.authorId"></user-item>
                     <!-- 回复者 -->
                     <span
-                        v-if="item.receiver.nickname"
+                        v-if="item.receiver?.nickname"
                         class="ml-2 text-[16px] text-primary cursor-pointer"
                     >
                         @ {{ item.receiver.nickname }}
