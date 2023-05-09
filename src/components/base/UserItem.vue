@@ -10,10 +10,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // 获取用户信息
-let user = ref({
-    avatar: '',
-    nickname: '',
-} as Learner);
+let user = ref({} as Learner);
 const getUserInfo = async () => {
     if (props.id === '') {
         user.value.avatar = '';
@@ -31,6 +28,19 @@ watch(
     },
     { immediate: true }
 );
+
+// 切换关注状态
+const toggleFollowHandle = async () => {
+    // 关注
+    if (!user.value.isFollow.value) {
+        await api.follow.create(user.value.id).then((res) => {
+            user.value.isFollow = {
+                value: true,
+                id: res.data.id,
+            };
+        });
+    }
+};
 </script>
 
 <template>
@@ -43,11 +53,12 @@ watch(
         <!-- 关注按钮 -->
         <a-button
             v-if="props.showFollow"
-            :type="user.isFollow ? 'outline' : 'primary'"
+            :type="user.isFollow?.value ? 'outline' : 'primary'"
             size="mini"
             class="ml-2"
+            @click="toggleFollowHandle"
         >
-            {{ user.isFollow ? '取消关注' : '关注' }}
+            {{ user.isFollow?.value ? '取消关注' : '关注' }}
         </a-button>
     </section>
 </template>

@@ -10,6 +10,7 @@ import relate from './relate';
 import feedback from './feedback';
 import reply from './reply';
 import like from './like';
+import follow from './follow';
 
 export const api = {
     auth,
@@ -24,4 +25,5 @@ export const api = {
     feedback,
     reply,
     like,
+    follow,
 };
