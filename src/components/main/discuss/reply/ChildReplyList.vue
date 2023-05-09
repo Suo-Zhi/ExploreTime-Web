@@ -112,7 +112,8 @@ const toggleLikeHandle = async (index: number) => {
                 <more-button-user :targetId="item.author.id" text="回复者">
                     <div
                         v-if="user.userinfo?.id === item.author.id"
-                        class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
+                        class="cursor-pointer hover:text-primary text-center"
+                        :class="user.userinfo?.id !== item.author.id ? 'border-t pt-1 mt-1' : ''"
                         @click="delHandle(index)"
                     >
                         删除反馈

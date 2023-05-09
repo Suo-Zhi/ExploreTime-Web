@@ -40,6 +40,15 @@ const toggleFollowHandle = async () => {
             };
         });
     }
+    // 取消关注
+    else {
+        await api.follow.delete(user.value.id).then(() => {
+            user.value.isFollow = {
+                value: false,
+                id: null,
+            };
+        });
+    }
 };
 </script>
 
@@ -48,7 +57,7 @@ const toggleFollowHandle = async () => {
     <section class="userinfo flex items-center">
         <!-- 头像 -->
         <avatar :img="user.avatar" :text="user.nickname"></avatar>
-
+        <!-- 昵称 -->
         <span class="ml-2 text-[16px] text-slate-700">{{ user.nickname }}</span>
         <!-- 关注按钮 -->
         <a-button

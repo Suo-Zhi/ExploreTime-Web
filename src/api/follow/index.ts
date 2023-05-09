@@ -15,4 +15,11 @@ export default {
             },
         });
     },
+
+    // 取消关注
+    delete(targetId: string) {
+        return http.delete('follow', {
+            params: { targetId },
+        });
+    },
 };
