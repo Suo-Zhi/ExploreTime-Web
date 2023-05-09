@@ -25,6 +25,9 @@ watch(
     },
     { immediate: true }
 );
+defineExpose({
+    getList,
+});
 </script>
 
 <template>

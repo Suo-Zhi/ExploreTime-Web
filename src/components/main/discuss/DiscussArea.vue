@@ -32,7 +32,7 @@ watch(
 // 新增反馈
 const addFeedbackModalVisible = ref(false);
 const newValue = ref('');
-const addFeedback = async () => {
+const addFeedbackHandle = async () => {
     await api.feedback
         .create({
             content: newValue.value,
@@ -78,7 +78,7 @@ const addFeedback = async () => {
             </div>
 
             <!-- 反馈列表 -->
-            <load-box :isLoad="isLoad" class="flex-1 px-2">
+            <load-box :isLoad="isLoad" class="flex-1 overflow-hidden px-2">
                 <scroll-bar>
                     <feedback-item
                         v-for="(item, index) of list"
@@ -94,7 +94,7 @@ const addFeedback = async () => {
         <a-modal
             draggable
             v-model:visible="addFeedbackModalVisible"
-            @ok="addFeedback"
+            @ok="addFeedbackHandle"
             @cancel="
                 addFeedbackModalVisible = false;
                 newValue = '';

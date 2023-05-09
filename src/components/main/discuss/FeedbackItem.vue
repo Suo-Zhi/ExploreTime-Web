@@ -7,6 +7,25 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 
 const { formateTime } = tool;
+
+// 新增回复
+const addReplyModalVisible = ref(false);
+const newValue = ref('');
+const replyListRef = ref<any>();
+const addReplyHandle = async () => {
+    await api.reply
+        .create({
+            content: newValue.value,
+            feedbackId: props.item.id,
+            rootId: null,
+        })
+        .then(() => {
+            if (replyListRef.value) replyListRef.value.getList();
+            props.item.extra.replyCount++;
+        });
+    addReplyModalVisible.value = false;
+    newValue.value = '';
+};
 </script>
 
 <template>
@@ -50,9 +69,10 @@ const { formateTime } = tool;
                         :strokeWidth="3"
                         class="action-btn hover:text-primary"
                         title="回复"
+                        @click="addReplyModalVisible = true"
                     />
-                    <span class="text-[13px] ml-[2px]">
-                        {{ props.item.extra?.replyCount }}
+                    <span v-if="props.item.extra?.replyCount" class="text-[13px] ml-[2px]">
+                        {{ props.item.extra.replyCount }}
                     </span>
                 </div>
 
@@ -74,6 +94,27 @@ const { formateTime } = tool;
 
         <!-- 回复列表 -->
         <reply-list ref="replyListRef" :feedbackId="props.item.id"></reply-list>
+
+        <!-- 新增回复对话框 -->
+        <a-modal
+            v-if="addReplyModalVisible === true"
+            draggable
+            v-model:visible="addReplyModalVisible"
+            @ok="addReplyHandle"
+            @cancel="
+                addReplyModalVisible = false;
+                newValue = '';
+            "
+        >
+            <template #title>新增回复</template>
+            <div>
+                <cus-editor
+                    toolbarType="none"
+                    placeholder="输入回复"
+                    v-model="newValue"
+                ></cus-editor>
+            </div>
+        </a-modal>
     </section>
 </template>
 

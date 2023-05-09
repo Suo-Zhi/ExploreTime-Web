@@ -1,3 +1,4 @@
+import { CreateReplyDTO } from './dto';
 import { ChildReply, RootReply } from './types';
 
 export default {
@@ -9,5 +10,10 @@ export default {
     // 获取子回复列表
     getChild: (rootId: number) => {
         return http.get<ChildReply[]>('reply/child' + rootId);
+    },
+
+    // 新增回复
+    create: (dto: CreateReplyDTO) => {
+        return http.post('reply', { ...dto });
     },
 };
