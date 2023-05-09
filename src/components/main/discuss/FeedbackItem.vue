@@ -71,6 +71,9 @@ const { formateTime } = tool;
                 </div>
             </div>
         </div>
+
+        <!-- 回复列表 -->
+        <reply-list ref="replyListRef" :feedbackId="props.item.id"></reply-list>
     </section>
 </template>
 

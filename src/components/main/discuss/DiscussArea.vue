@@ -68,7 +68,7 @@ const addFeedback = async () => {
             </div>
 
             <!-- 反馈列表 -->
-            <load-box :isLoad="isLoad" class="flex-1 px-2 pb-[24px]">
+            <load-box :isLoad="isLoad" class="h-full px-2 pb-[24px]">
                 <scroll-bar>
                     <feedback-item
                         v-for="(item, index) of list"
