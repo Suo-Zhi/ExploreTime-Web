@@ -140,8 +140,8 @@ const delHandle = async (index: number) => {
                             :class="item.extra?.isLike ? '!text-primary' : ''"
                             :title="item.extra?.isLike ? '取消点赞' : '点赞'"
                         />
-                        <span class="text-[13px] ml-[2px]">
-                            {{ item.extra?.likeCount }}
+                        <span v-if="item.extra?.likeCount" class="text-[13px] ml-[2px]">
+                            {{ item.extra.likeCount }}
                         </span>
                     </div>
                 </div>

@@ -4,12 +4,20 @@ import { ChildReply, RootReply } from './types';
 export default {
     // 获取根回复列表
     getRoot: (feedbackId: number) => {
-        return http.get<RootReply[]>('reply/root' + feedbackId);
+        return http.get<RootReply[]>('reply/root' + feedbackId, {
+            params: {
+                userId: store.user().userinfo?.id,
+            },
+        });
     },
 
     // 获取子回复列表
     getChild: (rootId: number) => {
-        return http.get<ChildReply[]>('reply/child' + rootId);
+        return http.get<ChildReply[]>('reply/child' + rootId, {
+            params: {
+                userId: store.user().userinfo?.id,
+            },
+        });
     },
 
     // 新增回复

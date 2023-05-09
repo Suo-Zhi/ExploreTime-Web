@@ -5,7 +5,10 @@ export default {
     // 获取 & 搜索反馈
     find: (dto: FindFeedbackDTO) => {
         return http.get<Feedback[]>('feedback', {
-            params: { ...dto },
+            params: {
+                ...dto,
+                userId: store.user().userinfo?.id,
+            },
         });
     },
 

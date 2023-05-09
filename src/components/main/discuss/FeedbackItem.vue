@@ -113,8 +113,8 @@ const delHandle = async () => {
                         :class="props.item.extra?.isLike ? '!text-primary' : ''"
                         :title="props.item.extra?.isLike ? '取消点赞' : '点赞'"
                     />
-                    <span class="text-[13px] ml-[2px]">
-                        {{ props.item.extra?.likeCount }}
+                    <span v-if="props.item.extra?.likeCount" class="text-[13px] ml-[2px]">
+                        {{ props.item.extra.likeCount }}
                     </span>
                 </div>
             </div>
