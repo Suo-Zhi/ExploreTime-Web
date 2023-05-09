@@ -25,6 +25,9 @@ watch(
     },
     { immediate: true }
 );
+defineExpose({
+    getList,
+});
 </script>
 
 <template>
@@ -67,8 +70,9 @@ watch(
                     </template>
                 </a-popover>
             </div>
+
             <!-- 内容 -->
-            <div class="mt-1" v-html="item.content"></div>
+            <text-view :text="item.content" class="mt-1" />
 
             <div class="footer flex justify-between items-center">
                 <!-- 时间 -->

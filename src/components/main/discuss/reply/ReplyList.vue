@@ -28,6 +28,26 @@ watch(
 defineExpose({
     getList,
 });
+
+// 新增子回复
+const addReplyModalVisible = ref(false);
+const activeIndex = ref(-1);
+const newValue = ref('');
+const childReplyListRef = ref<any>();
+const addReplyHandle = async () => {
+    await api.reply
+        .create({
+            content: newValue.value,
+            feedbackId: props.feedbackId,
+            rootId: list.value[activeIndex.value].id,
+        })
+        .then(() => {
+            if (childReplyListRef.value) childReplyListRef.value[activeIndex.value].getList();
+            list.value[activeIndex.value].extra.replyCount++;
+        });
+    addReplyModalVisible.value = false;
+    newValue.value = '';
+};
 </script>
 
 <template>
@@ -63,7 +83,7 @@ defineExpose({
             </div>
 
             <!-- 回复内容 -->
-            <div class="mt-1" v-html="item.content"></div>
+            <text-view :text="item.content" class="mt-1" />
 
             <div class="footer flex justify-between items-center">
                 <!-- 时间 -->
@@ -79,6 +99,10 @@ defineExpose({
                             :strokeWidth="3"
                             class="action-btn hover:text-primary"
                             title="回复"
+                            @click="
+                                activeIndex = index;
+                                addReplyModalVisible = true;
+                            "
                         />
                         <span class="text-[13px] ml-[2px]">
                             {{ item.extra?.replyCount }}
@@ -102,8 +126,29 @@ defineExpose({
             </div>
 
             <!-- 子回复列表 -->
-            <child-reply-list :rootId="item.id"></child-reply-list>
+            <child-reply-list ref="childReplyListRef" :rootId="item.id"></child-reply-list>
         </section>
+
+        <!-- 新增回复对话框 -->
+        <a-modal
+            v-if="addReplyModalVisible === true"
+            draggable
+            v-model:visible="addReplyModalVisible"
+            @ok="addReplyHandle"
+            @cancel="
+                addReplyModalVisible = false;
+                newValue = '';
+            "
+        >
+            <template #title>新增回复</template>
+            <div>
+                <cus-editor
+                    toolbarType="none"
+                    placeholder="输入回复"
+                    v-model="newValue"
+                ></cus-editor>
+            </div>
+        </a-modal>
     </load-box>
 </template>
 
