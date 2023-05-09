@@ -6,6 +6,13 @@ export interface Reply {
         likeCount: number;
         isLike: boolean;
     };
+    rootId: number | null;
     authorId: string;
     createTime: Date;
+}
+
+export interface ChildReply extends Reply {
+    receiver: {
+        nickname: string;
+    };
 }

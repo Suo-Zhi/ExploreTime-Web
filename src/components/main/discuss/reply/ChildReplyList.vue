@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Reply } from '@/api/reply/types';
+import { ChildReply } from '@/api/reply/types';
 
 interface Props {
-    feedbackId: number;
+    rootId: number;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
 const { formateTime } = tool;
 const isLoad = ref(false);
 
-const list = ref<Reply[]>([
+const list = ref<ChildReply[]>([
     {
         id: 1,
         content: '111111',
@@ -19,6 +19,7 @@ const list = ref<Reply[]>([
             isLike: false,
         },
         rootId: null,
+        receiver: { nickname: '' },
         authorId: 'jerry',
         createTime: new Date(),
     },
@@ -31,6 +32,7 @@ const list = ref<Reply[]>([
             isLike: false,
         },
         rootId: null,
+        receiver: { nickname: 'tom' },
         authorId: 'jerry',
         createTime: new Date(),
     },
@@ -38,9 +40,9 @@ const list = ref<Reply[]>([
 </script>
 
 <template>
-    <!-- 根回复列表 -->
-    <load-box :isLoad="isLoad" class="reply-list flex flex-col">
-        <section
+    <load-box :isLoad="isLoad" class="child-reply-list">
+        <!-- 子回复列表 -->
+        <div
             class="feedback-card pt-2 pb-1 pl-8 mt-2"
             v-if="list"
             v-for="(item, index) of list"
@@ -48,7 +50,16 @@ const list = ref<Reply[]>([
         >
             <!-- 顶部 -->
             <div class="flex justify-between items-center">
-                <user-item :id="item.authorId"></user-item>
+                <div class="flex items-center">
+                    <user-item :id="item.authorId"></user-item>
+                    <!-- 回复者 -->
+                    <span
+                        v-if="item.receiver.nickname"
+                        class="ml-2 text-[16px] text-primary cursor-pointer"
+                    >
+                        @ {{ item.receiver.nickname }}
+                    </span>
+                </div>
 
                 <!-- 额外操作 -->
                 <a-popover
@@ -68,8 +79,7 @@ const list = ref<Reply[]>([
                     </template>
                 </a-popover>
             </div>
-
-            <!-- 回复内容 -->
+            <!-- 内容 -->
             <div class="mt-1" v-html="item.content"></div>
 
             <div class="footer flex justify-between items-center">
@@ -107,10 +117,7 @@ const list = ref<Reply[]>([
                     </div>
                 </div>
             </div>
-
-            <!-- 子回复列表 -->
-            <child-reply-list :rootId="item.id"></child-reply-list>
-        </section>
+        </div>
     </load-box>
 </template>
 
