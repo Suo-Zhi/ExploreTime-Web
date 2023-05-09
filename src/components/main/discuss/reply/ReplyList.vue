@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Reply } from '@/api/reply/types';
+import { RootReply } from '@/api/reply/types';
 
 interface Props {
     feedbackId: number;
@@ -10,7 +10,7 @@ const { formateTime } = tool;
 const isLoad = ref(false);
 
 // 获取根回复
-const list = ref<Reply[]>([]);
+const list = ref<RootReply[]>([]);
 const getList = async () => {
     isLoad.value = true;
     await api.reply.getRoot(props.feedbackId).then((res) => {

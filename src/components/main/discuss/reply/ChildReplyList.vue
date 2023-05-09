@@ -85,9 +85,6 @@ watch(
                             class="action-btn hover:text-primary"
                             title="回复"
                         />
-                        <span class="text-[13px] ml-[2px]">
-                            {{ item.extra?.replyCount }}
-                        </span>
                     </div>
 
                     <!-- 点赞按钮 -->

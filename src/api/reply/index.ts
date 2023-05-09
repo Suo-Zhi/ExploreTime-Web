@@ -1,9 +1,9 @@
-import { ChildReply, Reply } from './types';
+import { ChildReply, RootReply } from './types';
 
 export default {
     // 获取根回复列表
     getRoot: (feedbackId: number) => {
-        return http.get<Reply[]>('reply/root' + feedbackId);
+        return http.get<RootReply[]>('reply/root' + feedbackId);
     },
 
     // 获取子回复列表
