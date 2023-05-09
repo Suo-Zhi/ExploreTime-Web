@@ -29,7 +29,7 @@ defineExpose({
     getList,
 });
 
-// 新增子回复
+// 回复根回复
 const addReplyModalVisible = ref(false);
 const activeIndex = ref(-1);
 const newValue = ref('');
@@ -40,6 +40,7 @@ const addReplyHandle = async () => {
             content: newValue.value,
             feedbackId: props.feedbackId,
             rootId: list.value[activeIndex.value].id,
+            receiverId: null,
         })
         .then(() => {
             if (childReplyListRef.value) childReplyListRef.value[activeIndex.value].getList();
@@ -126,7 +127,11 @@ const addReplyHandle = async () => {
             </div>
 
             <!-- 子回复列表 -->
-            <child-reply-list ref="childReplyListRef" :rootId="item.id"></child-reply-list>
+            <child-reply-list
+                ref="childReplyListRef"
+                :feedbackId="props.feedbackId"
+                :rootId="item.id"
+            ></child-reply-list>
         </section>
 
         <!-- 新增回复对话框 -->

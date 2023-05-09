@@ -2,6 +2,7 @@
 import { ChildReply } from '@/api/reply/types';
 
 interface Props {
+    feedbackId: number;
     rootId: number;
 }
 const props = withDefaults(defineProps<Props>(), {});
@@ -28,12 +29,31 @@ watch(
 defineExpose({
     getList,
 });
+
+// 回复子回复
+const addReplyModalVisible = ref(false);
+const activeIndex = ref(-1);
+const newValue = ref('');
+const addReplyHandle = async () => {
+    await api.reply
+        .create({
+            content: newValue.value,
+            feedbackId: props.feedbackId,
+            rootId: props.rootId,
+            receiverId: list.value[activeIndex.value].author.id,
+        })
+        .then(() => {
+            getList();
+        });
+    addReplyModalVisible.value = false;
+    newValue.value = '';
+};
 </script>
 
 <template>
     <load-box :isLoad="isLoad" class="child-reply-list">
         <!-- 子回复列表 -->
-        <div
+        <section
             class="feedback-card pt-2 pb-1 pl-8 mt-2"
             v-if="list"
             v-for="(item, index) of list"
@@ -42,7 +62,7 @@ defineExpose({
             <!-- 顶部 -->
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <user-item :id="item.authorId"></user-item>
+                    <user-item :id="item.author.id"></user-item>
                     <!-- 回复者 -->
                     <span
                         v-if="item.receiver?.nickname"
@@ -88,6 +108,10 @@ defineExpose({
                             :strokeWidth="3"
                             class="action-btn hover:text-primary"
                             title="回复"
+                            @click="
+                                activeIndex = index;
+                                addReplyModalVisible = true;
+                            "
                         />
                     </div>
 
@@ -106,7 +130,31 @@ defineExpose({
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- 新增回复对话框 -->
+        <a-modal
+            v-if="addReplyModalVisible === true"
+            draggable
+            v-model:visible="addReplyModalVisible"
+            @ok="addReplyHandle"
+            @cancel="
+                addReplyModalVisible = false;
+                newValue = '';
+            "
+        >
+            <template #title>
+                回复&nbsp;
+                <span class="text-primary">@{{ list[activeIndex].author.nickname }}</span>
+            </template>
+            <div>
+                <cus-editor
+                    toolbarType="none"
+                    placeholder="输入回复"
+                    v-model="newValue"
+                ></cus-editor>
+            </div>
+        </a-modal>
     </load-box>
 </template>
 

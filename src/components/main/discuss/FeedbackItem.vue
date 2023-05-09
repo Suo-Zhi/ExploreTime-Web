@@ -18,6 +18,7 @@ const addReplyHandle = async () => {
             content: newValue.value,
             feedbackId: props.item.id,
             rootId: null,
+            receiverId: null,
         })
         .then(() => {
             if (replyListRef.value) replyListRef.value.getList();
