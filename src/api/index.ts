@@ -9,6 +9,7 @@ import treeNode from './tree/treeNode';
 import relate from './relate';
 import feedback from './feedback';
 import reply from './reply';
+import like from './like';
 
 export const api = {
     auth,
@@ -22,4 +23,5 @@ export const api = {
     relate,
     feedback,
     reply,
+    like,
 };

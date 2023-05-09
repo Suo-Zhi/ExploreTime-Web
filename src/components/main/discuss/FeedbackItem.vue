@@ -46,6 +46,19 @@ const delHandle = async () => {
         }
     });
 };
+
+// 切换点赞状态
+const toggleLikeHandle = async () => {
+    const currentState = props.item.extra.isLike;
+
+    // 点赞
+    if (!currentState) {
+        await api.like.create({ targetId: props.item.id, targetType: 'feedback' }).then(() => {
+            props.item.extra.isLike = !currentState;
+            props.item.extra.likeCount++;
+        });
+    }
+};
 </script>
 
 <template>
@@ -105,7 +118,7 @@ const delHandle = async () => {
                 </div>
 
                 <!-- 点赞按钮 -->
-                <div class="flex ml-2">
+                <div class="flex ml-2" @click="toggleLikeHandle">
                     <icon-thumbs-up
                         size="18"
                         :strokeWidth="3"
