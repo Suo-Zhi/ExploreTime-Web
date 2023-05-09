@@ -9,7 +9,10 @@ export interface RootReply extends Reply {
     extra: {
         replyCount: number;
         likeCount: number;
-        isLike: boolean;
+        isLike: {
+            value: boolean;
+            id: number | null;
+        };
     };
     authorId: string;
 }
@@ -17,7 +20,10 @@ export interface RootReply extends Reply {
 export interface ChildReply extends Reply {
     extra: {
         likeCount: number;
-        isLike: boolean;
+        isLike: {
+            value: boolean;
+            id: number | null;
+        };
     };
     author: {
         id: string;

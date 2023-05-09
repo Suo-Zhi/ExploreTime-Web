@@ -45,7 +45,10 @@ const addFeedbackHandle = async () => {
                 extra: {
                     replyCount: 0,
                     likeCount: 0,
-                    isLike: false,
+                    isLike: {
+                        value: false,
+                        id: null,
+                    },
                 },
             });
         });

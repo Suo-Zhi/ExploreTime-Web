@@ -4,7 +4,10 @@ export interface Feedback {
     extra: {
         replyCount: number;
         likeCount: number;
-        isLike: boolean;
+        isLike: {
+            value: boolean;
+            id: number | null;
+        };
     };
     authorId: string;
     createTime: Date;

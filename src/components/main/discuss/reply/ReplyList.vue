@@ -71,13 +71,27 @@ const delHandle = async (index: number) => {
 // 切换点赞状态
 const toggleLikeHandle = async (index: number) => {
     const item = list.value[index];
-    const currentState = item.extra.isLike;
+    const currentState = item.extra.isLike.value;
 
     // 点赞
     if (!currentState) {
-        await api.like.create({ targetId: item.id, targetType: 'reply' }).then(() => {
-            item.extra.isLike = !currentState;
+        await api.like.create({ targetId: item.id, targetType: 'reply' }).then((res) => {
+            item.extra.isLike = {
+                value: true,
+                id: res.data.id,
+            };
             item.extra.likeCount++;
+        });
+    }
+    // 取消点赞
+    else {
+        const id = item.extra.isLike.id as number;
+        await api.like.del(id).then(() => {
+            item.extra.isLike = {
+                value: false,
+                id: null,
+            };
+            item.extra.likeCount--;
         });
     }
 };
@@ -156,8 +170,8 @@ const toggleLikeHandle = async (index: number) => {
                             size="18"
                             :strokeWidth="3"
                             class="action-btn hover:text-primary"
-                            :class="item.extra?.isLike ? '!text-primary' : ''"
-                            :title="item.extra?.isLike ? '取消点赞' : '点赞'"
+                            :class="item.extra?.isLike.value ? '!text-primary' : ''"
+                            :title="item.extra?.isLike.value ? '取消点赞' : '点赞'"
                         />
                         <span v-if="item.extra?.likeCount" class="text-[13px] ml-[2px]">
                             {{ item.extra.likeCount }}

@@ -49,13 +49,27 @@ const delHandle = async () => {
 
 // 切换点赞状态
 const toggleLikeHandle = async () => {
-    const currentState = props.item.extra.isLike;
+    const currentState = props.item.extra.isLike.value;
 
     // 点赞
     if (!currentState) {
-        await api.like.create({ targetId: props.item.id, targetType: 'feedback' }).then(() => {
-            props.item.extra.isLike = !currentState;
+        await api.like.create({ targetId: props.item.id, targetType: 'feedback' }).then((res) => {
+            props.item.extra.isLike = {
+                value: true,
+                id: res.data.id,
+            };
             props.item.extra.likeCount++;
+        });
+    }
+    // 取消点赞
+    else {
+        const id = props.item.extra.isLike.id as number;
+        await api.like.del(id).then(() => {
+            props.item.extra.isLike = {
+                value: false,
+                id: null,
+            };
+            props.item.extra.likeCount--;
         });
     }
 };
@@ -123,8 +137,8 @@ const toggleLikeHandle = async () => {
                         size="18"
                         :strokeWidth="3"
                         class="action-btn hover:text-primary"
-                        :class="props.item.extra?.isLike ? '!text-primary' : ''"
-                        :title="props.item.extra?.isLike ? '取消点赞' : '点赞'"
+                        :class="props.item.extra?.isLike.value ? '!text-primary' : ''"
+                        :title="props.item.extra?.isLike.value ? '取消点赞' : '点赞'"
                     />
                     <span v-if="props.item.extra?.likeCount" class="text-[13px] ml-[2px]">
                         {{ props.item.extra.likeCount }}
