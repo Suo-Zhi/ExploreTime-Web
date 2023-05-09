@@ -15,9 +15,14 @@ let user = ref({
     nickname: '',
 } as Learner);
 const getUserInfo = async () => {
-    await api.learner.findOne(props.id).then((res) => {
-        user.value = res.data;
-    });
+    if (props.id === '') {
+        user.value.avatar = '';
+        user.value.nickname = '空用户';
+    } else {
+        await api.learner.findOne(props.id).then((res) => {
+            user.value = res.data;
+        });
+    }
 };
 watch(
     () => props.id,

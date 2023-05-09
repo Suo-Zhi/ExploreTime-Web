@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<Props>(), {});
 
 const { formateTime } = tool;
 
-// 新增回复
+// 回复反馈
 const addReplyModalVisible = ref(false);
 const newValue = ref('');
 const replyListRef = ref<any>();
@@ -26,6 +26,24 @@ const addReplyHandle = async () => {
         });
     addReplyModalVisible.value = false;
     newValue.value = '';
+};
+
+// 删除反馈
+const emit = defineEmits(['delete']);
+const delHandle = async () => {
+    // 不存在回复则正常删除，反之只假删
+    let method: 'delete' | 'remove' = 'delete';
+    if (props.item.extra.replyCount) method = 'remove';
+
+    await api.feedback[method](props.item.id).then(() => {
+        // 真删调用父组件移除该项
+        if (method === 'delete') emit('delete');
+        // 假删伪刷新
+        else {
+            props.item.content = '已删除';
+            props.item.authorId = '';
+        }
+    });
 };
 </script>
 
@@ -48,7 +66,7 @@ const addReplyHandle = async () => {
                 <template #content>
                     <div class="mt-[6px] cursor-pointer hover:text-primary">关注作者</div>
                     <hr class="my-1" />
-                    <div class="cursor-pointer hover:text-primary">删除反馈</div>
+                    <div class="cursor-pointer hover:text-primary" @click="delHandle">删除反馈</div>
                 </template>
             </a-popover>
         </div>

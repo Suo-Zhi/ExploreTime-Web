@@ -13,4 +13,14 @@ export default {
     create: (dto: CreateFeedbackDTO) => {
         return http.post<Feedback>('feedback', { ...dto });
     },
+
+    // 移除
+    remove: (id: number) => {
+        return http.patch('feedback/remove' + id);
+    },
+
+    // 删除
+    delete: (id: number) => {
+        return http.delete('feedback/' + id);
+    },
 };

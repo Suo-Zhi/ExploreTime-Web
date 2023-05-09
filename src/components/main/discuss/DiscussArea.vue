@@ -84,6 +84,7 @@ const addFeedbackHandle = async () => {
                         v-for="(item, index) of list"
                         :key="index"
                         :item="item"
+                        @delete="list.splice(index, 1)"
                     ></feedback-item>
                 </scroll-bar>
             </load-box>
