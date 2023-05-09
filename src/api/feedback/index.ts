@@ -11,6 +11,6 @@ export default {
 
     // 新增反馈
     create: (dto: CreateFeedbackDTO) => {
-        return http.post('feedback', { ...dto });
+        return http.post<Feedback>('feedback', { ...dto });
     },
 };

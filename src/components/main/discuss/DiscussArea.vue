@@ -33,12 +33,22 @@ watch(
 const addFeedbackModalVisible = ref(false);
 const newValue = ref('');
 const addFeedback = async () => {
-    await api.feedback.create({
-        content: newValue.value,
-        targetId: discuss.targetId,
-        targetType: discuss.targetType,
-    });
-    findList();
+    await api.feedback
+        .create({
+            content: newValue.value,
+            targetId: discuss.targetId,
+            targetType: discuss.targetType,
+        })
+        .then((res) => {
+            list.value.unshift({
+                ...res.data,
+                extra: {
+                    replyCount: 0,
+                    likeCount: 0,
+                    isLike: false,
+                },
+            });
+        });
     addFeedbackModalVisible.value = false;
     newValue.value = '';
 };
@@ -68,7 +78,7 @@ const addFeedback = async () => {
             </div>
 
             <!-- 反馈列表 -->
-            <load-box :isLoad="isLoad" class="h-full px-2 pb-[24px]">
+            <load-box :isLoad="isLoad" class="flex-1 px-2">
                 <scroll-bar>
                     <feedback-item
                         v-for="(item, index) of list"
