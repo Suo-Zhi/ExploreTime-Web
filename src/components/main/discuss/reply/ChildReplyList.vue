@@ -7,8 +7,9 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-const { formateTime } = tool;
 const isLoad = ref(false);
+const user = store.user();
+const { formateTime } = tool;
 
 // 获取根回复
 const list = ref<ChildReply[]>([]);
@@ -48,6 +49,13 @@ const addReplyHandle = async () => {
     addReplyModalVisible.value = false;
     newValue.value = '';
 };
+
+// 删除回复
+const delHandle = async (index: number) => {
+    await api.reply.delete(list.value[index].id).then(() => {
+        list.value.splice(index, 1);
+    });
+};
 </script>
 
 <template>
@@ -74,7 +82,8 @@ const addReplyHandle = async () => {
 
                 <!-- 额外操作 -->
                 <a-popover
-                    position="bottom"
+                    v-if="item.author.id"
+                    position="left"
                     :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
                 >
                     <icon-more
@@ -84,9 +93,16 @@ const addReplyHandle = async () => {
                         title="更多"
                     />
                     <template #content>
-                        <div class="mt-[6px] cursor-pointer hover:text-primary">关注回复者</div>
-                        <hr class="my-1" />
-                        <div class="cursor-pointer hover:text-primary">删除反馈</div>
+                        <div class="mt-[6px] cursor-pointer text-center hover:text-primary">
+                            关注回复者
+                        </div>
+                        <div
+                            v-if="user.userinfo?.id === item.author.id"
+                            class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
+                            @click="delHandle(index)"
+                        >
+                            删除回复
+                        </div>
                     </template>
                 </a-popover>
             </div>

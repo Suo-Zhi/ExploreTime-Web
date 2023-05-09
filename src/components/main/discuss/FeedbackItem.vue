@@ -7,6 +7,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 
 const { formateTime } = tool;
+const user = store.user();
 
 // 回复反馈
 const addReplyModalVisible = ref(false);
@@ -40,7 +41,7 @@ const delHandle = async () => {
         if (method === 'delete') emit('delete');
         // 假删伪刷新
         else {
-            props.item.content = '已删除';
+            props.item.content = '反馈内容已删除';
             props.item.authorId = '';
         }
     });
@@ -54,7 +55,8 @@ const delHandle = async () => {
 
             <!-- 额外操作 -->
             <a-popover
-                position="bottom"
+                v-if="item.authorId"
+                position="left"
                 :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
             >
                 <icon-more
@@ -64,9 +66,16 @@ const delHandle = async () => {
                     title="更多"
                 />
                 <template #content>
-                    <div class="mt-[6px] cursor-pointer hover:text-primary">关注作者</div>
-                    <hr class="my-1" />
-                    <div class="cursor-pointer hover:text-primary" @click="delHandle">删除反馈</div>
+                    <div class="mt-[6px] cursor-pointer text-center hover:text-primary">
+                        关注反馈者
+                    </div>
+                    <div
+                        v-if="user.userinfo?.id === item.authorId"
+                        class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
+                        @click="delHandle"
+                    >
+                        删除反馈
+                    </div>
                 </template>
             </a-popover>
         </div>

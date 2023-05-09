@@ -6,8 +6,9 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 
-const { formateTime } = tool;
 const isLoad = ref(false);
+const user = store.user();
+const { formateTime } = tool;
 
 // 获取根回复
 const list = ref<RootReply[]>([]);
@@ -49,6 +50,23 @@ const addReplyHandle = async () => {
     addReplyModalVisible.value = false;
     newValue.value = '';
 };
+
+// 删除回复
+const delHandle = async (index: number) => {
+    // 不存在回复则正常删除，反之只假删
+    let method: 'delete' | 'remove' = 'delete';
+    if (list.value[index].extra.replyCount) method = 'remove';
+
+    await api.reply[method](list.value[index].id).then(() => {
+        // 真删调用父组件移除该项
+        if (method === 'delete') list.value.splice(index, 1);
+        // 假删伪刷新
+        else {
+            list.value[index].content = '回复内容已删除';
+            list.value[index].authorId = '';
+        }
+    });
+};
 </script>
 
 <template>
@@ -66,7 +84,8 @@ const addReplyHandle = async () => {
 
                 <!-- 额外操作 -->
                 <a-popover
-                    position="bottom"
+                    v-if="item.authorId"
+                    position="left"
                     :content-style="{ paddingTop: '2px', paddingBottom: '7px' }"
                 >
                     <icon-more
@@ -76,9 +95,16 @@ const addReplyHandle = async () => {
                         title="更多"
                     />
                     <template #content>
-                        <div class="mt-[6px] cursor-pointer hover:text-primary">关注回复者</div>
-                        <hr class="my-1" />
-                        <div class="cursor-pointer hover:text-primary">删除反馈</div>
+                        <div class="mt-[6px] cursor-pointer text-center hover:text-primary">
+                            关注回复者
+                        </div>
+                        <div
+                            v-if="user.userinfo?.id === item.authorId"
+                            class="border-t pt-1 mt-1 cursor-pointer hover:text-primary text-center"
+                            @click="delHandle(index)"
+                        >
+                            删除回复
+                        </div>
                     </template>
                 </a-popover>
             </div>

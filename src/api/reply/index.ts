@@ -16,4 +16,14 @@ export default {
     create: (dto: CreateReplyDTO) => {
         return http.post('reply', { ...dto });
     },
+
+    // 移除
+    remove: (id: number) => {
+        return http.patch('reply/remove' + id);
+    },
+
+    // 删除
+    delete: (id: number) => {
+        return http.delete('reply/' + id);
+    },
 };
