@@ -65,11 +65,22 @@ const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
     store.setting().addHistoryLink({
         linkType: 'relateDetail',
-        linkTitle: '点关联-' + props.item.title,
+        linkTitle: '讲解关联-' + props.item.title,
         targetId: props.item.id,
         targetType: 'explain',
     });
     switchHistory('relateDetail');
+};
+
+// 打开树详情
+const viewDetail = () => {
+    store.setting().addHistoryLink({
+        linkType: 'explainDetail',
+        linkTitle: '讲解详情-' + props.item.title,
+        targetId: props.item.id,
+        targetType: 'explain',
+    });
+    switchHistory('explainDetail');
 };
 </script>
 
@@ -100,7 +111,8 @@ const viewRelateDetail = () => {
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看树详情"
+                    title="查看讲解详情"
+                    @click="viewDetail"
                 />
                 <icon-link-one
                     size="17"

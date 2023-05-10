@@ -73,6 +73,12 @@ const refreshTreeBox = () => {
     if (treeBoxRef.value) treeBoxRef.value.findList();
 };
 provide('refreshTreeBox', refreshTreeBox);
+// 获取刷新讲解列表
+const explainBoxRef = ref<any>(null);
+const refreshExplainBox = () => {
+    if (explainBoxRef.value) explainBoxRef.value.findList();
+};
+provide('refreshExplainBox', refreshExplainBox);
 </script>
 
 <template>
@@ -194,6 +200,10 @@ provide('refreshTreeBox', refreshTreeBox);
                         v-else-if="screen.left && screen.left === 'treeDetail'"
                         screen="left"
                     ></tree-detail>
+                    <explain-detail
+                        v-else-if="screen.left && screen.left === 'explainDetail'"
+                        screen="left"
+                    ></explain-detail>
                     <component
                         v-else-if="screen.left"
                         :is="realCompoent[screen.left]"
@@ -210,6 +220,10 @@ provide('refreshTreeBox', refreshTreeBox);
                         v-else-if="screen.right && screen.right === 'treeDetail'"
                         screen="right"
                     ></tree-detail>
+                    <explain-detail
+                        v-else-if="screen.right && screen.right === 'explainDetail'"
+                        screen="right"
+                    ></explain-detail>
                     <component
                         v-else-if="screen.right"
                         :is="realCompoent[screen.right]"

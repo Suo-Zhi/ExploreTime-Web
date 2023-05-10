@@ -9,6 +9,11 @@ export default {
         });
     },
 
+    // 获取讲解详情
+    getDetail: (id: number) => {
+        return http.get<Explain>('explain/detail' + id);
+    },
+
     // 移除
     remove: (id: number) => {
         return http.patch('explain/remove' + id);
