@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Tree } from '@/api/tree/types';
+import { Explain } from '@/api/explain/types';
 
 interface Props {
-    item: Tree;
+    item: Explain;
     isEdit: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {});
@@ -16,9 +16,9 @@ const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
     store.setting().addHistoryLink({
         linkType: 'relateDetail',
-        linkTitle: '树关联-' + props.item.name,
+        linkTitle: '讲解关联-' + props.item.title,
         targetId: props.item.id,
-        targetType: 'tree',
+        targetType: 'explain',
     });
     switchHistory('relateDetail');
 };
@@ -32,7 +32,7 @@ const cancelRelate = async (id: number) => {
             targetId: targetId.value,
             targetType: targetType.value,
             relateId: id,
-            relateType: 'tree',
+            relateType: 'explain',
         })
         .then(() => {
             emit('refresh');
@@ -42,29 +42,29 @@ const cancelRelate = async (id: number) => {
 // 打开树详情
 const viewDetail = () => {
     store.setting().addHistoryLink({
-        linkType: 'treeDetail',
-        linkTitle: '树详情-' + props.item.name,
+        linkType: 'explainDetail',
+        linkTitle: '讲解详情-' + props.item.title,
         targetId: props.item.id,
-        targetType: 'tree',
+        targetType: 'explain',
     });
-    switchHistory('treeDetail');
+    switchHistory('explainDetail');
 };
 </script>
 
 <template>
-    <!-- 知识点项 -->
-    <section class="tree-item border-base flex flex-col pt-2 pb-2 mb-2">
+    <!-- 讲解项 -->
+    <section class="explain-item border-base flex flex-col pt-2 pb-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
-            <!-- 知识树名 -->
-            <div class="tree-title min-w-[170px]">
+            <!-- 讲解名 -->
+            <div class="explain-title min-w-[170px]">
                 <edit-item
                     type="text"
-                    :value="props.item.name"
+                    :value="props.item.title"
                     :isEdit="props.isEdit"
-                    placeholder="请输入知识树名"
+                    placeholder="请输入讲解标题"
                 ></edit-item>
             </div>
             <!-- 拖拽手柄 -->
@@ -79,45 +79,34 @@ const viewDetail = () => {
                     @click="viewRelateDetail"
                 />
                 <icon-comment
-                    size="18"
+                    size="17"
                     :strokeWidth="3"
-                    class="action-btn hover:text-primary mt-[1px]"
+                    class="action-btn hover:text-primary"
                     title="查看反馈"
                     @click="openDiscussArea(props.item.id, 'explain')"
                 />
                 <icon-notes
                     size="17"
                     :strokeWidth="3"
-                    class="action-btn hover:text-primary mt-[1px]"
-                    title="查看树详情"
+                    class="action-btn hover:text-primary"
+                    title="查看讲解详情"
                     @click="viewDetail"
                 />
             </section>
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body point-content my-2 px-3">
-            <!-- 知识树前言 -->
-            <div class="preface bg-slate-50 border-l-4 border-secondary px-2 rounded-sm">
-                <edit-item
-                    :value="props.item.preface"
-                    :isEdit="props.isEdit"
-                    placeholder="请输入知识树前言"
-                ></edit-item>
-            </div>
+        <div class="card-body explain-content my-2 px-3">
+            <!-- 讲解内容 -->
+            <text-view :text="props.item.content" class="!text-gray-600 !line-clamp-2"></text-view>
         </div>
 
         <!-- 尾部 -->
-        <div class="card-footer flex justify-between items-center px-3">
-            <!-- 内容统计 -->
-            <div class="flex items-center">
-                <a-tag color="blue" size="small" class="mr-[6px] select-none">
-                    知识块 {{ props.item.chunkTotal }}
-                </a-tag>
-                <a-tag color="cyan" size="small" class="select-none">
-                    知识点 {{ props.item.pointTotal }}
-                </a-tag>
-            </div>
+        <div class="card-footer flex justify-between px-3">
+            <time-bar
+                :createTime="props.item.createTime"
+                :updateTime="props.item.updateTime"
+            ></time-bar>
             <!-- 底部操作栏 -->
             <section class="action-bar">
                 <icon-unlink

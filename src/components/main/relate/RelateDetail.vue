@@ -69,7 +69,9 @@ watch(
                 <relate-knowledge v-if="tab === 'knowledge'" :type="type"></relate-knowledge>
             </a-tab-pane>
 
-            <a-tab-pane key="explain" title="讲解">Content of Tab Panel 3</a-tab-pane>
+            <a-tab-pane key="explain" title="讲解">
+                <relate-explain-list v-if="tab === 'explain'" :type="type"></relate-explain-list>
+            </a-tab-pane>
             <a-tab-pane key="exercise" title="习题">Content of Tab Panel 3</a-tab-pane>
 
             <template #extra>

@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<Props>(), {});
 const { history } = store.setting();
 const { openDiscussArea } = store.square(); // 打开讨论区
 
-const explainId = computed(() => history.links[history.activeIndex[props.screen]].targetId); //  当前树Id
+const explainId = computed(() => history.links[history.activeIndex[props.screen]]?.targetId); //  当前树Id
 
 // 获取树详情
 const isLoad = ref(false);
@@ -23,7 +23,7 @@ const getDetail = async () => {
 watch(
     explainId,
     () => {
-        getDetail();
+        if (explainId.value) getDetail();
     },
     { immediate: true }
 );
