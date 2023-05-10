@@ -52,7 +52,7 @@ const realCompoent = reactive<any>({
         defineAsyncComponent(() => import('@/components/main/exercise/ExerciseProcess.vue'))
     ),
     exerciseSet: markRaw(
-        defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))
+        defineAsyncComponent(() => import('@/components/main/exercise/set/ExerciseSetProcess.vue'))
     ),
 });
 

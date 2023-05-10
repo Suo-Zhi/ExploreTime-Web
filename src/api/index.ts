@@ -8,6 +8,7 @@ import tree from './tree';
 import treeNode from './tree/treeNode';
 import explain from './explain';
 import exercise from './exercise';
+import exerciseSet from './exercise/set';
 import relate from './relate';
 import feedback from './feedback';
 import reply from './reply';
@@ -25,6 +26,7 @@ export const api = {
     treeNode,
     explain,
     exercise,
+    exerciseSet,
     relate,
     feedback,
     reply,
