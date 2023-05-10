@@ -57,7 +57,12 @@ watch(
                     :type="type"
                 ></relate-explain-list-view>
             </a-tab-pane>
-            <a-tab-pane key="exercise" title="习题">Content of Tab Panel 3</a-tab-pane>
+            <a-tab-pane key="exercise" title="习题">
+                <relate-exercise-list-view
+                    v-if="tab === 'exercise'"
+                    :type="type"
+                ></relate-exercise-list-view>
+            </a-tab-pane>
 
             <template #extra>
                 <select-type

@@ -9,6 +9,13 @@ export default {
         });
     },
 
+    // 获取公开习题列表
+    findPublic(keywords: string) {
+        return http.get<Exercise[]>('exercise/public', {
+            params: { keywords },
+        });
+    },
+
     // 移除
     remove: (id: number) => {
         return http.patch('exercise/remove' + id);

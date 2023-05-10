@@ -9,7 +9,7 @@ export default {
         });
     },
 
-    // 获取公开知识树列表
+    // 获取公开讲解列表
     findPublic(keywords: string) {
         return http.get<Explain[]>('explain/public', {
             params: { keywords },

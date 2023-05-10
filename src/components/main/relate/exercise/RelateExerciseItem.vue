@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Explain } from '@/api/explain/types';
+import { Exercise } from '@/api/exercise/types';
 
 interface Props {
-    item: Explain;
+    item: Exercise;
     isEdit: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {});
@@ -16,9 +16,9 @@ const switchHistory: any = inject('switchHistory');
 const viewRelateDetail = () => {
     store.setting().addHistoryLink({
         linkType: 'relateDetail',
-        linkTitle: '讲解关联-' + props.item.title,
+        linkTitle: '习题关联-' + props.item.question,
         targetId: props.item.id,
-        targetType: 'explain',
+        targetType: 'exercise',
     });
     switchHistory('relateDetail');
 };
@@ -32,39 +32,28 @@ const cancelRelate = async (id: number) => {
             targetId: targetId.value,
             targetType: targetType.value,
             relateId: id,
-            relateType: 'explain',
+            relateType: 'exercise',
         })
         .then(() => {
             emit('refresh');
         });
 };
-
-// 打开讲解详情
-const viewDetail = () => {
-    store.setting().addHistoryLink({
-        linkType: 'explainDetail',
-        linkTitle: '讲解详情-' + props.item.title,
-        targetId: props.item.id,
-        targetType: 'explain',
-    });
-    switchHistory('explainDetail');
-};
 </script>
 
 <template>
-    <!-- 讲解项 -->
-    <section class="explain-item border-base flex flex-col pt-2 pb-2 mb-2">
+    <!-- 习题项 -->
+    <section class="exercise-item border-base flex flex-col pt-2 pb-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
-            <!-- 讲解名 -->
-            <div class="explain-title min-w-[170px]">
+            <!-- 问题 -->
+            <div class="exercise-title min-w-[170px]">
                 <edit-item
                     type="text"
-                    :value="props.item.title"
+                    :value="props.item.question"
                     :isEdit="props.isEdit"
-                    placeholder="请输入讲解标题"
+                    placeholder="请输入问题"
                 ></edit-item>
             </div>
             <!-- 拖拽手柄 -->
@@ -83,22 +72,52 @@ const viewDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看反馈"
-                    @click="openDiscussArea(props.item.id, 'explain')"
-                />
-                <icon-notes
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-primary"
-                    title="查看讲解详情"
-                    @click="viewDetail"
+                    @click="openDiscussArea(props.item.id, 'exercise')"
                 />
             </section>
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body explain-content my-2 px-3">
-            <!-- 讲解内容 -->
-            <text-view :text="props.item.content" class="!text-gray-600 !line-clamp-2"></text-view>
+        <div class="card-body exercise-content my-2">
+            <!-- 问题详情 -->
+            <div class="preface mr-2">
+                <edit-item
+                    type="text"
+                    :value="props.item.detail"
+                    :isEdit="props.isEdit"
+                    placeholder="请详细描述问题"
+                ></edit-item>
+            </div>
+
+            <!-- 参考回答 -->
+            <card-fold :default="true" :line="false" :border="false">
+                <template #title>
+                    <span class="my-2 text-slate-700">参考回答</span>
+                </template>
+                <div class="pl-[26px]">
+                    <edit-item
+                        type="text"
+                        :value="props.item.answer"
+                        :isEdit="props.isEdit"
+                        placeholder="请输入参考回答"
+                    ></edit-item>
+                </div>
+            </card-fold>
+
+            <!-- 习题解析 -->
+            <card-fold :default="true" :line="false" :border="false">
+                <template #title>
+                    <span class="my-2 text-slate-700">习题解析</span>
+                </template>
+                <div class="pl-[26px]">
+                    <edit-item
+                        type="text"
+                        :value="props.item.analysis"
+                        :isEdit="props.isEdit"
+                        placeholder="请输入习题解析"
+                    ></edit-item>
+                </div>
+            </card-fold>
         </div>
 
         <!-- 尾部 -->

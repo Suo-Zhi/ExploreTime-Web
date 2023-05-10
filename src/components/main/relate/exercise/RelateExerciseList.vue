@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Explain } from '@/api/explain/types';
+import { Exercise } from '@/api/exercise/types';
 
 const targetId = inject<any>('targetId'); // 源目标Id
 const targetType = inject<any>('targetType'); // 源目标类型
@@ -8,12 +8,12 @@ const keywords = inject<any>('keywords'); // 搜索关键字
 const isLoad = ref(false);
 
 // 查
-const list = ref<Explain[]>([]);
+const list = ref<Exercise[]>([]);
 const findList = async () => {
     isLoad.value = true;
 
     await api.relate
-        .findExplainRelate({
+        .findExerciseRelate({
             targetId: targetId.value,
             targetType: targetType.value,
             keywords: keywords.value,
@@ -42,7 +42,7 @@ const addRelateHandle = async (index: number) => {
             targetId: targetId.value,
             targetType: targetType.value,
             relateId: list.value[index].id,
-            relateType: 'explain',
+            relateType: 'exercise',
         })
         .then((res) => {
             // 不能重复关联或关联本身
@@ -56,26 +56,26 @@ const addRelateHandle = async (index: number) => {
 
 <template>
     <!-- 关联讲解列表 -->
-    <load-box :isLoad="isLoad" class="relate-explain-list h-full pb-[36px] relative">
+    <load-box :isLoad="isLoad" class="relate-exercise-list h-full pb-[36px] relative">
         <scroll-bar>
             <drag-list
                 :list="list"
                 item-key="id"
-                :group="{ name: 'explain', pull: 'clone' }"
+                :group="{ name: 'exercise', pull: 'clone' }"
                 :sort="false"
                 ghostClass=""
                 v-slot="drag"
                 @add="addRelateHandle($event.newIndex)"
             >
-                <relate-explain-item
+                <relate-exercise-item
                     :item="drag.item"
                     :isEdit="activeIndex === drag.index"
                     @refresh="findList"
                     v-show="!drag.item.isDel"
-                ></relate-explain-item>
+                ></relate-exercise-item>
             </drag-list>
         </scroll-bar>
-        <empty v-if="!isLoad && list.length === 0" text="暂无关联讲解" />
+        <empty v-if="!isLoad && list.length === 0" text="暂无关联习题" />
     </load-box>
 </template>
 

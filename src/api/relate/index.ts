@@ -1,4 +1,5 @@
 import { Chunk } from '../chunk/types';
+import { Exercise } from '../exercise/types';
 import { Explain } from '../explain/types';
 import { Point } from '../point/types';
 import { Tree } from '../tree/types';
@@ -30,6 +31,13 @@ export default {
     findExplainRelate: (dto: FindRelateDTO) => {
         return http.get<Explain[]>('relate/explain', {
             params: { ...dto, relateType: 'explain' },
+        });
+    },
+
+    // 获取讲解关联项
+    findExerciseRelate: (dto: FindRelateDTO) => {
+        return http.get<Exercise[]>('relate/exercise', {
+            params: { ...dto, relateType: 'exercise' },
         });
     },
 
