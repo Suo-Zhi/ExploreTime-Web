@@ -8,9 +8,10 @@ const props = withDefaults(defineProps<Props>(), {});
 <template>
     <section class="relate-knowledge h-full">
         <relate-exercise-list-view v-if="props.type === 'exercise'"></relate-exercise-list-view>
-        <relate-exercise-list-view
+
+        <relate-exercise-set-list-view
             v-else-if="props.type === 'exerciseSet'"
-        ></relate-exercise-list-view>
+        ></relate-exercise-set-list-view>
     </section>
 </template>
 

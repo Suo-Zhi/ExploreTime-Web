@@ -1,4 +1,5 @@
 import { Chunk } from '../chunk/types';
+import { ExerciseSet } from '../exercise/set/types';
 import { Exercise } from '../exercise/types';
 import { Explain } from '../explain/types';
 import { Point } from '../point/types';
@@ -34,10 +35,17 @@ export default {
         });
     },
 
-    // 获取讲解关联项
+    // 获取习题关联项
     findExerciseRelate: (dto: FindRelateDTO) => {
         return http.get<Exercise[]>('relate/exercise', {
             params: { ...dto, relateType: 'exercise' },
+        });
+    },
+
+    // 获取习题集关联项
+    findExerciseSetRelate: (dto: FindRelateDTO) => {
+        return http.get<ExerciseSet[]>('relate/exercise-set', {
+            params: { ...dto, relateType: 'exerciseSet' },
         });
     },
 
