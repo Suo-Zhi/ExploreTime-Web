@@ -15,8 +15,8 @@ const sortOptions = [
 const filter = ref('');
 const filterOptions = [
     { label: '全部', value: 'all' },
-    { label: '待整理', value: '' },
-    { label: '已整理', value: 'true' },
+    { label: '私有', value: '' },
+    { label: '公开', value: 'true' },
 ];
 
 // 查

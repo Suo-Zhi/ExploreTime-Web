@@ -88,13 +88,13 @@ const viewDetail = () => {
 
 <template>
     <!-- 习题集 -->
-    <section class="tree-item border-base flex flex-col pt-2 pb-2 mb-2">
+    <section class="exerciseSet-item border-base flex flex-col pt-2 pb-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
-            <!-- 知识树名 -->
-            <div class="tree-title min-w-[170px]">
+            <!-- 习题集名 -->
+            <div class="exerciseSet-title min-w-[170px]">
                 <edit-item
                     type="text"
                     :value="props.item.name"
@@ -102,7 +102,7 @@ const viewDetail = () => {
                     @editStart="editStartHandle('name')"
                     @changeValue="newValue.name = $event"
                     @editEnd="editEndHandle"
-                    placeholder="请输入知识树名"
+                    placeholder="请输入习题集名"
                 ></edit-item>
             </div>
             <!-- 拖拽手柄 -->
@@ -138,8 +138,8 @@ const viewDetail = () => {
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body point-content my-2 px-3">
-            <!-- 知识树前言 -->
+        <div class="card-body exercise-content my-2 px-3">
+            <!-- 习题集前言 -->
             <div class="preface">
                 <edit-item
                     :value="props.item.preface"
@@ -147,7 +147,7 @@ const viewDetail = () => {
                     @editStart="editStartHandle('preface')"
                     @changeValue="newValue.preface = $event"
                     @editEnd="editEndHandle"
-                    placeholder="请输入知识树前言"
+                    placeholder="请输入习题集前言"
                 ></edit-item>
             </div>
         </div>

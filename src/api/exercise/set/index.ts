@@ -9,6 +9,11 @@ export default {
         });
     },
 
+    // 获取习题集详情
+    getDetail(id: number) {
+        return http.get<ExerciseSet>('exercise-set/' + id);
+    },
+
     // 移除
     remove: (id: number) => {
         return http.patch('exercise-set/remove' + id);

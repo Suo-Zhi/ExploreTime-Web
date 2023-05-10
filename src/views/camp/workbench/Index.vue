@@ -81,6 +81,18 @@ const refreshExplainBox = () => {
     if (explainBoxRef.value) explainBoxRef.value.findList();
 };
 provide('refreshExplainBox', refreshExplainBox);
+// 获取刷新习题列表
+const exerciseBoxRef = ref<any>(null);
+const refreshExerciseBox = () => {
+    if (exerciseBoxRef.value) exerciseBoxRef.value.findList();
+};
+provide('refreshExerciseBox', refreshExerciseBox);
+// 获取刷新习题集列表
+const exerciseSetBoxRef = ref<any>(null);
+const refreshExerciseSetBox = () => {
+    if (exerciseSetBoxRef.value) exerciseSetBoxRef.value.findList();
+};
+provide('refreshExerciseSetBox', refreshExerciseSetBox);
 </script>
 
 <template>
@@ -206,6 +218,10 @@ provide('refreshExplainBox', refreshExplainBox);
                         v-else-if="screen.left && screen.left === 'explainDetail'"
                         screen="left"
                     ></explain-detail>
+                    <exercise-set-detail
+                        v-else-if="screen.left && screen.left === 'exerciseSetDetail'"
+                        screen="left"
+                    ></exercise-set-detail>
                     <component
                         v-else-if="screen.left"
                         :is="realCompoent[screen.left]"
@@ -226,6 +242,10 @@ provide('refreshExplainBox', refreshExplainBox);
                         v-else-if="screen.right && screen.right === 'explainDetail'"
                         screen="right"
                     ></explain-detail>
+                    <exercise-set-detail
+                        v-else-if="screen.right && screen.right === 'exerciseSetDetail'"
+                        screen="right"
+                    ></exercise-set-detail>
                     <component
                         v-else-if="screen.right"
                         :is="realCompoent[screen.right]"

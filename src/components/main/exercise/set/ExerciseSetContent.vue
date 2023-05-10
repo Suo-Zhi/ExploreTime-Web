@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Exercise } from '@/api/exercise/types';
-import * as icons from '@icon-park/vue-next';
 
 interface Props {
     item: Exercise;
@@ -10,25 +9,11 @@ const props = withDefaults(defineProps<Props>(), {});
 
 const { openDiscussArea } = store.square(); // 打开讨论区
 
-// 移除
-const removeHandle = async () => {
-    await api.exercise.remove(props.item.id).then(() => {
-        props.item.isDel = true;
-    });
-};
-
-// 归档
-const toggleRefineHandle = async () => {
-    await api.exercise.toggleRefine(props.item.id, !props.item.isRefine).then(() => {
-        props.item.isRefine = !props.item.isRefine;
-    });
-};
-
-const emit = defineEmits(['active', 'blur', 'update', 'refresh']);
+const emit = defineEmits(['active', 'blur', 'update', 'refresh', 'remove']);
 
 // 编辑前处理
 const newValue = ref({ question: '', detail: '', answer: '', analysis: '' }); // 新值
-const editTarget = ref('question'); // 编辑目标: 默认为all在新增时才能同时编辑名和内容
+const editTarget = ref('question'); // 编辑目标
 const editStartHandle = (target: 'question' | 'detail' | 'answer' | 'analysis') => {
     // 该项切换至激活状态
     emit('active');
@@ -85,7 +70,7 @@ const viewRelateDetail = () => {
 
 <template>
     <!-- 习题项 -->
-    <section class="exercise-item border-base flex flex-col pt-2 pb-2 mb-2">
+    <section class="exercise-item border-base flex flex-col pt-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
@@ -120,11 +105,18 @@ const viewRelateDetail = () => {
                     title="查看反馈"
                     @click="openDiscussArea(props.item.id, 'exercise')"
                 />
+                <icon-reduce
+                    size="16"
+                    :strokeWidth="3"
+                    class="action-btn hover:text-red-600"
+                    title="移出"
+                    @click="$emit('remove')"
+                />
             </section>
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body exercise-content my-2">
+        <div class="card-body exercise-content mt-2 mb-1">
             <!-- 问题详情 -->
             <div class="preface mr-2">
                 <edit-item
@@ -170,32 +162,6 @@ const viewRelateDetail = () => {
                     ></edit-item>
                 </div>
             </card-fold>
-        </div>
-
-        <!-- 尾部 -->
-        <div class="card-footer flex justify-between px-3">
-            <time-bar
-                :createTime="props.item.createTime"
-                :updateTime="props.item.updateTime"
-            ></time-bar>
-            <!-- 底部操作栏 -->
-            <section class="action-bar">
-                <component
-                    :is="props.item.isRefine ? icons['InboxOut'] : icons['InboxIn']"
-                    size="17"
-                    :strokeWidth="3"
-                    :title="props.item.isRefine ? '还需处理' : '处理完成'"
-                    class="action-btn hover:text-primary"
-                    @click="toggleRefineHandle"
-                ></component>
-                <icon-delete
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-red-600"
-                    title="删除"
-                    @click="removeHandle"
-                />
-            </section>
         </div>
     </section>
 </template>

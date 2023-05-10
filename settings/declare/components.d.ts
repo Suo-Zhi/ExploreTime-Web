@@ -81,6 +81,7 @@ declare module '@vue/runtime-core' {
     ExerciseListView: typeof import('./../../src/views/square/components/exercise/ExerciseListView.vue')['default']
     ExerciseProcess: typeof import('./../../src/components/main/exercise/ExerciseProcess.vue')['default']
     ExerciseSetContent: typeof import('./../../src/components/main/exercise/set/ExerciseSetContent.vue')['default']
+    ExerciseSetDetail: typeof import('./../../src/components/main/exercise/set/ExerciseSetDetail.vue')['default']
     ExerciseSetItem: typeof import('./../../src/components/main/exercise/set/ExerciseSetItem.vue')['default']
     ExerciseSetProcess: typeof import('./../../src/components/main/exercise/set/ExerciseSetProcess.vue')['default']
     ExplainDetail: typeof import('./../../src/components/main/explain/ExplainDetail.vue')['default']
