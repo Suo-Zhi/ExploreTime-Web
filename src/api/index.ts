@@ -6,6 +6,7 @@ import chunk from './chunk';
 import chunkContent from './chunk/chunkContent';
 import tree from './tree';
 import treeNode from './tree/treeNode';
+import explain from './explain';
 import relate from './relate';
 import feedback from './feedback';
 import reply from './reply';
@@ -21,6 +22,7 @@ export const api = {
     chunkContent,
     tree,
     treeNode,
+    explain,
     relate,
     feedback,
     reply,

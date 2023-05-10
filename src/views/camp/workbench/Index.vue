@@ -45,7 +45,9 @@ const realCompoent = reactive<any>({
     point: markRaw(defineAsyncComponent(() => import('@/components/main/point/PointProcess.vue'))),
     chunk: markRaw(defineAsyncComponent(() => import('@/components/main/chunk/ChunkProcess.vue'))),
     tree: markRaw(defineAsyncComponent(() => import('@/components/main/tree/TreeProcess.vue'))),
-    explain: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    explain: markRaw(
+        defineAsyncComponent(() => import('@/components/main/explain/ExplainProcess.vue'))
+    ),
     exercise: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
     exerciseSet: markRaw(
         defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))
