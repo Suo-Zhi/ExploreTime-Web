@@ -9,6 +9,13 @@ export default {
         });
     },
 
+    // 获取公开知识树列表
+    findPublic(keywords: string) {
+        return http.get<Explain[]>('explain/public', {
+            params: { keywords },
+        });
+    },
+
     // 获取讲解详情
     getDetail: (id: number) => {
         return http.get<Explain>('explain/detail' + id);

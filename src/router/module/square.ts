@@ -14,7 +14,7 @@ export default {
         {
             path: 'article',
             name: 'article',
-            component: () => import('@/views/square/Article.vue'),
+            component: () => import('@/views/square/article/Index.vue'),
         },
         {
             path: 'exercise',
