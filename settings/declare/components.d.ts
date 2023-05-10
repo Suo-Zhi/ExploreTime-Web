@@ -76,6 +76,8 @@ declare module '@vue/runtime-core' {
     EmptyList: typeof import('./../../src/components/base/EmptyList.vue')['default']
     EmptyScreen: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptyScreen.vue')['default']
     EmptySection: typeof import('./../../src/views/camp/workbench/components/splitScreen/EmptySection.vue')['default']
+    ExerciseItem: typeof import('./../../src/components/main/exercise/ExerciseItem.vue')['default']
+    ExerciseProcess: typeof import('./../../src/components/main/exercise/ExerciseProcess.vue')['default']
     ExplainDetail: typeof import('./../../src/components/main/explain/ExplainDetail.vue')['default']
     ExplainDetailView: typeof import('./../../src/views/square/components/explain/ExplainDetailView.vue')['default']
     ExplainDetailViews: typeof import('./../../src/views/square/components/explain/ExplainDetailViews.vue')['default']

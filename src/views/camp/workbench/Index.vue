@@ -48,7 +48,9 @@ const realCompoent = reactive<any>({
     explain: markRaw(
         defineAsyncComponent(() => import('@/components/main/explain/ExplainProcess.vue'))
     ),
-    exercise: markRaw(defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))),
+    exercise: markRaw(
+        defineAsyncComponent(() => import('@/components/main/exercise/ExerciseProcess.vue'))
+    ),
     exerciseSet: markRaw(
         defineAsyncComponent(() => import('@/components/main/info/InfoProcess.vue'))
     ),

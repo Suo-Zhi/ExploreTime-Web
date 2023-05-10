@@ -72,7 +72,7 @@ const viewRelateDetail = () => {
     switchHistory('relateDetail');
 };
 
-// 打开树详情
+// 打开讲解详情
 const viewDetail = () => {
     store.setting().addHistoryLink({
         linkType: 'explainDetail',

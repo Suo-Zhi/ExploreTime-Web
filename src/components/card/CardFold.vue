@@ -2,16 +2,18 @@
 interface Props {
     border?: boolean; // 是否带边框
     line?: boolean; // 是否在卡片头部和主体间显示水平线
+    default?: boolean; // 是否默认折叠
     isToggle?: boolean; // 顶部操作栏是否动态显示
 }
 const props = withDefaults(defineProps<Props>(), {
     border: true,
     line: true,
+    default: false,
     isToggle: true,
 });
 
 // 折叠动画
-let isFold = ref(false);
+let isFold = ref(props.default);
 const listeners = {
     // 元素由隐藏变为可见
     onEnter(el: HTMLElement) {
