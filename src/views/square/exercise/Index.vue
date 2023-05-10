@@ -5,18 +5,22 @@ const { history } = square; // 历史链接
 </script>
 
 <template>
-    <!-- 知识共享区 -->
-    <section class="article-area flex flex-col">
-        <square-nav title="文章共享区" index="article"></square-nav>
+    <!-- 习题共享区 -->
+    <section class="exercise-area flex flex-col">
+        <square-nav title="习题共享区" index="exercise"></square-nav>
         <main class="mt-[30px]">
             <square-split-screen>
                 <template #left>
-                    <explain-list-view v-if="history.activeIndex === -1"></explain-list-view>
+                    <exercise-set-list-view
+                        v-if="history.activeIndex === -1"
+                    ></exercise-set-list-view>
 
                     <!-- 文章详情 -->
-                    <explain-detail-view
-                        v-else-if="history.links[history.activeIndex].linkType === 'explainDetail'"
-                    ></explain-detail-view>
+                    <exercise-set-detail-view
+                        v-else-if="
+                            history.links[history.activeIndex].linkType === 'exerciseSetDetail'
+                        "
+                    ></exercise-set-detail-view>
 
                     <!-- 关联详情 -->
                     <relate-detail-view

@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import { Explain } from '@/api/explain/types';
+import { ExerciseSet } from '@/api/exercise/set/types';
 
 interface Props {
-    item: Explain;
+    item: ExerciseSet;
 }
 const props = withDefaults(defineProps<Props>(), {});
 
 const { openDiscussArea } = store.square(); // 打开讨论区
 
-// 打开讲解详情
-const viewDetail = () => {
-    store.square().addHistoryLink({
-        linkType: 'explainDetail',
-        linkTitle: '讲解详情-' + props.item.title,
-        targetId: props.item.id,
-        targetType: 'explain',
-    });
-};
-
 // 打开关联详情
 const viewRelateDetail = () => {
     store.square().addHistoryLink({
         linkType: 'relateDetail',
-        linkTitle: '讲解关联-' + props.item.title,
+        linkTitle: '习题集关联-' + props.item.name,
         targetId: props.item.id,
-        targetType: 'explain',
+        targetType: 'exerciseSet',
+    });
+};
+
+// 打开习题集详情
+const viewDetail = () => {
+    store.square().addHistoryLink({
+        linkType: 'exerciseSetDetail',
+        linkTitle: '习题集详情-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'exerciseSet',
     });
 };
 </script>
 
 <template>
-    <!-- 讲解项 -->
-    <section class="explain-item border-base flex flex-col pt-2 pb-2 mb-2">
+    <!-- 习题集 -->
+    <section class="exerciseSet-item border-base flex flex-col pt-2 pb-2 mb-2">
         <!-- 顶部 -->
         <div
             class="card-header flex justify-between items-center border-b border-gray-200 pb-[4px] px-3"
         >
-            <!-- 讲解名 -->
-            <div class="explain-title min-w-[170px]">
-                <text-view :text="props.item.title" />
+            <!-- 习题集名 -->
+            <div class="exerciseSet-title min-w-[170px]">
+                <text-view :text="props.item.name" />
             </div>
             <!-- 顶部操作栏 -->
             <section class="action-bar">
@@ -46,7 +46,7 @@ const viewRelateDetail = () => {
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看讲解详情"
+                    title="查看习题集详情"
                     @click="viewDetail"
                 />
                 <icon-link-one
@@ -57,19 +57,21 @@ const viewRelateDetail = () => {
                     @click="viewRelateDetail"
                 />
                 <icon-comment
-                    size="17"
+                    size="18"
                     :strokeWidth="3"
-                    class="action-btn hover:text-primary"
+                    class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
-                    @click="openDiscussArea(props.item.id, 'explain')"
+                    @click="openDiscussArea(props.item.id, 'exerciseSet')"
                 />
             </section>
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body explain-content my-2 px-3">
-            <!-- 讲解内容 -->
-            <text-view :text="props.item.content" class="!text-gray-600 !line-clamp-2"></text-view>
+        <div class="card-body exercise-content my-2 px-3">
+            <!-- 习题集前言 -->
+            <div class="preface">
+                <text-view :text="props.item.preface" />
+            </div>
         </div>
 
         <!-- 尾部 -->

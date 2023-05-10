@@ -19,7 +19,7 @@ export default {
         {
             path: 'exercise',
             name: 'exercise',
-            component: () => import('@/views/square/Exercise.vue'),
+            component: () => import('@/views/square/exercise/Index.vue'),
         },
     ],
 } as RouteRecordRaw;
