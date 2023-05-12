@@ -2,7 +2,7 @@
 import { Learner } from '@/api/learner/types';
 
 interface Props {
-    id: string;
+    id: string; // 目标用户Id
     showFollow?: boolean; // 是否显示关注按钮
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -50,6 +50,8 @@ const toggleFollowHandle = async () => {
         });
     }
 };
+
+const self = store.user(); // 当前使用者
 </script>
 
 <template>
@@ -61,7 +63,7 @@ const toggleFollowHandle = async () => {
         <span class="ml-2 text-[16px] text-slate-700">{{ user.nickname }}</span>
         <!-- 关注按钮 -->
         <a-button
-            v-if="props.showFollow"
+            v-if="props.showFollow && props.id !== self.userinfo?.id"
             :type="user.isFollow?.value ? 'outline' : 'primary'"
             size="mini"
             class="ml-2"
