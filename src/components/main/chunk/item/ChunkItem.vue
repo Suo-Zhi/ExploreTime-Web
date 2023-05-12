@@ -94,7 +94,10 @@ const changeOrderHandle = async () => {
                 // 伪刷新点排序,否则连续新增会乱序
                 props.item.content[i].order = i;
                 // 移入的知识点需归档
-                if (!point.isRefine) await api.point.toggleRefine(point.id, !point.isRefine);
+                if (!point.isRefine) {
+                    await api.point.toggleRefine(point.id, !point.isRefine);
+                    refreshPointBox();
+                }
             });
     }
     // 改变知识块更新时间

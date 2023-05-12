@@ -120,7 +120,7 @@ const mergePoint = async () => {
 </script>
 
 <template>
-    <common-box class="point-process" :isLoad="isLoad">
+    <common-box class="point-process pb-[6px]" :isLoad="isLoad">
         <!-- 知识点列表 -->
         <drag-list
             :list="list"

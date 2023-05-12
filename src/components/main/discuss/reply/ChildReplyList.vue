@@ -116,7 +116,7 @@ const toggleLikeHandle = async (index: number) => {
                         :class="user.userinfo?.id !== item.author.id ? 'border-t pt-1 mt-1' : ''"
                         @click="delHandle(index)"
                     >
-                        删除反馈
+                        删除回复
                     </div>
                 </more-button-user>
             </div>

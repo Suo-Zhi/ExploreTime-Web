@@ -92,7 +92,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
 
             <!-- 知识块内容列表 -->
             <div class="content my-1">
-                <add-line></add-line>
+                <add-line-one text=""></add-line-one>
                 <chunk-content
                     v-for="(item, index) of props.item.content"
                     v-show="!item.isDel"
