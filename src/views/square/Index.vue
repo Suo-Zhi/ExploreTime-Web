@@ -19,6 +19,11 @@ const menuList = ref([
         routeName: 'exercise',
     },
 ]);
+
+onBeforeRouteUpdate(() => {
+    store.square().history.activeIndex = -1;
+    store.square().history.links = [];
+});
 </script>
 
 <template>
