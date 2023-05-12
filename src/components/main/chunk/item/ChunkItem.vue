@@ -90,9 +90,11 @@ const changeOrderHandle = async () => {
         const point = props.item.content[i];
         await api.chunkContent
             .upsert({ chunkId: props.item.id, order: i, pointId: point.id })
-            .then(() => {
+            .then(async () => {
                 // 伪刷新点排序,否则连续新增会乱序
                 props.item.content[i].order = i;
+                // 移入的知识点需归档
+                if (!point.isRefine) await api.point.toggleRefine(point.id, !point.isRefine);
             });
     }
     // 改变知识块更新时间
@@ -118,7 +120,7 @@ const addContentHandle = (index: number) => {
         order: index,
         name: '',
         content: '',
-        isRefine: false,
+        isRefine: true,
         isDel: false,
         isMatch: false,
         authorId: store.user().userinfo?.id || '',
