@@ -77,6 +77,46 @@ const clickAddHandle = () => {
     // 激活新空白项
     activeIndex.value = 0;
 };
+
+// 合并生成知识块
+let firstIndex = -1;
+let secondIndex = -1;
+const startHandle = (e: any) => {
+    firstIndex = e.oldIndex;
+};
+const endHandle = (e: any) => {
+    // 当第一项置于第二项的拖拽元素上时进行合并
+    const className = e.originalEvent.target.parentElement.parentElement.className;
+    if (e.to.id === 'point-list' && className.search('point-item') !== -1) {
+        secondIndex = e.originalEvent.target.parentElement.parentElement.dataset.index;
+        mergePoint();
+    }
+};
+const mergePoint = async () => {
+    if (secondIndex >= 0 && firstIndex !== secondIndex) {
+        // 新增块
+        const {
+            data: { id },
+        } = await api.chunk.create({ name: '新知识块', preface: '', endnote: '' });
+        // 新增块内容
+        await api.chunkContent.upsert({
+            chunkId: id,
+            order: 1,
+            pointId: list.value[firstIndex].id,
+        });
+        await api.chunkContent.upsert({
+            chunkId: id,
+            order: 2,
+            pointId: list.value[secondIndex].id,
+        });
+        // 知识点归档
+        await api.point.toggleRefine(list.value[firstIndex].id, true);
+        await api.point.toggleRefine(list.value[secondIndex].id, true);
+        // 刷新知识点列表和知识块列表
+        findList();
+        refreshChunkBox();
+    }
+};
 </script>
 
 <template>
@@ -89,10 +129,14 @@ const clickAddHandle = () => {
             :sort="false"
             ghostClass=""
             v-slot="drag"
+            id="point-list"
+            @start="startHandle"
+            @end="endHandle"
         >
             <point-item
                 :item="drag.item"
                 :isEdit="activeIndex === drag.index"
+                :data-index="drag.index"
                 @active="activeIndex = drag.index"
                 @blur="activeIndex = -1"
                 @update="updateHandle"
