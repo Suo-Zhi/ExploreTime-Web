@@ -6,6 +6,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 const { history } = store.setting();
+const { openDiscussArea } = store.square(); // 打开讨论区
 
 const treeId = computed(() => history.links[history.activeIndex[props.screen]].targetId); //  当前树Id
 
@@ -148,6 +149,7 @@ const editEndHandle = async () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
+                    @click="openDiscussArea(treeDetail.id, 'tree')"
                 />
                 <lock-button
                     :isPublic="treeDetail.isPublic"

@@ -38,6 +38,7 @@ const cancelRelate = async (id: number) => {
 };
 
 const activeIndex = ref(-1);
+const { openDiscussArea } = store.square(); // 打开讨论区
 </script>
 <template>
     <!-- 知识块 -->
@@ -71,6 +72,7 @@ const activeIndex = ref(-1);
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
+                    @click="openDiscussArea(item.id, 'chunk')"
                 />
             </div>
         </template>

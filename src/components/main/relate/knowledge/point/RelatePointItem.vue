@@ -60,6 +60,8 @@ const editEndHandle = () => {
     // 调用更新事件
     emit('update', newValue.value);
 };
+
+const { openDiscussArea } = store.square(); // 打开讨论区
 </script>
 <template>
     <!-- 知识点项 -->
@@ -98,6 +100,7 @@ const editEndHandle = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
                     title="查看反馈"
+                    @click="openDiscussArea(item.id, 'point')"
                 />
             </section>
         </div>

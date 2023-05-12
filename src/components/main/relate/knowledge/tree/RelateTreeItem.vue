@@ -83,7 +83,7 @@ const viewDetail = () => {
                     :strokeWidth="3"
                     class="action-btn hover:text-primary mt-[1px]"
                     title="查看反馈"
-                    @click="openDiscussArea(props.item.id, 'explain')"
+                    @click="openDiscussArea(props.item.id, 'tree')"
                 />
                 <icon-notes
                     size="17"
