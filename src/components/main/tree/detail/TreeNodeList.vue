@@ -15,12 +15,18 @@ const refreshTreeDetail = inject<any>('refreshTreeDetail');
 const changeOrderHandle = async () => {
     for (let i = 0; i < props.nodes.length; i++) {
         const item = props.nodes[i];
-        await api.treeNode.upsert(item.node?.id || -1, {
-            treeId: props.treeId,
-            parentNodeId: props.parentNodeId,
-            order: i,
-            nodeId: item.id,
-        });
+        // upsert节点
+        await api.treeNode
+            .upsert(item.node?.id || -1, {
+                treeId: props.treeId,
+                parentNodeId: props.parentNodeId,
+                order: i,
+                nodeId: item.id,
+            })
+            .then(async () => {
+                // 将编程节点的知识块归档
+                if (!item.isRefine) await api.chunk.toggleRefine(item.id, !item.isRefine);
+            });
     }
     // 更新知识树时间
     await api.tree.updateTime(props.treeId);
@@ -72,7 +78,7 @@ const addNodeHandle = (index: number) => {
             deep: 1,
             prefix: '',
         },
-        isRefine: false,
+        isRefine: true,
         isDel: false,
         authorId: store.user().userinfo?.id || '',
         createTime: new Date(),
