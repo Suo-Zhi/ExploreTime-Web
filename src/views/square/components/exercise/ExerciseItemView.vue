@@ -30,15 +30,13 @@ const viewRelateDetail = () => {
             <div class="exercise-title min-w-[170px]">
                 <text-view :text="props.item.question"></text-view>
             </div>
-            <!-- 拖拽手柄 -->
-            <div class="drag-handle">&nbsp;</div>
             <!-- 顶部操作栏 -->
             <section class="action-bar">
                 <icon-link-one
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看关联项"
+                    title="查看关联情况"
                     @click="viewRelateDetail"
                 />
                 <icon-comment

@@ -26,6 +26,16 @@ watch(
     { immediate: true }
 );
 
+// 打开关联详情
+const viewRelateDetail = () => {
+    store.square().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '树关联-' + treeDetail.value.name,
+        targetId: treeDetail.value.id,
+        targetType: 'tree',
+    });
+};
+
 const { openDiscussArea } = store.square(); // 打开讨论区
 </script>
 
@@ -77,7 +87,8 @@ const { openDiscussArea } = store.square(); // 打开讨论区
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看关联项"
+                    title="查看关联情况"
+                    @click="viewRelateDetail"
                 />
                 <icon-comment
                     size="18"

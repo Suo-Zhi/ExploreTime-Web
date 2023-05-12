@@ -95,7 +95,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
                         size="16"
                         :strokeWidth="3"
                         class="action-btn hover:text-primary"
-                        title="查看关联项"
+                        title="查看关联情况"
                         @click="viewRelateDetail"
                     />
                     <icon-comment

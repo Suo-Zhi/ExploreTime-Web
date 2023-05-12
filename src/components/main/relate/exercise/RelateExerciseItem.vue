@@ -64,7 +64,7 @@ const cancelRelate = async (id: number) => {
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看关联项"
+                    title="查看关联情况"
                     @click="viewRelateDetail"
                 />
                 <icon-comment

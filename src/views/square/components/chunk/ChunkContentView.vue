@@ -7,6 +7,16 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 
 const { openDiscussArea } = store.square(); // 打开讨论区
+
+// 打开关联详情
+const viewRelateDetail = () => {
+    store.square().addHistoryLink({
+        linkType: 'relateDetail',
+        linkTitle: '点关联-' + props.item.name,
+        targetId: props.item.id,
+        targetType: 'point',
+    });
+};
 </script>
 
 <template>
@@ -23,7 +33,8 @@ const { openDiscussArea } = store.square(); // 打开讨论区
                         size="16"
                         :strokeWidth="3"
                         class="action-btn hover:text-primary"
-                        title="查看关联项"
+                        title="查看关联情况"
+                        @click="viewRelateDetail"
                     />
                     <icon-comment
                         size="17"

@@ -42,18 +42,11 @@ const viewRelateDetail = () => {
             </div>
             <!-- 顶部操作栏 -->
             <section class="action-bar">
-                <icon-notes
-                    size="17"
-                    :strokeWidth="3"
-                    class="action-btn hover:text-primary"
-                    title="查看讲解详情"
-                    @click="viewDetail"
-                />
                 <icon-link-one
                     size="17"
                     :strokeWidth="3"
                     class="action-btn hover:text-primary"
-                    title="查看关联项"
+                    title="查看关联情况"
                     @click="viewRelateDetail"
                 />
                 <icon-comment
@@ -67,7 +60,7 @@ const viewRelateDetail = () => {
         </div>
 
         <!-- 中部主体 -->
-        <div class="card-body explain-content my-2 px-3">
+        <div class="card-body explain-content my-2 px-3 cursor-pointer" @click="viewDetail">
             <!-- 讲解内容 -->
             <text-view :text="props.item.content" class="!text-gray-600 !line-clamp-2"></text-view>
         </div>
