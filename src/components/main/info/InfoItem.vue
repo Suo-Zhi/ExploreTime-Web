@@ -23,7 +23,7 @@ const toggleRefineHandle = async () => {
 };
 
 // 编辑完成后需进行的处理
-const emit = defineEmits(['active', 'blur', 'update']);
+const emit = defineEmits(['active', 'blur', 'update', 'refine']);
 const editEndHandle = (newValue: string) => {
     // 判空
     if (tool.isEmpty(newValue, '有效信息')) return;

@@ -198,7 +198,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
         <!-- 知识块主体 -->
         <div class="chunk-main mt-2 mb-1 content-text mx-[10px]">
             <!-- 知识块前言 -->
-            <div class="preface">
+            <div class="preface" v-if="props.item.preface">
                 <edit-item
                     :value="props.item.preface"
                     :isEdit="props.isEdit && editTarget === 'preface'"
@@ -239,7 +239,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
             </div>
 
             <!-- 知识块尾注 -->
-            <div class="endnote !mt-[6px]">
+            <div class="endnote !mt-[6px]" v-if="props.item.preface">
                 <edit-item
                     :value="props.item.endnote"
                     :isEdit="props.isEdit && editTarget === 'endnote'"

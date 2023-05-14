@@ -33,7 +33,7 @@ const square = store.square(); // 是否分屏
                     class="action-btn"
                     :class="square.isOpenInfoBox ? '!text-primary' : ''"
                     @click="square.isOpenInfoBox = !square.isOpenInfoBox"
-                    :title="square.isOpenInfoBox ? '打开信息收集箱' : '关闭信息收集箱'"
+                    :title="square.isOpenInfoBox ? '关闭信息收集箱' : '打开信息收集箱'"
                 />
             </div>
 

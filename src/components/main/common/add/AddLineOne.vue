@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
                 size="18"
                 :strokeWidth="3"
                 class="text-transparent duration-300 cursor-pointer inline-block -mt-2 -ml-[12px] absolute"
-                :class="`group-hover:text-${props.color}`"
+                :class="props.color ? 'group-hover:text-primary' : 'group-hover:text-green-500'"
                 :title="props.text"
                 @click="$emit('add')"
             />

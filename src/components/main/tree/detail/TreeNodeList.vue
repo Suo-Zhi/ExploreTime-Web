@@ -11,7 +11,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 
 // 改变节点顺序
-const refreshTreeDetail = inject<any>('refreshTreeDetail');
+const refreshChunkBox = inject<any>('refreshChunkBox');
+// const refreshTreeDetail = inject<any>('refreshTreeDetail');
 const changeOrderHandle = async () => {
     for (let i = 0; i < props.nodes.length; i++) {
         const item = props.nodes[i];
@@ -25,14 +26,17 @@ const changeOrderHandle = async () => {
             })
             .then(async () => {
                 // 将编程节点的知识块归档
-                if (!item.isRefine) await api.chunk.toggleRefine(item.id, !item.isRefine);
+                if (!item.isRefine) {
+                    await api.chunk.toggleRefine(item.id, !item.isRefine);
+                    refreshChunkBox();
+                }
             });
     }
     // 更新知识树时间
     await api.tree.updateTime(props.treeId);
     // 刷新知识树(setTimeout用来防止刷新太快导致重复触发changeOrderHandle,这方法不是很好,以后改)
     setTimeout(() => {
-        refreshTreeDetail();
+        // refreshTreeDetail();
     }, 200);
 };
 

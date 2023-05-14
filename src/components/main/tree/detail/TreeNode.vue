@@ -130,7 +130,6 @@ const update = async () => {
 const create = async () => {
     // 判空
     if (tool.isEmpty(newValue.value.name, '知识块名', 'text')) return;
-
     await api.chunk.create(newValue.value).then((res) => {
         props.item.id = res.data.id;
         refreshChunkBox(); // 刷新知识块加工区
@@ -207,7 +206,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
         <!-- 节点主体 -->
         <div class="chunk-main mt-2 mb-1 content-text mx-[10px]">
             <!-- 节点前言 -->
-            <div class="preface !py-1 !mt-3 mb-1">
+            <div class="preface !py-1 !mt-3 mb-1" v-if="props.item.preface">
                 <edit-item
                     :value="props.item.preface"
                     :isEdit="props.isEdit && editTarget === 'preface'"
@@ -260,7 +259,7 @@ const { openDiscussArea } = store.square(); // 打开讨论区
             ></tree-node-list>
 
             <!-- 节点尾注 -->
-            <div class="endnote mt-[5px]">
+            <div class="endnote mt-[5px]" v-if="props.item.endnote">
                 <edit-item
                     :value="props.item.endnote"
                     :isEdit="props.isEdit && editTarget === 'endnote'"

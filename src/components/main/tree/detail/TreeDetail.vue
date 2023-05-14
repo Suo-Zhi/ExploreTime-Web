@@ -84,6 +84,13 @@ const editEndHandle = async () => {
     });
     editTarget.value = ''; // 取消编辑状态
 };
+
+// 刷新知识树(怪,怎么isDrag突然会自己变了,先手动刷新以后改)
+nextTick(() => {
+    document.addEventListener('keyup', (e) => {
+        if (e.key === 'f' && treeId.value) getTreeDetail();
+    });
+});
 </script>
 
 <template>

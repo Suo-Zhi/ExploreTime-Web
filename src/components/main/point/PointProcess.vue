@@ -88,7 +88,7 @@ const endHandle = (e: any) => {
     // 当第一项置于第二项的拖拽元素上时进行合并
     const className = e.originalEvent.target.parentElement.parentElement.className;
     if (e.to.id === 'point-list' && className.search('point-item') !== -1) {
-        secondIndex = e.originalEvent.target.parentElement.parentElement.dataset.index;
+        secondIndex = Number(e.originalEvent.target.parentElement.parentElement.dataset.index);
         mergePoint();
     }
 };
