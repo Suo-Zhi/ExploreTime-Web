@@ -1,18 +1,40 @@
-# Vue 3 + TypeScript + Vite
+# Explore Time
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+**简介：**
 
-## Recommended IDE Setup
+一个基于知识模块化的输出式学习系统（前端部分）。
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+**启动项目：**
 
-## Type Support For `.vue` Imports in TS
+```
+npm i
+```
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+```
+npm run dev
+```
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+**技术栈：**
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+-   前端：Vue3 + TypeScript + Vite + Pinia + ArcoVue
+-   后端：NestJS + Prisma + PostgreSQL
+
+**文档：**
+
+系统基本元素、运行流程、主要功能模块点[此文件](./docs/项目文档.pdf)查看。
+
+**协议：**
+
+> 每年 03/01、06/01、09/01、12/01 会对该部分进行一定程度的修改，请定时查看并遵循最新的协议内容。
+
+使用本项目需遵循以下规则：
+
+-   主分支每有 100 次提交，每个使用者需寻找并修复本项目 5 个 bug。
+
+-   商用需每月捐赠以下金额至任意你想捐赠的地方，并进行公示。
+
+    ```
+    捐赠金额 = ( 项目团队人数 * 成员所在地月平均工资 * 2 ) * 6%
+    ```
+
+-   未提及部分暂时遵循 BSD 协议。
